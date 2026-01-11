@@ -2,66 +2,25 @@ package customer;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.io.InputStream;
 
 public class customer implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private String custNRIC;
-	private String custEmail;
-	private String custProfilePic;
-	private int age;
-	private Date DOB;
-	private String custPassword;
-	private String custUsername;
-	private String custPhoneNo;
+	private String cusNRIC;
 	private String custName;
+	private String custEmail;
+	private InputStream custProfilePic;
+	private Date DOB;
+	private String custUsername;
+	private String custPassword;
+	private String custPhoneNo;
 	
-	public String getCustNRIC() {
-		return custNRIC;
+	
+	public String getCusNRIC() {
+		return cusNRIC;
 	}
-	public void setCustNRIC(String custNRIC) {
-		this.custNRIC = custNRIC;
-	}
-	public String getCustEmail() {
-		return custEmail;
-	}
-	public void setCustEmail(String custEmail) {
-		this.custEmail = custEmail;
-	}
-	public String getCustProfilePic() {
-		return custProfilePic;
-	}
-	public void setCustProfilePic(String custProfilePic) {
-		this.custProfilePic = custProfilePic;
-	}
-	public int getAge() {
-		return age;
-	}
-	public void setAge(int age) {
-		this.age = age;
-	}
-	public Date getDOB() {
-		return DOB;
-	}
-	public void setDOB(Date dOB) {
-		DOB = dOB;
-	}
-	public String getCustPassword() {
-		return custPassword;
-	}
-	public void setCustPassword(String custPassword) {
-		this.custPassword = custPassword;
-	}
-	public String getCustUsername() {
-		return custUsername;
-	}
-	public void setCustUsername(String custUsername) {
-		this.custUsername = custUsername;
-	}
-	public String getCustPhoneNo() {
-		return custPhoneNo;
-	}
-	public void setCustPhoneNo(String custPhoneNo) {
-		this.custPhoneNo = custPhoneNo;
+	public void setCusNRIC(String cusNRIC) {
+		this.cusNRIC = cusNRIC;
 	}
 	public String getCustName() {
 		return custName;
@@ -69,4 +28,41 @@ public class customer implements Serializable {
 	public void setCustName(String custName) {
 		this.custName = custName;
 	}
+	public String getCustEmail() {
+		return custEmail;
+	}
+	public void setCustEmail(String custEmail) {
+		this.custEmail = custEmail;
+	}
+	public InputStream getCustProfilePic() { 
+		return custProfilePic; 
+		} 
+	public void setCustProfilePic(InputStream custProfilePic) {
+		this.custProfilePic = custProfilePic;
+		}
+	public Date getDOB() {
+		return DOB;
+	}
+	public void setDOB(Date dOB) {
+		DOB = dOB;
+	}
+	public String getCustUsername() {
+		return custUsername;
+	}
+	public void setCustUsername(String custUsername) {
+		this.custUsername = custUsername;
+	}
+	public String getCustPassword() {
+		return custPassword;
+	}
+	public void setCustPassword(String custPassword) {
+		this.custPassword = custPassword;
+	}
+	public String getCustPhoneNo() {
+		return custPhoneNo;
+	}
+	public void setCustPhoneNo(String custPhoneNo) {
+		this.custPhoneNo = custPhoneNo;
+	}
+
 }
