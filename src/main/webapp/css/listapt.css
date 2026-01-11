@@ -1,0 +1,90 @@
+:root {
+    --primary-teal: #12939a;
+    --view-bg: #b2ebf2;
+    --cancel-bg: #f8d7da;
+    --border-color: #ddd;
+    --text-muted: #666;
+}
+
+.appointment-container {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    background-color: #fcfcfc;
+}
+
+.appointment-card {
+    display: flex !important;
+    align-items: center;
+    /* Kita guna justify-content center untuk bagi semua kat tengah automatik */
+    justify-content: center !important; 
+    
+    background: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    margin-bottom: 20px;
+
+    /* LEBAR TETAP: Supaya border tak kembang bila kita anjak barang */
+    width: 950px !important; 
+    padding: 20px 0 !important; 
+    
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* 1. Kalendar */
+.date-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-right: 40px;
+    border-right: 2px solid #f0f0f0;
+}
+
+.date-badge .date { font-size: 28px; font-weight: bold; line-height: 1; color: #333; }
+.date-badge .day { font-size: 14px; color: var(--text-muted); }
+
+/* 2. Nama Patient & Masa (Guna margin sederhana sahaja) */
+.appointment-details {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-left: 50px; 
+    width: 200px; /* Kita bagi lebar tetap supaya screening tak lari */
+}
+
+.detail-row { font-size: 15px; color: #444; display: flex; align-items: center; }
+.detail-row .icon { margin-right: 12px; }
+
+/* 3. Nama Screening (Guna margin sederhana sahaja) */
+.appointment-info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 60px; 
+    width: 200px;
+}
+
+.test-link { color: #3498db; text-decoration: none; font-weight: 600; font-size: 17px; }
+.appointment-date { font-size: 13px; color: #999; margin: 0; }
+
+/* 4. Icon Buttons */
+.action-area {
+    display: flex !important;
+    gap: 15px;
+    margin-left: 70px; /* Jarak icon dari teks screening */
+}
+
+.view-btn, .cancel-btn {
+    border: none;
+    border-radius: 12px;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.view-btn { background-color: var(--view-bg); color: #007c91; }
+.cancel-btn { background-color: var(--cancel-bg); color: #bd2130; }

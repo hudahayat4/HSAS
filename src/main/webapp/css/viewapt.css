@@ -1,0 +1,150 @@
+:root {
+    --primary-teal: #12939a;
+    --border-color: #ddd;
+}
+
+/* ===============================
+   1. BODY RESET (DO NOT FLEX BODY)
+   =============================== */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #fcfcfc;
+}
+
+
+
+/* =====================================
+   2. MAIN PAGE CONTAINER (MATCH LIST)
+   ===================================== */
+.appointment-container {
+    padding: 20px 0;
+    padding-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* ⭐ KEY FOR SMOOTH TRANSITION */
+}
+
+/* =====================================
+   3. BREADCRUMB (MATCH LIST WIDTH)
+   ===================================== */
+.breadcrumb-area {
+    width: 950px;
+    margin: 30px auto 15px; /* ⭐ ADD TOP MARGIN */
+    font-size: 14px;
+}
+
+
+.back-link {
+    text-decoration: none;
+    color: var(--primary-teal);
+    font-weight: 500;
+}
+
+/* =====================================
+   4. RECEIPT CARD (MATCH LIST CARD SIZE)
+   ===================================== */
+.receipt-card {
+    background: #fff;
+    border: 2px solid #ffffff;
+    border-radius: 15px;
+    width: 950px;
+    padding: 40px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+/* =====================================
+   5. RECEIPT CONTENT
+   ===================================== */
+.header-center {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo {
+    width: 110px;
+    margin-bottom: 10px;
+}
+
+.thank-you-text {
+    font-size: 18px;
+    color: #333;
+}
+
+.section-title-small {
+    font-weight: bold;
+    color: var(--primary-teal);
+    margin-bottom: 15px;
+}
+
+.date-time-row {
+    display: flex;
+    gap: 50px;
+    margin: 20px 0;
+    font-weight: 500;
+}
+
+/* =====================================
+   6. BUTTON AREA (ALIGN WITH CARD)
+   ===================================== */
+.button-group-action {
+    width: 950px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.btn-medical-custom {
+    background-color: var(--primary-teal) !important;
+    color: white !important;
+    border: none !important;
+    padding: 12px 30px !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    display: inline-block;
+}
+
+.btn-cancel-custom {
+    background-color: white !important;
+    color: #333 !important;
+    border: 1px solid #ccc !important;
+    padding: 12px 30px !important;
+    border-radius: 8px !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* =====================================
+   7. SOFT PAGE TRANSITION (OPTIONAL ✨)
+   ===================================== */
+.appointment-container {
+    animation: fadeIn 0.35s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =====================================
+   8. ENSURE HEADER FULL WIDTH
+   ===================================== */
+header,
+.header-container {
+    width: 100% !important;
+    margin: 0 !important;
+    display: flex !important;
+}
