@@ -75,9 +75,10 @@ public class LogInController extends HttpServlet {
 
         if (staff != null) {
             HttpSession session = request.getSession(true);
+            session.setAttribute("staffID", staff.getStaffID());  
             session.setAttribute("staffUsername", staff.getUsername());
             session.setAttribute("staffRole", staff.getRole());
-            response.sendRedirect("dashboard/dashboard.jsp");
+            response.sendRedirect("test.jsp");
         } else {
             request.setAttribute("errorMessage", "Invalid staff login.");
             request.getRequestDispatcher("log_in.jsp").forward(request, response);

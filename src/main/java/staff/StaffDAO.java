@@ -11,43 +11,6 @@ import java.io.InputStream;
 public class StaffDAO {
     private static Connection connection = null;
 
-    //Create Account
-    public static void createAccount(Staff staff) throws SQLException, IOException {
-        String query = "INSERT INTO staff "
-                + "(NRIC, managerID, name, PhoneNo, username, password, DOB, profilePic, email, role) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        connection = ConnectionManager.getConnection();
-        PreparedStatement ps = connection.prepareStatement(query);
-
-        ps.setString(1, staff.getNRIC());
-
-        if (staff.getManagerID() > 0) {
-            ps.setInt(2, staff.getManagerID());
-        } else {
-            ps.setNull(2, java.sql.Types.INTEGER);
-        }
-
-        ps.setString(3, staff.getName());
-        ps.setString(4, staff.getPhoneNo());
-        ps.setString(5, staff.getUsername());
-        ps.setString(6, staff.getPassword());
-        ps.setDate(7, staff.getDOB());
-
-        InputStream profilePicStream = staff.getProfilePic();
-        if (profilePicStream != null) {
-            ps.setBinaryStream(8, profilePicStream, profilePicStream.available());
-        } else {
-            ps.setNull(8, java.sql.Types.BLOB);
-        }
-
-        ps.setString(9, staff.getEmail());
-        ps.setString(10, staff.getRole());
-
-        ps.executeUpdate();
-        ps.close();
-    }
-
     //Login Staff (JANGAN LUPA UBAH BALIK NANTI)
     public static Staff loginStaff(Staff staff) throws SQLException {
         String query = "SELECT * FROM staff WHERE username=? AND password=?";
@@ -75,4 +38,44 @@ public class StaffDAO {
         ps.close();
         return null;
     }
+
+    public static void createStaffAccount(Staff staff) throws SQLException, IOException {
+        // --- 1️⃣ Generate raw password from NRIC ---
+        String nric = staff.getNRIC();
+        if (nric == null || nric.isEmpty()) {
+            throw new IllegalArgumentException("NRIC cannot be null or empty");
+        }
+
+        // --- 3️⃣ Insert staff into database ---
+        String query = "INSERT INTO staff(NRIC, managerID, name, phoneNo, username, password, DOB, profilePic, email, role) VALUES (?,?,?,?,?,?,?,?,?,?)";
+
+        connection = ConnectionManager.getConnection();
+        PreparedStatement ps = connection.prepareStatement(query);
+
+        ps.setString(1, staff.getNRIC());
+        ps.setInt(2, staff.getManagerID());
+        ps.setString(3, staff.getName());
+        ps.setString(4, staff.getPhoneNo());
+        ps.setString(5, staff.getUsername());
+        ps.setString(6, staff.getPassword());
+        ps.setDate(7, staff.getDOB());
+
+        InputStream profilePicStream = staff.getProfilePic();
+        if (profilePicStream != null) {
+            ps.setBinaryStream(8, profilePicStream, profilePicStream.available());
+        } else {
+            ps.setNull(8, java.sql.Types.BLOB);
+        }
+
+        ps.setString(9, staff.getEmail());
+        ps.setString(10, staff.getRole());
+
+        int rowsInserted = ps.executeUpdate();
+        System.out.println("Rows inserted: " + rowsInserted);
+
+        ps.close();
+        if (profilePicStream != null) profilePicStream.close();
+    }
+
+
 }
