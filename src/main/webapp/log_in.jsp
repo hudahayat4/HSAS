@@ -7,7 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Juzcare Pharmacy - Login</title>
 <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 <link rel="stylesheet" href="css/stylesheet.css">
+<style>
+  .password-toggle {
+    cursor: pointer;
+  }
+</style>
 </head>
 <body>
   <section class="min-vh-100 d-flex align-items-center bg-page">
@@ -42,14 +48,20 @@
 
                   <!-- FORM CUSTOMER -->
                   <div id="customerForm">
-                    <form action="#!">
+					<form action="${pageContext.request.contextPath}/LogInController" method="post">
+                    <input type="hidden" name="action" value="loginCustomer">
                       <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" required>
+                        <label for="custUsername" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="custUsername" name="custUsername" required>
                       </div>
                       <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" required>
+                        <label for="custPassword" class="form-label">Password</label>
+                        <div class="input-group">
+                          <input type="password" class="form-control" id="custPassword" name="custPassword" required>
+                          <span class="input-group-text password-toggle" id="toggleCustPassword">
+                            <i class="bi bi-eye-slash-fill"></i>
+                          </span>
+                        </div>
                       </div>
                       <div class="d-grid mb-3">
                         <button type="submit" class="btn btn-dark btn-lg">Log in</button>
@@ -65,14 +77,20 @@
 
                   <!-- FORM STAFF -->
                   <div id="staffForm" style="display: none;">
-                    <form action="#!">
+					<form action="${pageContext.request.contextPath}/LogInController" method="post">
+                    <input type="hidden" name="action" value="loginStaff">
                       <div class="mb-3">
-                        <label for="staffUsername" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="staffUsername" required>
+                        <label for="Username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="Username" name="staffUsername" required>
                       </div>
                       <div class="mb-3">
-                        <label for="staffPassword" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="staffPassword" required>
+                        <label for="Password" class="form-label">Password</label>
+                        <div class="input-group">
+                          <input type="password" class="form-control" id="Password" name="staffPassword" required>
+                          <span class="input-group-text password-toggle" id="toggleStaffPassword">
+                            <i class="bi bi-eye-slash-fill"></i>
+                          </span>
+                        </div>
                       </div>
                       <div class="d-grid mb-3">
                         <button type="submit" class="btn btn-dark btn-lg">Log in</button>
@@ -110,6 +128,27 @@
       staffForm.style.display = 'block';
       customerForm.style.display = 'none';
     });
+
+    //password visibility
+    function setupToggle(inputId, toggleId) {
+      const input = document.getElementById(inputId);
+      const toggle = document.getElementById(toggleId);
+      toggle.addEventListener('click', () => {
+        const icon = toggle.querySelector('i');
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.classList.remove('bi-eye-slash-fill');
+          icon.classList.add('bi-eye-fill');
+        } else {
+          input.type = 'password';
+          icon.classList.remove('bi-eye-fill');
+          icon.classList.add('bi-eye-slash-fill');
+        }
+      });
+    }
+
+    setupToggle('custPassword', 'toggleCustPassword');
+    setupToggle('Password', 'toggleStaffPassword');
   </script>
 </body>
 </html>

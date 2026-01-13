@@ -1,0 +1,134 @@
+:root {
+    --primary-teal: #12939a;
+}
+
+/* ===============================
+   PAGE BASE
+   =============================== */
+body {
+    margin: 0;
+    background: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+
+/* ===============================
+   APPOINTMENT CONTAINER
+   =============================== */
+.appointment-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 0;
+}
+
+/* ===============================
+   APPOINTMENT CARD
+   =============================== */
+.appointment-card {
+    width: 100%;
+    max-width: 780px;          /* ⭐ lebih pendek (lebar) */
+    background: #fff;
+    border-radius: 14px;
+    padding: 10px 16px;        /* ⭐ rendah (height) */
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+    margin-bottom: 14px;
+}
+
+/* ===============================
+   DATE / CALENDAR (KEKAL ASAL)
+   =============================== */
+.appointment-date {
+    min-width: 65px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* ⭐ Selari ke kiri mengikut permulaan huruf */
+    text-align: left;        /* ⭐ Pastikan teks tidak duduk tengah */
+}
+.appointment-date .day {
+    font-size: 13px;
+    color: #777;
+    margin: 0;
+}
+
+.appointment-date .date {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0;
+}
+/* ===============================
+   INFO (TIME + PATIENT)
+   =============================== */
+.appointment-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;                  /* ⭐ rapat */
+}
+
+.time-row,
+.patient-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;           /* ⭐ dikecilkan */
+    line-height: 1.2;
+    color: #333;
+}
+
+/* ===============================
+   PACKAGE INFO (DIKECILKAN)
+   =============================== */
+.appointment-package {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-left: 6px;
+}
+
+.package-name {
+    font-size: 14px;           /* ⭐ lebih kecil */
+    font-weight: 600;
+    color: #1e90ff;
+    line-height: 1.2;
+}
+
+.package-date {
+    font-size: 12px;           /* ⭐ lebih kecil */
+    color: #888;
+    line-height: 1.2;
+}
+
+/* ===============================
+   ACTION ICONS
+   =============================== */
+.appointment-action {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+}
+
+.appointment-action button {
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-view {
+    background: #b9eef3;
+}
+
+.btn-delete {
+    background: #f8d7da;
+}
+
+/* ===============================
+   REMOVE EXTRA SPACING
+   =============================== */
+.appointment-card * {
+    margin: 0;
+}

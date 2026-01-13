@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
+
 import jakarta.servlet.annotation.MultipartConfig;
 import java.io.InputStream;
 
@@ -34,25 +36,28 @@ public class PackageController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-//		String action = request.getParameter("action");
-//
-//		try {
-//			switch (action) {
-//			case "list":
-//				listPackage(request, response);
-//				break;
-//			case "delete":
-//				deletePackage(request, response);
-//				break;
-//			case "edit":
-//				showEditForm(request, response);
-//			default:
-//				listPackage(request, response);
-//				break;
-//			}
-//		} catch (SQLException ex) {
-//			throw new ServletException(ex);
-//		}
+		String action = request.getParameter("action");
+
+		try {
+			switch (action) {
+			case "list":
+				listPackage(request, response);
+				break;
+			case "book":
+				listAvailablePackage(request,response);
+				break;
+			case "delete":
+				deletePackage(request, response);
+				break;
+			case "edit":
+				showEditForm(request, response);
+			default:
+				listPackage(request, response);
+				break;
+			}
+		} catch (SQLException ex) {
+			throw new ServletException(ex);
+		}
 	}
 
 	/**
@@ -73,31 +78,6 @@ public class PackageController extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-	//UPDATE an existing package
-	private void updatePackage(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
-		// TODO Auto-generated method stub
-	
-		String packageName = request.getParameter("packageName");
-		Part filePart = request.getPart("packagePic");
-		InputStream inputStream = null;
-		if (filePart != null) {
-			inputStream = filePart.getInputStream();
-		}
-		Double packagePrice = Double.parseDouble(request.getParameter("packagePrice"));
-		String isbfrReq = request.getParameter("isbfrReq");
-		String isExist = request.getParameter("isExist");
-		
-		Package packages = new Package();
-		packages.setPackageName(packageName);
-		packages.setPackagePic(inputStream);
-		packages.setPackagePrice(packagePrice);
-		packages.setIsbfrReq(isbfrReq);
-		packages.setIsExist(isExist);
-		
-		PackageDAO.updatePackage(packages);
-		response.sendRedirect("PackageController?action=list");
-
 	}
 
 	private void addPackage(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
@@ -123,5 +103,40 @@ public class PackageController extends HttpServlet {
 		response.sendRedirect("PackageController?action=list");
 
 	}
+
+	//UPDATE an existing package
+	private void updatePackage(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
+	
+		String packageName = request.getParameter("packageName");
+		Part filePart = request.getPart("packagePic");
+        InputStream inputStream = null;
+        if (filePart != null) {
+          inputStream = filePart.getInputStream();
+        }
+		Double packagePrice = Double.parseDouble(request.getParameter("packagePrice"));
+		String isbfrReq = request.getParameter("isbfrReq");
+		String isExist = request.getParameter("isExist");
+
+		Package packages = new Package();
+		packages.setPackageName(packageName);
+		packages.setPackagePic(inputStream);
+		packages.setPackagePrice(packagePrice);
+		packages.setIsbfrReq(isbfrReq);
+		packages.setIsExist(isExist);
+
+		PackageDAO.updatePackage(packages);
+		response.sendRedirect("PackageController?action=list");
+
+	}
+	private void listAvailablePackage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		List<Package> packageList = PackageDAO.getAvailablePackage();
+		request.setAttribute("packages", packageList);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/appointment/bookAppointment.jsp");
+		dispatcher.forward(request, response);
+	}
+	
+	
+	
 
 }
