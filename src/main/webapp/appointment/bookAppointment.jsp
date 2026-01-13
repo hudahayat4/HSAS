@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +20,18 @@
 <link rel="stylesheet" href="../css/header.css">
 <link rel="stylesheet" href="../css/footer.css">
 <style type="text/css">
-<%@ include file="../css/bookAppointment.css" %>
+<%@
+include
+ 
+file
+="../
+css
+/
+bookAppointment
+.css
+"
+ 
+%>
 </style>
 </head>
 
@@ -57,35 +70,17 @@
 			<!-- STEP 1 : PACKAGE -->
 			<div class="section active">
 				<div class="row justify-content-center mb-3">
-					<div class="col-md-3 package-card"
-						onclick="selectPackage(this,'HBA1c')">
-						<img src="../image/logo.png" class="package-img">
-						<div>HBA1c</div>
-						<div class="package-price">RM35</div>
-						<div class="check-icon">
-					        <i class="bi bi-check-lg"></i>
-					    </div>
-					</div>
-
-					<div class="col-md-3 package-card"
-						onclick="selectPackage(this,'Lipid Profile')">
-						<img src="../image/logo.png" class="package-img">
-						<div>Lipid Profile</div>
-						<div class="package-price">RM40</div>
-						<div class="check-icon">
-					        <i class="bi bi-check-lg"></i>
-					    </div>
-					</div>
-
-					<div class="col-md-3 package-card"
-						onclick="selectPackage(this,'Uric Acid')">
-						<img src="../image/logo.png" class="package-img">
-						<div>Uric Acid</div>
-						<div class="package-price">RM60</div>
-						<div class="check-icon">
-					        <i class="bi bi-check-lg"></i>
-					    </div>
-					</div>
+					<c:forEach var="p" items="${packages }">
+						<div class="col-md-3 package-card"
+							onclick="selectPackage(this,'HBA1c')">
+							<img src="../image/logo.png" class="package-img">
+							<div>HBA1c</div>
+							<div class="package-price">RM35</div>
+							<div class="check-icon">
+								<i class="bi bi-check-lg"></i>
+							</div>
+						</div>
+					</c:forEach>
 				</div>
 			</div>
 
@@ -145,7 +140,8 @@
 
 			<!-- BUTTONS -->
 			<div class="d-flex justify-content-center gap-3 mt-5 mb-5">
-				<button type="button" class="btn btn-secondary previous" onclick="prevStep()">Back</button>
+				<button type="button" class="btn btn-secondary previous"
+					onclick="prevStep()">Back</button>
 				<button type="button" class="btn nexts" onclick="nextStep()">Next</button>
 			</div>
 
