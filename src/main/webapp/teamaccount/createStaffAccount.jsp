@@ -38,7 +38,7 @@ body {
 			<h2>Information</h2>
 			<form action="StaffController" method="post"
 				enctype="multipart/form-data">
-				<input type="text" class="form-control"
+				<input type="hidden" class="form-control"
        id="staffID" name="staffID"
        value="<%= session.getAttribute("staffID") %>"
        readonly>

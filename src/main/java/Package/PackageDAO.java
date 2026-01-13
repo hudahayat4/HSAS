@@ -68,28 +68,4 @@ public class PackageDAO {
 	            ps.executeUpdate();
 	        }
 	    }
-
-	public static List<Package> getAvailablePackage() {
-		// TODO Auto-generated method stub
-		List<Package> packages = new ArrayList<>();
-		
-		try {
-			String query = "SELECT * FROM package WHERE isExist = 'YES'";
-			connection = ConnectionManager.getConnection();
-			PreparedStatement ps = connection.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
-			
-			while(rs.next()) {
-				Package service = new Package();
-				service.setPackageID(rs.getInt("packageID"));
-				service.setPackageName(rs.getString("packageName"));
-				service.setPackagePic(rs.getBinaryStream("packagePic"));
-				service.setPackagePrice(rs.getDouble("packagePrice"));
-			}
-			ps.close();
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return packages;
-	}
 }
