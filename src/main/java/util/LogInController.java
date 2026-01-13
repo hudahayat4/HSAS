@@ -36,7 +36,8 @@ public class LogInController extends HttpServlet {
             throw new ServletException(e);
         }
     }
-
+    
+    //Log In Customer
     private void loginCustomer(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         String username = request.getParameter("custUsername");
@@ -59,6 +60,7 @@ public class LogInController extends HttpServlet {
         }
     }
 
+    //Log In Staff
     private void loginStaff(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         String username = request.getParameter("staffUsername");
@@ -72,9 +74,13 @@ public class LogInController extends HttpServlet {
 
         if (staff != null) {
             HttpSession session = request.getSession(true);
+<<<<<<< HEAD
+=======
+            session.setAttribute("staffID", staff.getStaffID());  
+>>>>>>> 626682d062375a782c70d7ea83df80d15055622a
             session.setAttribute("staffUsername", staff.getUsername());
             session.setAttribute("staffRole", staff.getRole());
-            response.sendRedirect("dashboard.jsp");
+            response.sendRedirect("test.jsp");
         } else {
             request.setAttribute("errorMessage", "Invalid staff login.");
             request.getRequestDispatcher("log_in.jsp").forward(request, response);
