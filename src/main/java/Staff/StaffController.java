@@ -1,4 +1,4 @@
-package staff;
+package Staff;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;

@@ -1,4 +1,4 @@
-package staff;
+package Staff;
 
 import java.io.Serializable;
 import java.sql.Date;
