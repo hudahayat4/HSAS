@@ -11,8 +11,6 @@
 <title>sidebar staff</title>
 </head>
 <body>
-
-<div class="wrapper">
     <aside id="sidebar">
     <div class="d-flex align-items-center sidebar-header">
     	<button id="toggle-btn" type="button">
@@ -45,7 +43,7 @@
        		 </a>
        	</li>
        	<li class="sidebar-item">
-       		 <a href="#" class="sidebar-link">
+       		 <a href="teamaccount/listTeamAccount.jsp" class="sidebar-link">
        		 	<i class="lni lni-hierarchy-1"></i>
        		 	<span>Team</span>
        		 </a>
@@ -75,17 +73,6 @@
      </div>
       
     </aside>
-    <div class="main p-3">
-  	<div class="text-center">
-  		<h1>
-  			Sidebar bootstrap 5
-  		</h1>
-  	
-  	</div>
-  
-  </div>
-    
-  </div>
   
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
  <script type="text/javascript" src="javascript/sidebar.js"></script>
