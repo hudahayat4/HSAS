@@ -12,7 +12,7 @@ public class CustomerDAO {
     private static Connection connection = null;
 
     // Create Account
-    public static void createAccount(customer cust) throws SQLException, IOException {
+    public static void createAccount(Customer cust) throws SQLException, IOException {
         String query = "INSERT INTO customer"
                 + "(cusNRIC, custName, custEmail, custProfilePic, DOB, custUsername, custPassword, custPhoneNo) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -41,7 +41,7 @@ public class CustomerDAO {
     }
 
     // Login Customer
-    public static customer loginCustomer(customer cust) throws SQLException {
+    public static Customer loginCustomer(Customer cust) throws SQLException {
         String query = "SELECT * FROM customer WHERE custUsername=? AND custPassword=?";
 
         connection = ConnectionManager.getConnection();

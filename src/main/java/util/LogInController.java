@@ -3,11 +3,12 @@ package util;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+import staff.Staff;
+import staff.StaffDAO;
 import java.io.IOException;
-import customer.customer;
+import customer.Customer;
 import customer.CustomerDAO;
-import Staff.Staff;
-import Staff.StaffDAO;
+
 
 @WebServlet("/LogInController")
 public class LogInController extends HttpServlet {
@@ -43,10 +44,10 @@ public class LogInController extends HttpServlet {
         String username = request.getParameter("custUsername");
         String password = request.getParameter("custPassword");
 
-        customer cust = new customer();
+        Customer cust = new Customer();
         cust.setCustUsername(username);
         cust.setCustPassword(password);
-
+        
         cust = CustomerDAO.loginCustomer(cust);
 
         if (cust != null) {

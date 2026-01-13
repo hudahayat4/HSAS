@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.io.InputStream;
 
-public class customer implements Serializable {
+public class Customer implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String cusNRIC;
 	private String custName;

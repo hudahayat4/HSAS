@@ -51,7 +51,7 @@ public class CustomerController extends HttpServlet {
             inputStream = filePart.getInputStream();
         }
 
-        customer cust = new customer();
+        Customer cust = new Customer();
         cust.setCusNRIC(cusNRIC);
         cust.setCustName(custName);
         cust.setCustEmail(custEmail);
@@ -67,7 +67,7 @@ public class CustomerController extends HttpServlet {
     private void createAccount(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
 
-        customer cust = (customer) request.getSession().getAttribute("tempCustomer");
+        Customer cust = (Customer) request.getSession().getAttribute("tempCustomer");
 
         String custUsername = request.getParameter("custUsername");
         String custPassword = request.getParameter("custPassword");
