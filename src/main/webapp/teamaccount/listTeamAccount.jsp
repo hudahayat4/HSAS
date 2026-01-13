@@ -18,7 +18,7 @@
             
             <div class="header-row">
                 <h2>Team's Account</h2>
-                <button class="add-btn">
+                <button class="add-btn" onclick="location.href='createStaffAccount.jsp'">
                     <i class="fas fa-plus"></i> Add new team
                 </button>
             </div>

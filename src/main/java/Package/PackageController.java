@@ -114,7 +114,7 @@ public class PackageController extends HttpServlet {
 		// TODO Auto-generated method stub
 		List<Package> packageList = PackageDAO.getAvailablePackage();
 		request.setAttribute("packages", packageList);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("bookAppointment.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/appointment/bookAppointment.jsp");
 		dispatcher.forward(request, response);
 	}
 

@@ -20,18 +20,7 @@
 <link rel="stylesheet" href="../css/header.css">
 <link rel="stylesheet" href="../css/footer.css">
 <style type="text/css">
-<%@
-include
- 
-file
-="../
-css
-/
-bookAppointment
-.css
-"
- 
-%>
+<%@ include file="../css/bookAppointment.css"%>
 </style>
 </head>
 
@@ -46,7 +35,7 @@ bookAppointment
 		<!-- hidden inputs -->
 		<input type="hidden" name="packageName" id="packageName"> <input
 			type="hidden" name="appointmentDate" id="appointmentDate">
-		<form method="post" action="">
+		<form method="post" action="AppointmentController">
 			<!-- STEPPER -->
 			<div class="stepper-wrapper">
 				<div class="stepper-line"></div>
@@ -70,12 +59,12 @@ bookAppointment
 			<!-- STEP 1 : PACKAGE -->
 			<div class="section active">
 				<div class="row justify-content-center mb-3">
-					<c:forEach var="p" items="${packages }">
-						<div class="col-md-3 package-card"
-							onclick="selectPackage(this,'HBA1c')">
-							<img src="../image/logo.png" class="package-img">
-							<div>HBA1c</div>
-							<div class="package-price">RM35</div>
+				<input type="hidden" name="packageId" id="packageId">
+					<c:forEach var="p" items="${packages}">
+						<div class="col-md-3 package-card" onclick="selectPackage(this, '${p.packageId}', '${p.packageName}')">
+							<img src="${p.packagePic }" class="package-img">
+							<div>${p.packageName }</div>
+							<div class="package-price">RM${p.packagePrice }</div>
 							<div class="check-icon">
 								<i class="bi bi-check-lg"></i>
 							</div>
