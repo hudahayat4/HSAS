@@ -1,5 +1,6 @@
 package Package;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -8,6 +9,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
+
 import jakarta.servlet.annotation.MultipartConfig;
 import java.io.InputStream;
 
@@ -33,25 +36,28 @@ public class PackageController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-//		String action = request.getParameter("action");
-//
-//		try {
-//			switch (action) {
-//			case "list":
-//				listPackage(request, response);
-//				break;
-//			case "delete":
-//				deletePackage(request, response);
-//				break;
-//			case "edit":
-//				showEditForm(request, response);
-//			default:
-//				listPackage(request, response);
-//				break;
-//			}
-//		} catch (SQLException ex) {
-//			throw new ServletException(ex);
-//		}
+		String action = request.getParameter("action");
+
+		try {
+			switch (action) {
+			case "list":
+				listPackage(request, response);
+				break;
+			case "book":
+				listAvailablePackage(request,response);
+				break;
+			case "delete":
+				deletePackage(request, response);
+				break;
+			case "edit":
+				showEditForm(request, response);
+			default:
+				listPackage(request, response);
+				break;
+			}
+		} catch (SQLException ex) {
+			throw new ServletException(ex);
+		}
 	}
 
 	/**
@@ -102,6 +108,14 @@ public class PackageController extends HttpServlet {
 		PackageDAO.addPackage(packages);
 		response.sendRedirect("PackageController?action=list");
 
+	}
+
+	private void listAvailablePackage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		List<Package> packageList = PackageDAO.getAvailablePackage();
+		request.setAttribute("packages", packageList);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("bookAppointment.jsp");
+		dispatcher.forward(request, response);
 	}
 
 }
