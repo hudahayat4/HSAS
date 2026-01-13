@@ -16,12 +16,21 @@
     <main class="list-wrapper">
         <div class="list-container">
             
+<<<<<<< HEAD
             <div class="header-row">
                 <h2>Team's Account</h2>
                 <button class="add-btn" onclick="location.href='createStaffAccount.jsp'">
                     <i class="fas fa-plus"></i> Add new team
                 </button>
             </div>
+=======
+           <div class="header-row">
+			    <h2>Team's Account</h2>
+			    <a href="createTeamAccount.html" class="add-btn" style="text-decoration: none;">
+			        <i class="fas fa-plus"></i> Add new team
+			    </a>
+			</div>
+>>>>>>> 8764f0b2df9c9beab537fdd9ae43be10911a37df
 
             <div class="team-card">
                 <div class="card-content">
