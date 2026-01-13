@@ -16,12 +16,12 @@
     <main class="list-wrapper">
         <div class="list-container">
             
-            <div class="header-row">
-                <h2>Team's Account</h2>
-                <button class="add-btn">
-                    <i class="fas fa-plus"></i> Add new team
-                </button>
-            </div>
+           <div class="header-row">
+			    <h2>Team's Account</h2>
+			    <a href="createTeamAccount.html" class="add-btn" style="text-decoration: none;">
+			        <i class="fas fa-plus"></i> Add new team
+			    </a>
+			</div>
 
             <div class="team-card">
                 <div class="card-content">

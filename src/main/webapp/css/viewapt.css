@@ -4,36 +4,48 @@
 }
 
 /* ===============================
-   1. BODY RESET (DO NOT FLEX BODY)
+   1. BODY RESET
    =============================== */
 body {
     margin: 0;
     padding: 0;
     background-color: #fcfcfc;
+    font-family: Arial, sans-serif;
 }
 
-
+/* =====================================
+   2. GLOBAL CONTENT WIDTH (JUST NICE ✨)
+   ===================================== */
+.content-wrapper {
+    width: 100%;
+    max-width: 900px;       /* ⭐ balanced width */
+    margin: 0 auto;
+    padding: 0 20px;        /* responsive spacing */
+    box-sizing: border-box;
+}
 
 /* =====================================
-   2. MAIN PAGE CONTAINER (MATCH LIST)
+   3. MAIN PAGE CONTAINER
    ===================================== */
 .appointment-container {
-    padding: 20px 0;
-    padding-top: 30px;
+    padding: 30px 0;
     display: flex;
     flex-direction: column;
-    align-items: center; /* ⭐ KEY FOR SMOOTH TRANSITION */
+    align-items: center;
+    animation: fadeIn 0.35s ease-in;
 }
 
 /* =====================================
-   3. BREADCRUMB (MATCH LIST WIDTH)
+   4. BREADCRUMB AREA
    ===================================== */
 .breadcrumb-area {
-    width: 950px;
-    margin: 30px auto 15px; /* ⭐ ADD TOP MARGIN */
+    width: 100%;
+    max-width: 900px;
+    margin: 30px auto 15px;
     font-size: 14px;
+    padding: 0 20px;
+    box-sizing: border-box;
 }
-
 
 .back-link {
     text-decoration: none;
@@ -42,21 +54,21 @@ body {
 }
 
 /* =====================================
-   4. RECEIPT CARD (MATCH LIST CARD SIZE)
+   5. RECEIPT / CARD
    ===================================== */
 .receipt-card {
     background: #fff;
-    border: 2px solid #ffffff;
     border-radius: 15px;
-    width: 950px;
-    padding: 40px;
+    width: 100%;
+    max-width: 900px;
+    padding: 35px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     box-sizing: border-box;
     margin-bottom: 20px;
 }
 
 /* =====================================
-   5. RECEIPT CONTENT
+   6. RECEIPT CONTENT
    ===================================== */
 .header-center {
     text-align: center;
@@ -87,47 +99,56 @@ body {
 }
 
 /* =====================================
-   6. BUTTON AREA (ALIGN WITH CARD)
+   7. BUTTON AREA (ALIGNED PERFECTLY)
    ===================================== */
 .button-group-action {
-    width: 950px;
+    width: 100%;
+    max-width: 900px;
     display: flex;
     justify-content: flex-end;
     gap: 15px;
     margin-top: 25px;
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
 .btn-medical-custom {
-    background-color: var(--primary-teal) !important;
-    color: white !important;
-    border: none !important;
-    padding: 12px 30px !important;
-    border-radius: 8px !important;
-    cursor: pointer !important;
-    font-weight: 600 !important;
-    text-decoration: none !important;
+    background-color: var(--primary-teal);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
     display: inline-block;
 }
 
 .btn-cancel-custom {
-    background-color: white !important;
-    color: #333 !important;
-    border: 1px solid #ccc !important;
-    padding: 12px 30px !important;
-    border-radius: 8px !important;
-    text-decoration: none !important;
-    font-weight: 600 !important;
+    background-color: white;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 12px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
     display: inline-flex;
     align-items: center;
 }
 
 /* =====================================
-   7. SOFT PAGE TRANSITION (OPTIONAL ✨)
+   8. HEADER FULL WIDTH FIX
    ===================================== */
-.appointment-container {
-    animation: fadeIn 0.35s ease-in;
+header,
+.header-container {
+    width: 100%;
+    margin: 0;
+    display: flex;
 }
 
+/* =====================================
+   9. FADE IN ANIMATION
+   ===================================== */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -137,14 +158,4 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
-}
-
-/* =====================================
-   8. ENSURE HEADER FULL WIDTH
-   ===================================== */
-header,
-.header-container {
-    width: 100% !important;
-    margin: 0 !important;
-    display: flex !important;
 }
