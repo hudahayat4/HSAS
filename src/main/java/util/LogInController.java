@@ -6,8 +6,8 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import customer.customer;
 import customer.CustomerDAO;
-import staff.Staff;
-import staff.StaffDAO;
+import Staff.Staff;
+import Staff.StaffDAO;
 
 @WebServlet("/LogInController")
 public class LogInController extends HttpServlet {
@@ -65,14 +65,14 @@ public class LogInController extends HttpServlet {
         String password = request.getParameter("staffPassword");
 
         Staff staff = new Staff();
-        staff.setStaffUsername(username);
-        staff.setStaffPassword(password);
+        staff.setUsername(username);
+        staff.setPassword(password);
 
         staff = StaffDAO.loginStaff(staff);
 
         if (staff != null) {
             HttpSession session = request.getSession(true);
-            session.setAttribute("staffUsername", staff.getStaffUsername());
+            session.setAttribute("staffUsername", staff.getUsername());
             session.setAttribute("staffRole", staff.getRole());
             response.sendRedirect("dashboard.jsp");
         } else {
