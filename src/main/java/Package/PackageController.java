@@ -81,10 +81,6 @@ public class PackageController extends HttpServlet {
 		}
 	}
 
-	private void updatePackage(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	private void addPackage(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
 		// TODO Auto-generated method stub
@@ -110,6 +106,30 @@ public class PackageController extends HttpServlet {
 
 	}
 
+	//UPDATE an existing package
+	private void updatePackage(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
+	
+		String packageName = request.getParameter("packageName");
+		Part filePart = request.getPart("packagePic");
+        InputStream inputStream = null;
+        if (filePart != null) {
+          inputStream = filePart.getInputStream();
+        }
+		Double packagePrice = Double.parseDouble(request.getParameter("packagePrice"));
+		String isbfrReq = request.getParameter("isbfrReq");
+		String isExist = request.getParameter("isExist");
+
+		Package packages = new Package();
+		packages.setPackageName(packageName);
+		packages.setPackagePic(inputStream);
+		packages.setPackagePrice(packagePrice);
+		packages.setIsbfrReq(isbfrReq);
+		packages.setIsExist(isExist);
+
+		PackageDAO.updatePackage(packages);
+		response.sendRedirect("PackageController?action=list");
+
+	}
 	private void listAvailablePackage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		List<Package> packageList = PackageDAO.getAvailablePackage();
@@ -117,5 +137,8 @@ public class PackageController extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/appointment/bookAppointment.jsp");
 		dispatcher.forward(request, response);
 	}
+	
+	
+	
 
 }
