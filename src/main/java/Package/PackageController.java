@@ -1,5 +1,6 @@
 package Package;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -74,10 +75,30 @@ public class PackageController extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
-	private void updatePackage(HttpServletRequest request, HttpServletResponse response) {
+	//UPDATE an existing package
+	private void updatePackage(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
 		// TODO Auto-generated method stub
+	
+		String packageName = request.getParameter("packageName");
+		Part filePart = request.getPart("packagePic");
+		InputStream inputStream = null;
+		if (filePart != null) {
+			inputStream = filePart.getInputStream();
+		}
+		Double packagePrice = Double.parseDouble(request.getParameter("packagePrice"));
+		String isbfrReq = request.getParameter("isbfrReq");
+		String isExist = request.getParameter("isExist");
 		
+		Package packages = new Package();
+		packages.setPackageName(packageName);
+		packages.setPackagePic(inputStream);
+		packages.setPackagePrice(packagePrice);
+		packages.setIsbfrReq(isbfrReq);
+		packages.setIsExist(isExist);
+		
+		PackageDAO.updatePackage(packages);
+		response.sendRedirect("PackageController?action=list");
+
 	}
 
 	private void addPackage(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
