@@ -2,11 +2,12 @@ package Staff;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.io.InputStream;
 
 public class Staff implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-	private int NRIC;
+	private String NRIC;
 	private int staffID;
 	private int managerID;
 	private String name;
@@ -14,7 +15,7 @@ public class Staff implements Serializable{
 	private String username;
 	private String password;
 	private Date DOB;
-	private byte[] profilePic;
+	private InputStream profilePic;
 	private String email;
 	private String role;
 	
@@ -22,12 +23,12 @@ public class Staff implements Serializable{
 	public Staff() {}
 
 
-	public int getNRIC() {
+	public String getNRIC() {
 		return NRIC;
 	}
 
 
-	public void setNRIC(int nRIC) {
+	public void setNRIC(String nRIC) {
 		NRIC = nRIC;
 	}
 	
@@ -102,12 +103,12 @@ public class Staff implements Serializable{
 	}
 
 
-	public byte[] getProfilePic() {
+	public InputStream getProfilePic() {
 		return profilePic;
 	}
 
 
-	public void setProfilePic(byte[] profilePic) {
+	public void setProfilePic(InputStream profilePic) {
 		this.profilePic = profilePic;
 	}
 

@@ -13,7 +13,7 @@ public class CustomerDAO {
 
     // Create Account
     public static void createAccount(customer cust) throws SQLException, IOException {
-        String query = "INSERT INTO customer "
+        String query = "INSERT INTO customer"
                 + "(cusNRIC, custName, custEmail, custProfilePic, DOB, custUsername, custPassword, custPhoneNo) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -52,7 +52,6 @@ public class CustomerDAO {
 
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
-            // Populate customer object with data from DB
             cust.setCusNRIC(rs.getString("cusNRIC"));
             cust.setCustName(rs.getString("custName"));
             cust.setCustEmail(rs.getString("custEmail"));
@@ -63,6 +62,6 @@ public class CustomerDAO {
 
         rs.close();
         ps.close();
-        return null; // login gagal
+        return null;
     }
 }

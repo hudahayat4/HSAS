@@ -20,7 +20,8 @@ public class CustomerController extends HttpServlet {
         super();
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+    		throws ServletException, IOException {
         String action = request.getParameter("action");
 
         try {
@@ -35,7 +36,8 @@ public class CustomerController extends HttpServlet {
         }
     }
 
-    private void registerAccount(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void registerAccount(HttpServletRequest request, HttpServletResponse response) 
+    		throws IOException, ServletException {
 
         String cusNRIC = request.getParameter("cusNRIC");
         String custName = request.getParameter("custName");
