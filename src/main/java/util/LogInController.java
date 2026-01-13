@@ -74,10 +74,7 @@ public class LogInController extends HttpServlet {
 
         if (staff != null) {
             HttpSession session = request.getSession(true);
-<<<<<<< HEAD
-=======
             session.setAttribute("staffID", staff.getStaffID());  
->>>>>>> 626682d062375a782c70d7ea83df80d15055622a
             session.setAttribute("staffUsername", staff.getUsername());
             session.setAttribute("staffRole", staff.getRole());
             response.sendRedirect("test.jsp");
