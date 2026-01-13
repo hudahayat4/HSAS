@@ -48,7 +48,7 @@
 
                   <!-- FORM CUSTOMER -->
                   <div id="customerForm">
-                    <form action="/LogInController" method="post">
+					<form action="${pageContext.request.contextPath}/LogInController" method="post">
                     <input type="hidden" name="action" value="loginCustomer">
                       <div class="mb-3">
                         <label for="custUsername" class="form-label">Username</label>
@@ -77,7 +77,7 @@
 
                   <!-- FORM STAFF -->
                   <div id="staffForm" style="display: none;">
-                    <form action="/LogInController" method="post">
+					<form action="${pageContext.request.contextPath}/LogInController" method="post">
                     <input type="hidden" name="action" value="loginStaff">
                       <div class="mb-3">
                         <label for="Username" class="form-label">Username</label>
@@ -129,7 +129,7 @@
       customerForm.style.display = 'none';
     });
 
-    // password visibility
+    //password visibility
     function setupToggle(inputId, toggleId) {
       const input = document.getElementById(inputId);
       const toggle = document.getElementById(toggleId);
