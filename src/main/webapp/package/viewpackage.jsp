@@ -59,6 +59,35 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Tunggu sehingga halaman siap dimuatkan
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('package-search');
+        const packageCards = document.querySelectorAll('.package-card');
+
+        // Fungsi ini akan jalan setiap kali anda menaip dalam search bar
+        searchInput.addEventListener('input', function() {
+            const filter = searchInput.value.toLowerCase().trim();
+
+            packageCards.forEach(card => {
+                // Ambil teks nama package di dalam tag <strong>
+                const packageName = card.querySelector('.package-label strong').innerText.toLowerCase();
+
+                // Jika nama ada dalam carian, tunjuk. Jika tak, sorok.
+                if (packageName.includes(filter)) {
+                    card.style.display = ""; // Kembali kepada gaya asal (flex/block)
+                } else {
+                    card.style.display = "none"; // Sorokkan terus
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
 <%@ include file="../footer.jsp" %>
 </body>
 </html>
