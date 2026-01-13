@@ -8,5 +8,6 @@
 </head>
 <body>
 <%@ include file="../sideStaff.jsp" %>
+<p>hello</p>
 </body>
 </html>
