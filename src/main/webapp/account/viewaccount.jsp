@@ -69,17 +69,15 @@
             </div>
 
             <div class="form-grid">
-                <div class="form-group"><label>Full Name</label> <input type="text" value="Amelia Henderson" readonly class="locked-field"></div>
-                <div class="form-group"><label>Phone</label> <input type="text" value="017445663" readonly class="locked-field"></div>
-                <div class="form-group"><label>Email Address</label> <input type="email" value="admin@gmail.com" readonly class="locked-field"></div>
-                <div class="form-group"><label>Age</label> <input type="text" value="28" readonly class="locked-field"></div>
-                <div class="form-group"><label>Date of Birth</label> <input type="text" value="30/6/1997" readonly class="locked-field"></div>
-                <div class="form-group"><label>IC Number</label> <input type="text" value="970630-05-9797" readonly class="locked-field"></div>
+                <div class="form-group"><label>Full Name</label> <input type="text" value="${customer.fullName}" readonly class="locked-field"></div>
+                <div class="form-group"><label>Phone</label> <input type="text" value="${customer.phone}" readonly class="locked-field"></div>
+                <div class="form-group"><label>Email Address</label> <input type="email" value="${customer.email}" readonly class="locked-field"></div>
+                <div class="form-group"><label>Age</label> <input type="text" value="${customer.age}" readonly class="locked-field"></div>
+                <div class="form-group"><label>Date of Birth</label> <input type="text" value="${customer.dob}" readonly class="locked-field"></div>
+                <div class="form-group"><label>IC Number</label> <input type="text" value="${customer.ic}" readonly class="locked-field"></div>
             </div>
-
-            <div class="d-flex justify-content-end mt-4">
-                <a href="listTeamAccount.jsp" class="btn btn-outline-danger" style="border-radius: 10px; padding: 8px 30px; font-weight: bold; text-decoration: none;">Back to List</a>
-            </div>
+				<br><br>
+            
         </div>
     </main>
 
