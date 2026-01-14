@@ -1,4 +1,4 @@
-package Staff;
+package staff;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -8,8 +8,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Date;
+import java.sql.SQLException;
 
-@WebServlet("/StaffController")
+@WebServlet("/teamaccount/StaffController")
 @MultipartConfig(maxFileSize = 10485760)
 public class StaffController extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -22,37 +25,49 @@ public class StaffController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        System.out.println(">>> ENTER doPost");
+
         try {
-            Staff staff = new Staff();
-            staff.setName(request.getParameter("name"));
-            staff.setPhoneNo(request.getParameter("PhoneNo"));
-            staff.setEmail(request.getParameter("email"));
-            java.sql.Date dob = java.sql.Date.valueOf(request.getParameter("DOB"));
-            staff.setDOB(dob);
-            staff.setNRIC(request.getParameter("NRIC"));
-            staff.setRole(request.getParameter("role"));
-
-            Part filePart = request.getPart("profilePic");
-            if (filePart != null && filePart.getSize() > 0) {
-                staff.setProfilePic(filePart.getInputStream());
-            }
-
-            String managerID = request.getParameter("managerID");
-            if (managerID != null && !managerID.isEmpty()) {
-                staff.setManagerID(Integer.parseInt(managerID));
-            } else {
-                staff.setManagerID(0);
-            }
-
-            StaffDAO.createAccount(staff);
-
-            //nanti betulkan dalam kurungan () lepas dah tahu kalau success pergi mana
-            response.sendRedirect("success.jsp");
-
+            createStaffAccount(request, response);
+            System.out.println(">>> createStaffAccount finished");
         } catch (Exception e) {
+            System.out.println(">>> EXCEPTION CAUGHT");
             e.printStackTrace();
-            //nanti betulkan dalam kurungan () lepas dah tahu kalau fail pergi mana
-            response.sendRedirect("error.jsp");
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Staff failed");
         }
     }
+
+	private void createStaffAccount(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, SQLException {
+		// TODO Auto-generated method stub
+		System.out.print("Connected");
+		String name = request.getParameter("name");
+		String phoneNo = request.getParameter("PhoneNo");
+		String email = request.getParameter("email");
+		Date DOB = Date.valueOf(request.getParameter("DOB"));
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		String NRIC = request.getParameter("NRIC");
+		String role = request.getParameter("role");
+		Part filePart = request.getPart("profilePic");
+		Integer loggedInStaffID = (Integer) request.getSession().getAttribute("staffID");
+        InputStream inputStream = null;
+        if (filePart != null) {
+            inputStream = filePart.getInputStream();
+        }
+        
+        Staff staff = new Staff();
+        staff.setName(name);
+        staff.setPhoneNo(phoneNo);
+        staff.setEmail(email);
+        staff.setDOB(DOB);
+        staff.setUsername(username);
+        staff.setPassword(password);
+        staff.setNRIC(NRIC);
+        staff.setRole(role);
+        staff.setProfilePic(inputStream);
+        staff.setManagerID(loggedInStaffID);
+        
+        
+        StaffDAO.createStaffAccount(staff);
+	}
 }

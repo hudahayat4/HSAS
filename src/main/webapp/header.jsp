@@ -18,7 +18,7 @@
 			<ul class="navbar-nav mx-auto align-items-center">
 				<li class="nav-item"><a class="nav-link" href="#">HOME</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">BOOKING</a></li>
-				<li class="nav-item"><a class="nav-link" href="PackageController?action=book">APPOINTMENT</a></li>
+				<li class="nav-item"><a class="nav-link" href="bookAppointment.jsp">APPOINTMENT</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">PACKAGE</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">SETTING</a></li>
 			</ul>
