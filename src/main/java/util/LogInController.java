@@ -1,13 +1,26 @@
 package util;
 
+import java.io.IOException;
+
+import Staff.Staff;
+import Staff.StaffDAO;
+import customer.CustomerDAO;
+import customer.customer;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+<<<<<<< HEAD
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+=======
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import customer.customer;
 import customer.CustomerDAO;
 import Staff.Staff;
 import Staff.StaffDAO;
+>>>>>>> 16932097d4ba7f14c8891ba0da53ccd9556e095a
 
 @WebServlet("/LogInController")
 public class LogInController extends HttpServlet {
@@ -46,8 +59,10 @@ public class LogInController extends HttpServlet {
         customer cust = new customer();
         cust.setCustUsername(username);
         cust.setCustPassword(password);
+        
 
         cust = CustomerDAO.loginCustomer(cust);
+
 
         if (cust != null) {
             HttpSession session = request.getSession(true);
@@ -74,7 +89,10 @@ public class LogInController extends HttpServlet {
 
         if (staff != null) {
             HttpSession session = request.getSession(true);
+<<<<<<< HEAD
+=======
             session.setAttribute("staffID", staff.getStaffID());  
+>>>>>>> 16932097d4ba7f14c8891ba0da53ccd9556e095a
             session.setAttribute("staffUsername", staff.getUsername());
             session.setAttribute("staffRole", staff.getRole());
             response.sendRedirect("test.jsp");
