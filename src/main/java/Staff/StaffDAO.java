@@ -1,4 +1,4 @@
-package staff;
+package Staff;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +10,7 @@ import java.io.InputStream;
 
 public class StaffDAO {
     private static Connection connection = null;
+
     //Login Staff (JANGAN LUPA UBAH BALIK NANTI)
     public static Staff loginStaff(Staff staff) throws SQLException {
         String query = "SELECT * FROM staff WHERE username=? AND password=?";
