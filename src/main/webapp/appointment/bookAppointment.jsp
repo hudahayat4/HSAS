@@ -33,8 +33,10 @@
 	<div class="container text-center">
 
 		<!-- hidden inputs -->
-		<input type="hidden" name="packageName" id="packageName"> <input
-			type="hidden" name="appointmentDate" id="appointmentDate">
+		<input type="hidden" class="form-control"
+       id="staffID" name="staffID"
+       value="<%= session.getAttribute("customerID") %>"
+       readonly>
 		<form method="post" action="AppointmentController">
 			<!-- STEPPER -->
 			<div class="stepper-wrapper">

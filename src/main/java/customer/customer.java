@@ -6,6 +6,7 @@ import java.io.InputStream;
 
 public class customer implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private int cusID;
 	private String cusNRIC;
 	private String custName;
 	private String custEmail;
@@ -15,7 +16,12 @@ public class customer implements Serializable {
 	private String custPassword;
 	private String custPhoneNo;
 	
-	
+	public int getCusID() {
+		return cusID;
+	}
+	public void setCusID(int cusID) {
+		this.cusID = cusID;
+	}
 	public String getCusNRIC() {
 		return cusNRIC;
 	}
@@ -64,5 +70,4 @@ public class customer implements Serializable {
 	public void setCustPhoneNo(String custPhoneNo) {
 		this.custPhoneNo = custPhoneNo;
 	}
-
 }
