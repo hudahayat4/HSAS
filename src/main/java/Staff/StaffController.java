@@ -44,6 +44,8 @@ public class StaffController extends HttpServlet {
 		String phoneNo = request.getParameter("PhoneNo");
 		String email = request.getParameter("email");
 		Date DOB = Date.valueOf(request.getParameter("DOB"));
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
 		String NRIC = request.getParameter("NRIC");
 		String role = request.getParameter("role");
 		Part filePart = request.getPart("profilePic");
@@ -58,6 +60,8 @@ public class StaffController extends HttpServlet {
         staff.setPhoneNo(phoneNo);
         staff.setEmail(email);
         staff.setDOB(DOB);
+        staff.setUsername(username);
+        staff.setPassword(password);
         staff.setNRIC(NRIC);
         staff.setRole(role);
         staff.setProfilePic(inputStream);

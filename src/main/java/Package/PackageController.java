@@ -38,13 +38,10 @@ public class PackageController extends HttpServlet {
 			throws ServletException, IOException {
 		String action = request.getParameter("action");
 
-		try {
+		try {			
 			switch (action) {
 			case "list":
 				listPackage(request, response);
-				break;
-			case "book":
-				listAvailablePackage(request,response);
 				break;
 			case "delete":
 				deletePackage(request, response);
@@ -127,14 +124,7 @@ public class PackageController extends HttpServlet {
 		PackageDAO.updatePackage(packages);
 		response.sendRedirect("PackageController?action=list");
 
-	}
-	private void listAvailablePackage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		List<Package> packageList = PackageDAO.getAvailablePackage();
-		request.setAttribute("packages", packageList);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/appointment/bookAppointment.jsp");
-		dispatcher.forward(request, response);
-	}
+
 	
 	
 	
