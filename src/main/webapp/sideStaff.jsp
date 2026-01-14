@@ -57,7 +57,7 @@
        		 </a>
        	</li>
     <li class="sidebar-item">
-        <a href="#" class="sidebar-link">
+        <a href="StaffController?action=view" class="sidebar-link">
             <i class="lni lni-gear-1"></i>
             <span>Settings</span>
         </a>
