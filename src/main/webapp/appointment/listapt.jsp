@@ -10,6 +10,9 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/listapt.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/footer.css">
+    <style type="text/css">
+    <%@ include file="../css/listapt.css" %>
+    </style>
 </head>
 <body>
     <%@ include file="../header.jsp" %>

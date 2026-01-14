@@ -6,8 +6,8 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import customer.customer;
 import customer.CustomerDAO;
-import staff.Staff;
-import staff.StaffDAO;
+import Staff.Staff;
+import Staff.StaffDAO;
 
 @WebServlet("/LogInController")
 public class LogInController extends HttpServlet {
@@ -36,7 +36,8 @@ public class LogInController extends HttpServlet {
             throw new ServletException(e);
         }
     }
-
+    
+    //Log In Customer
     private void loginCustomer(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         String username = request.getParameter("custUsername");
@@ -59,22 +60,24 @@ public class LogInController extends HttpServlet {
         }
     }
 
+    //Log In Staff
     private void loginStaff(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         String username = request.getParameter("staffUsername");
         String password = request.getParameter("staffPassword");
 
         Staff staff = new Staff();
-        staff.setStaffUsername(username);
-        staff.setStaffPassword(password);
+        staff.setUsername(username);
+        staff.setPassword(password);
 
         staff = StaffDAO.loginStaff(staff);
 
         if (staff != null) {
             HttpSession session = request.getSession(true);
-            session.setAttribute("staffUsername", staff.getStaffUsername());
+            session.setAttribute("staffID", staff.getStaffID());  
+            session.setAttribute("staffUsername", staff.getUsername());
             session.setAttribute("staffRole", staff.getRole());
-            response.sendRedirect("dashboard.jsp");
+            response.sendRedirect("test.jsp");
         } else {
             request.setAttribute("errorMessage", "Invalid staff login.");
             request.getRequestDispatcher("log_in.jsp").forward(request, response);

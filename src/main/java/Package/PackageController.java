@@ -38,13 +38,10 @@ public class PackageController extends HttpServlet {
 			throws ServletException, IOException {
 		String action = request.getParameter("action");
 
-		try {
+		try {			
 			switch (action) {
 			case "list":
 				listPackage(request, response);
-				break;
-			case "book":
-				listAvailablePackage(request,response);
 				break;
 			case "delete":
 				deletePackage(request, response);
@@ -64,8 +61,7 @@ public class PackageController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		doGet(request,response);
 		String packageID = request.getParameter("packageID");
@@ -79,11 +75,6 @@ public class PackageController extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private void updatePackage(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	private void addPackage(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
@@ -110,12 +101,32 @@ public class PackageController extends HttpServlet {
 
 	}
 
-	private void listAvailablePackage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		List<Package> packageList = PackageDAO.getAvailablePackage();
-		request.setAttribute("packages", packageList);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("bookAppointment.jsp");
-		dispatcher.forward(request, response);
-	}
+	//UPDATE an existing package
+	private void updatePackage(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
+	
+		String packageName = request.getParameter("packageName");
+		Part filePart = request.getPart("packagePic");
+        InputStream inputStream = null;
+        if (filePart != null) {
+          inputStream = filePart.getInputStream();
+        }
+		Double packagePrice = Double.parseDouble(request.getParameter("packagePrice"));
+		String isbfrReq = request.getParameter("isbfrReq");
+		String isExist = request.getParameter("isExist");
+
+		Package packages = new Package();
+		packages.setPackageName(packageName);
+		packages.setPackagePic(inputStream);
+		packages.setPackagePrice(packagePrice);
+		packages.setIsbfrReq(isbfrReq);
+		packages.setIsExist(isExist);
+
+		PackageDAO.updatePackage(packages);
+		response.sendRedirect("PackageController?action=list");
+
+
+	
+	
+	
 
 }

@@ -56,19 +56,19 @@ updateUI();
 /* ===============================
    PACKAGE SELECTION
 ================================ */
-function selectPackage(element, value) {
-	document.querySelectorAll(".package-card")
-		.forEach(card => card.classList.remove("active"));
+function selectPackage(element, packageId, packageName) {
+    // activate selected card
+    document.querySelectorAll(".package-card").forEach(card => card.classList.remove("active"));
+    element.classList.add("active");
 
-	element.classList.add("active");
+    // set packageId for form submission
+    document.getElementById("packageId").value = packageId;
 
-	if (document.getElementById("packageName")) {
-		document.getElementById("packageName").value = value;
-	}
-	if (document.getElementById("confirmPackage")) {
-		document.getElementById("confirmPackage").innerText = value;
-	}
+    // show packageName in confirmation step
+    document.getElementById("confirmPackage").innerText = packageName;
 }
+
+
 
 
 
