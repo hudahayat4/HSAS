@@ -57,8 +57,8 @@
                 <div class="user-info">
                     <div class="avatar-circle"><i class="fas fa-user"></i></div>
                     <div class="name-meta">
-                        <h1>ALI BIN RAFI</h1>
-                        <p>ali@email.com</p>
+                        <h1>${customer.custName}</h1>
+                        <p>${customer.custEmail }</p>
                     </div>
                 </div>
 
@@ -69,12 +69,12 @@
             </div>
 
             <div class="form-grid">
-                <div class="form-group"><label>Full Name</label> <input type="text" value="${customer.fullName}" readonly class="locked-field"></div>
-                <div class="form-group"><label>Phone</label> <input type="text" value="${customer.phone}" readonly class="locked-field"></div>
-                <div class="form-group"><label>Email Address</label> <input type="email" value="${customer.email}" readonly class="locked-field"></div>
-                <div class="form-group"><label>Age</label> <input type="text" value="${customer.age}" readonly class="locked-field"></div>
-                <div class="form-group"><label>Date of Birth</label> <input type="text" value="${customer.dob}" readonly class="locked-field"></div>
-                <div class="form-group"><label>IC Number</label> <input type="text" value="${customer.ic}" readonly class="locked-field"></div>
+                <div class="form-group"><label>Full Name</label> <input type="text" value="${customer.custName}" readonly class="locked-field"></div>
+                <div class="form-group"><label>Phone</label> <input type="text" value="${customer.custPhoneNo}" readonly class="locked-field"></div>
+                <div class="form-group"><label>Email Address</label> <input type="email" value="${customer.custEmail}" readonly class="locked-field"></div>
+                <div class="form-group"><label>Age</label> <input type="text" value="16/11/2005" readonly class="locked-field"></div>
+                <div class="form-group"><label>Date of Birth</label> <input type="text" value="${customer.DOB}" readonly class="locked-field"></div>
+                <div class="form-group"><label>IC Number</label> <input type="text" value="${customer.cusNRIC}" readonly class="locked-field"></div>
             </div>
 				<br><br>
             

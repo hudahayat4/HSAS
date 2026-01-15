@@ -14,8 +14,15 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
+
+import customer.CustomerDAO;
+import customer.customer;
 
 @WebServlet("/teamaccount/StaffController")
 @MultipartConfig(maxFileSize = 10485760)
@@ -29,26 +36,25 @@ public class StaffController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
     	String action = request.getParameter("action");
     	try {
-    		switch(action) {
-    		case "view" :
-    			viewProfileAccount(request,response);
-    			break;
-    		case "list" :
-    			listAccount(request,response);
-    			break;
-    		case "update" :
-    			updateAccount(request,response);
-    			break;
-    		default:
-    			listAccount(request,response);
-    			break;
-    		}
-    	}catch(SQLException ex) {
-    		throw new ServletException(ex);
-    	}
+            if ("view".equals(action)) {
+            	viewProfileAccount(request, response);
+            } else if ("edit".equals(action)) {
+                updateProfileAccount(request, response);
+            } else {
+                response.sendRedirect("log_in.jsp");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServletException(e);
+        }
     	
     }
 
+
+	private void updateProfileAccount(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -69,41 +75,57 @@ public class StaffController extends HttpServlet {
 	private void viewProfileAccount(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException {
 
+	    // 1️⃣ Session check
 	    HttpSession session = request.getSession(false);
-
 	    if (session == null || session.getAttribute("staffID") == null) {
-	        response.sendRedirect("login.jsp");
+	        response.sendRedirect(request.getContextPath() + "/log_in.jsp");
 	        return;
 	    }
 
-	    int staffID = (int) session.getAttribute("staffID");
+	    int staffId = (int) session.getAttribute("staffID");
+	    Staff staff = StaffDAO.getStaffById(staffId);
 
-	    try {
-	        // 🔹 Microservice GET (same as curl GET)
-	        HttpClient client = HttpClient.newHttpClient();
-
-	        HttpRequest httpRequest = HttpRequest.newBuilder()
-	            .uri(URI.create("https://petstore.swagger.io/v2/user/" + staffID))
-	            .header("accept", "application/json")
-	            .GET()
-	            .build();
-
-	        HttpResponse<String> httpResponse = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-
-	        // 🔹 Response from microservice
-	        String json = httpResponse.body();
-
-	        // Send to JSP
-	        request.setAttribute("microserviceData", json);
-
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        request.setAttribute("microserviceData", "ERROR calling microservice");
+	    if (staff == null) {
+	        response.sendRedirect(request.getContextPath() + "/log_in.jsp");
+	        return;
 	    }
 
-	    request.getRequestDispatcher("viewProfileAccount.jsp")
-	           .forward(request, response);
-	}
+	    Map<String, String> staffMap = new HashMap<>();
+        staffMap.put("staffID", String.valueOf(staff.getStaffID()));
+        staffMap.put("name", staff.getName());
+        staffMap.put("email", staff.getEmail());
+        staffMap.put("DOB", staff.getDOB() != null ? staff.getDOB().toString() : "");
+        staffMap.put("NRIC", staff.getNRIC() != null ? staff.getNRIC() : "");
+        staffMap.put("phoneNo", staff.getPhoneNo() != null ? staff.getPhoneNo() : "");
+
+        String jsonParam = request.getParameter("json");
+        if ("true".equalsIgnoreCase(jsonParam)) {
+            // Return JSON directly
+            StringBuilder json = new StringBuilder("{");
+            int i = 0;
+            for (Map.Entry<String, String> entry : staffMap.entrySet()) {
+                json.append("\"").append(entry.getKey()).append("\":\"")
+                    .append(entry.getValue()).append("\"");
+                if (i < staffMap.size() - 1) json.append(",");
+                i++;
+            }
+            json.append("}");
+
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            PrintWriter out = response.getWriter();
+            out.write(json.toString());
+            out.flush();
+            return; // IMPORTANT: stop further processing
+        }
+
+        // 4️⃣ Otherwise, forward to JSP
+        request.setAttribute("staff", staff);
+        request.setAttribute("microserviceData", staffMap);
+        request.getRequestDispatcher("viewStaffAccount.jsp").forward(request, response);
+    }
+
+
 
 
 	private void createStaffAccount(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, SQLException {
