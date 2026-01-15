@@ -59,8 +59,8 @@
                         <i class="fas fa-user"></i>
                     </div>
                     <div class="name-meta">
-                        <h1>${ staff.name }</h1>
-                        <p>${ staff.email }</p>
+                        <h1>${ microserviceData.name }</h1>
+                        <p>${ microserviceData.email }</p>
                     </div>
                 </div>
 
@@ -73,15 +73,15 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label>Full Name</label> 
-                    <input type="text" value="${ staff.name }" readonly class="locked-field">
+                    <input type="text" id="name" readonly class="locked-field">
                 </div>
                 <div class="form-group">
                     <label>Phone</label> 
-                    <input type="text" value="${ staff.phoneNo }" readonly class="locked-field">
+                    <input type="text" id="phoneNo" readonly class="locked-field">
                 </div>
                 <div class="form-group">
                     <label>Email Address</label> 
-                    <input type="email" value="${ staff.email }" readonly class="locked-field">
+                    <input type="email" id="email" readonly class="locked-field">
                 </div>
                 <div class="form-group">
                     <label>Age</label> 
@@ -89,11 +89,11 @@
                 </div>
                 <div class="form-group">
                     <label>Date of Birth</label> 
-                    <input type="text" value="${ staff.DOB }" readonly class="locked-field">
+                    <input type="text" id="DOB" readonly class="locked-field">
                 </div>
                 <div class="form-group">
                     <label>IC Number</label> 
-                    <input type="text" value="${ staff.NRIC }" readonly class="locked-field">
+                    <input type="text" id="NRIC" readonly class="locked-field">
                 </div>
             </div>
 
@@ -159,6 +159,18 @@
                 toggleModal(false);
             }
         }
+        
+        fetch('StaffController?action=view&json=true')
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('name').value = data.name;
+          document.getElementById('email').value = data.email;
+          document.getElementById('DOB').value = data.DOB;
+          document.getElementById('NRIC').value = data.NRIC;
+          document.getElementById('phoneNo').value = data.phoneNo;
+        })
+        .catch(err => console.error(err));
+
     </script>
 </body>
 </html>

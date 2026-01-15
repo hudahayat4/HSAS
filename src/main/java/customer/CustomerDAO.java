@@ -54,6 +54,7 @@ public class CustomerDAO {
 
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
+        	cust.setCusID(rs.getInt("cusID"));
             cust.setCusNRIC(rs.getString("cusNRIC"));
             cust.setCustName(rs.getString("custName"));
             cust.setCustEmail(rs.getString("custEmail"));
@@ -71,7 +72,7 @@ public class CustomerDAO {
     public static customer getCustomerById(int customerId) {
         customer c = null;
 
-        String sql = "SELECT * FROM customer WHERE NRIC = ?";
+        String sql = "SELECT * FROM customer WHERE cusID = ?";
 
         try (Connection con = ConnectionManager.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
