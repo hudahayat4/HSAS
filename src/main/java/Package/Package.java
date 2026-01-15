@@ -7,7 +7,7 @@ public class Package {
     private String packageName;
     private InputStream packagePic;
     private double packagePrice;
-    private String isbfrReq;
+    private String bfrReq;
     private String isExist;
 
     // Getters & Setters
@@ -24,8 +24,8 @@ public class Package {
     public double getPackagePrice() { return packagePrice; }
     public void setPackagePrice(double packagePrice) { this.packagePrice = packagePrice; }
 
-    public String getIsbfrReq() { return isbfrReq; }
-    public void setIsbfrReq(String isbfrReq) { this.isbfrReq = isbfrReq; }
+    public String getBfrReq() { return bfrReq; }
+    public void setBfrReq(String bfrReq) { this.bfrReq = bfrReq; }
 
     public String getIsExist() { return isExist; }
     public void setIsExist(String isExist) { this.isExist = isExist; }
