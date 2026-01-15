@@ -72,28 +72,31 @@ public class CustomerDAO {
     public static customer getCustomerById(int customerId) {
         customer c = null;
 
-        String sql = "SELECT * FROM customer WHERE cusID = ?";
+        try {
+			String query = "SELECT * FROM customer WHERE cusID = ?";
+			connection = ConnectionManager.getConnection();
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, customerId);
+			ResultSet rs = ps.executeQuery();
 
-        try (Connection con = ConnectionManager.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setInt(1, customerId);
-
-            try (ResultSet rs = ps.executeQuery()) {
+  
                 if (rs.next()) {
                     c = new customer(); // Initialize object here
 
+                    c.setCusID(rs.getInt("cusID"));
                     c.setCusNRIC(rs.getString("cusNRIC"));
                     c.setCustName(rs.getString("custName"));
                     c.setCustEmail(rs.getString("custEmail"));
                     c.setCustProfilePic(rs.getBinaryStream("custProfilePic"));
                     c.setDOB(rs.getDate("DOB"));
                     c.setCustUsername(rs.getString("custUsername"));
-                    c.setCustPassword(rs.getString("Password"));
+                    c.setCustPassword(rs.getString("custPassword"));
                     c.setCustPhoneNo(rs.getString("custPhoneNo"));
+                    
+                    
                 }
-            }
-
+                rs.close();
+    			ps.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -104,21 +107,47 @@ public class CustomerDAO {
 
     
     //update account 
-    public  static void updateProfile(customer c) throws SQLException {
-        try {
-            String sql = "UPDATE customer SET phone = ?, email = ? WHERE customer_id = ?";
-        	 Connection con = ConnectionManager.getConnection();
-            PreparedStatement ps = con.prepareStatement(sql);
-           
-            ps.setString(1, c.getCustEmail());
-            ps.setString(2, c.getCustPassword() );
-            ps.setString(3, c.getCustPhoneNo());
-         
-            ps.executeUpdate();
-            ps.close();
+ // Method to update customer profile
+    public static void updateprofile(customer c) throws SQLException {
+        // Ensure column names (custPhoneNo, custEmail, cusID) match your database table exactly
+        String sql = "UPDATE customer SET custPhoneNo = ?, custEmail = ? WHERE cusID = ?";
+        
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            
+            ps.setString(1, c.getCustPhoneNo());
+            ps.setString(2, c.getCustEmail());
+            ps.setInt(3, c.getCusID());
+            
+            int rowsUpdated = ps.executeUpdate();
+            
+            // Logical check for debugging
+            if (rowsUpdated > 0) {
+                System.out.println("DEBUG: Update SUCCESSFUL for ID: " + c.getCusID());
+            } else {
+                System.out.println("DEBUG: Update FAILED. No record found for ID: " + c.getCusID());
+            }
+            
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("DEBUG: Database Error - " + e.getMessage());
+            throw e;
         }
     }
-
+    
+    //changepassword
+    public static void updatePassword(int cusID, String newPassword) throws SQLException {
+        // Pastikan nama kolum CUSTPASSWORD dan CUSID betul mengikut table Oracle anda
+        String sql = "UPDATE customer SET custPassword = ? WHERE cusID = ?";
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            
+            ps.setString(1, newPassword);
+            ps.setInt(2, cusID);
+            
+            ps.executeUpdate();
+        }
+    }
+    
+    
+    
 }

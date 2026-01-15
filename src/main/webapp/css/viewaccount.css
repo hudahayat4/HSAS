@@ -215,4 +215,19 @@ body {
 /* Optional: slightly stronger Update button */
 .modal-btn-update {
     border-color: var(--brand-teal) !important;
+}/* Dalam file CSS */
+div.swal2-container .my-rounded-popup {
+    border-radius: 15px !important;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+}
+
+div.swal2-container .my-confirm-btn {
+    background-color: #008080 !important;
+    color: white !important;
+    border: none !important;
+    padding: 10px 25px !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
 }

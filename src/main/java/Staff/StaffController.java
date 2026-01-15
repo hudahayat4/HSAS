@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
+import util.ConnectionManager;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -15,6 +17,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.Duration;
@@ -33,12 +36,14 @@ public class StaffController extends HttpServlet {
         super();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-    	String action = request.getParameter("action");
-    	try {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        
+        try {
             if ("view".equals(action)) {
-            	viewProfileAccount(request, response);
+                viewProfileAccount(request, response);
             } else if ("edit".equals(action)) {
+                // Cukup panggil method ini sahaja, jangan tulis logik yang sama dua kali
                 updateProfileAccount(request, response);
             } else {
                 response.sendRedirect("log_in.jsp");
@@ -47,28 +52,84 @@ public class StaffController extends HttpServlet {
             e.printStackTrace();
             throw new ServletException(e);
         }
-    	
     }
 
 
-	private void updateProfileAccount(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
+    private void updateProfileAccount(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session != null && session.getAttribute("staffID") != null) {
+            int staffId = (int) session.getAttribute("staffID");
+            Staff s = StaffDAO.getStaffById(staffId);
+            request.setAttribute("staff", s); // <--- SANGAT PENTING untuk paparkan data kat form
+            request.getRequestDispatcher("updateStaffAccount.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("log_in.jsp");
+        }
+    }
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         System.out.println(">>> ENTER doPost");
+        String action = request.getParameter("action");
 
+        // --- LOGIK 1: UPDATE PROFILE ---
+        if ("updateProfile".equals(action)) {
+            try {
+                HttpSession session = request.getSession(false);
+                Integer staffID = (session != null) ? (Integer) session.getAttribute("staffID") : null;
+                
+                if (staffID != null) {
+                    Staff s = new Staff();
+                    s.setStaffID(staffID);
+                    s.setPhoneNo(request.getParameter("PhoneNo"));
+                    s.setEmail(request.getParameter("email"));
+                    
+                    StaffDAO.updateStaffProfile(s);
+                    response.sendRedirect("StaffController?action=view&status=success");
+                    return; 
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Update failed");
+                return;
+            }
+        }
+
+        // --- LOGIK 2: CHANGE PASSWORD (Gantikan Servlet asing tadi) ---
+        else if ("changePassword".equals(action)) {
+            try {
+                HttpSession session = request.getSession(false);
+                Integer staffID = (session != null) ? (Integer) session.getAttribute("staffID") : null;
+                
+                String newPass = request.getParameter("newPassword");
+                String confirmPass = request.getParameter("confirmPassword");
+
+                if (staffID != null && newPass != null && newPass.equals(confirmPass)) {
+                    boolean success = StaffDAO.updatePassword(staffID, newPass);
+                    if (success) {
+                        response.sendRedirect("StaffController?action=view&status=passwordUpdated");
+                    } else {
+                        response.sendRedirect("StaffController?action=view&status=error");
+                    }
+                } else {
+                    response.sendRedirect("StaffController?action=view&status=mismatch");
+                }
+                return;
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Password change failed");
+                return;
+            }
+        }
+
+        // --- LOGIK 3: CREATE ACCOUNT (Kod asal anda) ---
         try {
             createStaffAccount(request, response);
-            System.out.println(">>> createStaffAccount finished");
+            response.sendRedirect(request.getContextPath() + "/log_in.jsp?status=success");
         } catch (Exception e) {
-            System.out.println(">>> EXCEPTION CAUGHT");
             e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Staff failed");
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Create failed");
         }
     }
 	
@@ -161,4 +222,8 @@ public class StaffController extends HttpServlet {
         
         StaffDAO.createStaffAccount(staff);
 	}
+	
+
+
+	
 }
