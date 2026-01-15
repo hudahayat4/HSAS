@@ -203,6 +203,7 @@ public class PackageController extends HttpServlet {
 	    PackageDAO.updatePackage(p);
 
 	    response.sendRedirect("PackageController?action=list");
+	}
 
 
 	
