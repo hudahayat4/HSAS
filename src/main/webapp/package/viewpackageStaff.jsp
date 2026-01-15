@@ -16,47 +16,58 @@
 
 <body>
 
-<div class="main-container">
-	<div class="content-wrapper">
-		<div class="content-card">
-	<h1 class="page-title">Health Screening Packages</h1>
-
-	<!-- Search -->
-	<div class="search-container">
-    	<i class="fa-solid fa-magnifying-glass"></i>
-    	<input type="text" id="package-search" placeholder="Search">
-	</div>
-
-	<!-- Package List -->
-	 <c:forEach var="package" items="${packages}">
-		<div class="packages-list">
-    		<div class="package-card">
-        		<div class="package-image">
-            <!-- <img src="${pageContext.request.contextPath}/package/PackageController?action=image&id=${package.packageID}" alt="Package Image"> -->
-        		</div>
-
-        	<div class="package-details">
-           		 <p>Package Name: <strong>${package.packageName}</strong></p>
-            		<p>Price: RM <fmt:formatNumber value="${package.packagePrice}" type="number" minFractionDigits="2" maxFractionDigits="2"/></p>
-        	</div>
-
-        	<div class="update-btn-wrapper">
-        	 <button class="btn btn-sm" style="background:#009FA5;color:white;" data-bs-toggle="modal" data-bs-target="#updateModal-${package.packageID}">Update</button>
-        	</div>
-    	</div>
-    	</div>
-    	</c:forEach>
+ <div class="main-container">
  
-</div>
+<div class="content-wrapper">
+<div class="content-card">
+
+<h1 class="page-title">Health Screening Packages</h1>
+
+<input type="text" id="package-search" class="form-control mb-3" placeholder="Search">
 
 <!-- Add Button -->
 <div class="add-btn-wrapper">
-    <button class="btn" style="background:#009FA5;color:white;" data-bs-toggle="modal" data-bs-target="#addModal">Add Package</button>
+    <button class="btn" style="background:#009FA5;color:white; margin-bottom: 20px;" data-bs-toggle="modal" data-bs-target="#addModal">+ Add New Package</button>
 </div>
+
+<!-- PACKAGE LIST -->
+<c:choose>
+    <c:when test="${empty packages}">
+        <div class="alert alert-info">
+            No package available.
+        </div>
+    </c:when>
+    <c:otherwise>
+        <c:forEach var="p" items="${packages}">
+            <div class="package-card">
+                <img class="me-3"
+                     src="${pageContext.request.contextPath}/package/PackageController?action=image&id=${p.packageID}"
+                     width="80" height="60">
+
+                <div class="package-details">
+                    <strong>${p.packageName}</strong><br>
+                    RM <fmt:formatNumber value="${p.packagePrice}" minFractionDigits="2"/>
+                </div>
+
+                <button class="btn btn-sm btn-info ms-auto" style="background:white;color:black;"
+                        data-bs-toggle="modal"
+                        data-bs-target="#updateModal"
+                        data-id="${p.packageID}"
+                        data-name="${p.packageName}"
+                        data-price="${p.packagePrice}"
+                        data-bfr="${p.bfrReq}"
+                        data-exist="${p.isExist}">
+                    Update
+                </button>
+            </div>
+        </c:forEach>
+    </c:otherwise>
+</c:choose>
 
 </div>
 </div>
 </div>
+
 
 <!-- ADD MODAL -->
 	<div class="modal fade" id="addModal" tabindex="-1">
@@ -67,7 +78,7 @@
     	<button class="btn-close" data-bs-dismiss="modal"></button>
 	</div>
 		<div class="modal-body">
-			<form action="PackageController" method="post" enctype="multipart/form-data">
+			<form action="${pageContext.request.contextPath}/package/PackageController" method="post" enctype="multipart/form-data">
     			<div class="mb-3">
 				<label for="recipient-name" class="col-form-label">Package Name:</label>
 	 			<input type="text" class="form-control" id="packageName" placeholder="Health Screening Type" name="packageName">
@@ -82,9 +93,9 @@
 				</div>
 				<div class="mb-3">
 				<label for="message-text" class="col-form-label">Fasting:</label><br>
-				<input class="form-check-input" type="radio" name="isbfrReq" id="exampleRadios1" value="YES"> 
+				<input class="form-check-input" type="radio" name="bfrReq" id="exampleRadios1" value="YES"> 
 				<label class="form-check-label" for="exampleRadios1"> Yes </label> 
-				<input class="form-check-input" type="radio" name="isbfrReq" id="No" value="NO"> <label class="form-check-label" for="exampleRadios2"> No </label>
+				<input class="form-check-input" type="radio" name="bfrReq" id="No" value="NO"> <label class="form-check-label" for="exampleRadios2"> No </label>
 				</div>
 				<div class="mb-3">
 				<label for="message-text" class="col-form-label">Exist:</label><br>
@@ -102,51 +113,60 @@
 </div>
 </div>
 
-<!-- UPDATE MODAL -->
-<div class="modal fade" id="updateModal-${package.packageID}" tabindex="-1">
-<div class="modal-dialog modal-dialog-centered">
-<div class="modal-content">
-<div class="modal-header">
-    <h5>Update Package</h5>
-    <button class="btn-close" data-bs-dismiss="modal"></button>
+<!-- UPDATE MODAL --><div class="modal fade" id="updateModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Update Package</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <form action="${pageContext.request.contextPath}/package/PackageController" method="post" enctype="multipart/form-data">
+
+          <input type="hidden" name="action" value="update">
+          <input type="hidden" name="packageID" id="u_packageID">
+
+          <div class="mb-3">
+            <label class="form-label">Package Name</label>
+            <input type="text" class="form-control" name="packageName" id="u_packageName">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Price</label>
+            <input type="number" class="form-control" name="packagePrice" id="u_packagePrice">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Package Image</label>
+            <input type="file" class="form-control" name="packagePic">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Fasting Required</label><br>
+            <input type="radio" name="bfrReq" value="YES" id="u_bfr_yes"> Yes
+            <input type="radio" name="bfrReq" value="NO" id="u_bfr_no"> No
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Exist</label><br>
+            <input type="radio" name="isExist" value="YES" id="u_exist_yes"> Yes
+            <input type="radio" name="isExist" value="NO" id="u_exist_no"> No
+          </div>
+
+         <button type="button" id="confirmUpd" class="btn w-100" style="background:#009FA5;color:white;">
+    	Update
+    	</button>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
 </div>
-<div class="modal-body">
-<form action="PackageController" method="post" enctype="multipart/form-data">
-   
-   <!-- IMPORTANT -->
-    <input type="hidden" name="packageID" value="${package.packageID}">
-    <div class="mb-3">
-	<label for="recipient-name" class="col-form-label">Package Name:</label> <input type="text" class="form-control" id="packageName" placeholder="Health Screening Type" name="packageName" value="${package.packageName}">
-	</div>
-	<div class="mb-3">
-	<label for="message-text" class="col-form-label">Price:</label> <input
-	type="number" class="form-control" id="packagePrice" placeholder="RM" name="packagePrice" value="${package.packagePrice}">
-	</div>
-	<div class="mb-3">
-	<label for="formFile" class="form-label">Default file input example</label> <input class="form-control" type="file" id="packagePic" name="packagePic">
-	</div>
-	<div class="mb-3">
-	<label for="message-text" class="col-form-label">Fasting:</label><br>
-	<input class="form-check-input" type="radio" name="isbfrReq" id="exampleRadios1" value="YES"   ${package.isbfrReq == 'YES' ? 'checked' : ''}> Yes> 
-	<label class="form-check-label" for="exampleRadios1"> Yes </label> 
-	<input class="form-check-input" type="radio" name="isbfrReq" id="No" value="NO"  ${package.isbfrReq == 'NO' ? 'checked' : ''}> No>
-	 <label class="form-check-label" for="exampleRadios2"> No </label>
-	</div>
-	<div class="mb-3">
-	<label for="message-text" class="col-form-label">Exist:</label><br>
-	<input class="form-check-input" type="radio" name="isExist" id="isExist" value="YES"   ${package.isExist == 'YES' ? 'checked' : ''}> Yes> 
-	<label class="form-check-label" for="exampleRadios1"> Yes </label> 
-	<input class="form-check-input" type="radio" name="isExist" id="No" value="NO" ${package.isExist == 'NO' ? 'checked' : ''}> No>
-	<label class="form-check-label"	for="isExist"> No </label>
-	</div>
-	<div class="mb-3">
-	<button type="submit" class="btn w-100" style="background: #009FA5; color: white;">Submit</button>
-	</div>
-</form>
-</div>
-</div>
-</div>
-</div>
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -159,6 +179,59 @@ document.getElementById('package-search').addEventListener('input', function () 
     });
 });
 </script>
+<script>
+const updateModal = document.getElementById('updateModal');
+
+updateModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+
+    document.getElementById('u_packageID').value = button.dataset.id;
+    document.getElementById('u_packageName').value = button.dataset.name;
+    document.getElementById('u_packagePrice').value = button.dataset.price;
+
+    document.getElementById('u_bfr_yes').checked = button.dataset.bfr === 'YES';
+    document.getElementById('u_bfr_no').checked  = button.dataset.bfr === 'NO';
+
+    document.getElementById('u_exist_yes').checked = button.dataset.exist === 'YES';
+    document.getElementById('u_exist_no').checked  = button.dataset.exist === 'NO';
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const confirmButton = document.getElementById("confirmUpd");
+    const updateForm = document.querySelector("#updateModal form");
+    const updateModalEl = document.getElementById("updateModal");
+    const updateModal = bootstrap.Modal.getOrCreateInstance(updateModalEl);
+
+    confirmButton.addEventListener("click", function () {
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Do you want to update this package?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#009FA5",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, update",
+            cancelButtonText: "Cancel"
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+                updateForm.submit(); 
+            } 
+            else {
+                updateModal.hide(); 
+            }
+
+        });
+    });
+
+});
+</script>
+
 
 </body>
 </html>

@@ -57,7 +57,8 @@ body {
 .packages-list {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 30px;
+  
 }
 
 .package-card {
@@ -65,8 +66,9 @@ body {
     border-radius: 10px;
     display: flex;
     align-items: center;
-    padding: 15px;
+    padding: 25px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
 }
 
 .package-image img {

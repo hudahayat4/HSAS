@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.servlet.annotation.MultipartConfig;
@@ -37,22 +38,56 @@ public class PackageController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 
-		try {			
-			switch (action) {
-			case "list":
-				listPackage(request, response);
-				break;
-			case "edit":
-				showEditForm(request, response);
-			default:
-				listPackage(request, response);
-				break;
-			}
-		} catch (SQLException ex) {
-			throw new ServletException(ex);
-		}
+		try {
+	        if (action == null) {
+	            listPackage(request, response);
+	            return;
+	        }
+
+	        switch (action) {
+
+	            case "image":
+	                showImage(request, response);
+	                return; // VERY IMPORTANT
+
+	            case "list":
+	                listPackage(request, response);
+	                return;
+
+	            case "book":
+	                listAvailablePackage(request, response);
+	                return;
+
+	            case "edit":
+	                showEditForm(request, response);
+	                return;
+
+	            default:
+	                listPackage(request, response);
+	                return;
+	        }
+
+	    }catch (Exception e){
+	        e.printStackTrace();
+	    }
 	}
 
+	private void showImage(HttpServletRequest request, HttpServletResponse response)
+	        throws Exception {
+
+	    int id = Integer.parseInt(request.getParameter("id"));
+	    byte[] img = PackageDAO.getPackageImage(id);
+
+	    if (img != null) {
+	        response.setContentType("image/jpeg");
+	        response.getOutputStream().write(img);
+	    }
+	}
+
+	private void listAvailablePackage(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
@@ -68,6 +103,7 @@ public class PackageController extends HttpServlet {
 				addPackage(request, response);
 			} else {
 				updatePackage(request, response);
+				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -79,23 +115,42 @@ public class PackageController extends HttpServlet {
 	private void listPackage(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
 		// TODO Auto-generated method stub
 		List<Package> packages = PackageDAO.getAllPackage();
-		request.setAttribute("packages", packages);
-		request.getRequestDispatcher("viewpackageStaff.jsp").forward(request, response);
+
+		// Ensure packages is never null
+	    if (packages == null) {
+	        packages = new ArrayList<>();
+	    }
+
+	    request.setAttribute("packages", packages);
+	    request.getRequestDispatcher("/package/viewpackageStaff.jsp").forward(request, response);
+		
 		//if (staffID != null) {
 		//request.getRequestDispatcher("viewpackageStaff.jsp").forward(request, response);
 		//} else request.getRequestDispatcher("viewpackage.jsp").forward(request, response);
 	}
 	
 
+	
 	// SHOW edit form for a package
-	private void showEditForm(HttpServletRequest request, HttpServletResponse response)  throws SQLException, ServletException, IOException{
-		// TODO Auto-generated method stub
-		int packageID = Integer.parseInt(request.getParameter("packageID"));
-		Package existingPackage = PackageDAO.getPackagebyId(packageID);
-		request.setAttribute("packageID", existingPackage);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("viewpackageStaff.jsp");
-		dispatcher.forward(request, response);
+	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
+	        throws SQLException, ServletException, IOException {
+
+	    int packageID = Integer.parseInt(request.getParameter("packageID"));
+	    // Get the package to be edited
+	    Package selectedPackage = PackageDAO.getPackagebyId(packageID);
+    //  Get ALL packages for default listing)
+	    List<Package> packages = PackageDAO.getAllPackage();
+	    // ensure list is never null
+	    if (packages == null) {
+	        packages = new ArrayList<>();
+	    }
+	    request.setAttribute("packages", packages);          // for package list
+	    request.setAttribute("selectedPackage", selectedPackage); // optional (if needed)
+	    RequestDispatcher dispatcher =
+	            request.getRequestDispatcher("/package/viewpackageStaff.jsp");
+	    dispatcher.forward(request, response);
 	}
+
 	
 	//ADD a new package
 	private void addPackage(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
@@ -107,14 +162,14 @@ public class PackageController extends HttpServlet {
           inputStream = filePart.getInputStream();
         }
 		Double packagePrice = Double.parseDouble(request.getParameter("packagePrice"));
-		String isbfrReq = request.getParameter("isbfrReq");
+		String bfrReq = request.getParameter("bfrReq");
 		String isExist = request.getParameter("isExist");
 
 		Package packages = new Package();
 		packages.setPackageName(packageName);
 		packages.setPackagePic(inputStream);
 		packages.setPackagePrice(packagePrice);
-		packages.setIsbfrReq(isbfrReq);
+		packages.setBfrReq(bfrReq);
 		packages.setIsExist(isExist);
 
 		PackageDAO.addPackage(packages);
@@ -129,7 +184,7 @@ public class PackageController extends HttpServlet {
 	    int packageID = Integer.parseInt(request.getParameter("packageID"));
 	    String packageName = request.getParameter("packageName");
 	    double packagePrice = Double.parseDouble(request.getParameter("packagePrice"));
-	    String isbfrReq = request.getParameter("isbfrReq");
+	    String bfrReq = request.getParameter("bfrReq");
 	    String isExist = request.getParameter("isExist");
 
 	    Part filePart = request.getPart("packagePic");
@@ -141,7 +196,7 @@ public class PackageController extends HttpServlet {
 	    p.setPackageID(packageID);
 	    p.setPackageName(packageName);
 	    p.setPackagePrice(packagePrice);
-	    p.setIsbfrReq(isbfrReq);
+	    p.setBfrReq(bfrReq);
 	    p.setIsExist(isExist);
 	    p.setPackagePic(inputStream);
 

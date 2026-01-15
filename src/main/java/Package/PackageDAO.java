@@ -32,16 +32,33 @@ public class PackageDAO {
 			}
 
 			ps.setDouble(3, packages.getPackagePrice());
-			ps.setString(4, packages.getIsbfrReq());
+			ps.setString(4, packages.getBfrReq());
 			ps.setString(5, packages.getIsExist());
 
 			int rows = ps.executeUpdate();
 			System.out.println(rows + " row(s) inserted successfully.");
 		}
 	}
-	
+	public static byte[] getPackageImage(int id) throws SQLException {
+	    byte[] image = null;
+
+	    String sql = "SELECT packagePic FROM package WHERE packageID=?";
+	    try (Connection conn = ConnectionManager.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+	        ps.setInt(1, id);
+	        ResultSet rs = ps.executeQuery();
+
+	        if (rs.next()) {
+	            image = rs.getBytes("packagePic");
+	        }
+	    }
+	    return image;
+	}
+
 	//SELECT - get all bookings
-	public static List<Package> getAllPackage() throws SQLException{
+
+	public static List<Package> getAllPackage()  throws SQLException{
 		// TODO Auto-generated method stub
 		List<Package> packages = new ArrayList<>();
 		
@@ -56,8 +73,8 @@ public class PackageDAO {
 				p.setPackageID(rs.getInt("packageID"));
 				p.setPackagePic(rs.getBinaryStream("packagePic"));
 				p.setPackageName(rs.getString("packageName"));
-				
-				p.setIsbfrReq(rs.getString("isbfrReq"));
+				p.setPackagePrice(rs.getDouble("packagePrice"));
+				p.setBfrReq(rs.getString("bfrReq"));
 				p.setIsExist(rs.getString("isExist"));
 				packages.add(p);
 				
@@ -67,7 +84,9 @@ public class PackageDAO {
 			e.printStackTrace();
 		}
 		return packages;
+		
 	}
+
 	
 	// READ - Get a package by ID
 		 public static Package getPackagebyId(int packageID) throws SQLException{
@@ -85,8 +104,8 @@ public class PackageDAO {
 					p.setPackageID(rs.getInt("packageID"));
 					p.setPackagePic(rs.getBinaryStream("packagePic"));
 					p.setPackageName(rs.getString("packageName"));
-					
-					p.setIsbfrReq(rs.getString("isbfrReq"));
+					p.setPackagePrice(rs.getDouble("packagePrice"));
+					p.setBfrReq(rs.getString("bfrReq"));
 					p.setIsExist(rs.getString("isExist"));
 					
 					
@@ -100,24 +119,31 @@ public class PackageDAO {
 		 }
 		 
 	 public static void updatePackage(Package p) throws SQLException, IOException {
-		 String sql = "UPDATE package SET packageName=?, packagePic=?, " + "packagePrice=?, bfrReq=?, isExist=? WHERE packageID=?";
-	        try (Connection connection = ConnectionManager.getConnection();
-	             PreparedStatement ps = connection.prepareStatement(sql)) {
+		 String sqlWithImage = "UPDATE package SET packageName=?, packagePic=?, packagePrice=?, bfrReq=?, isExist=? WHERE packageID=?";
+		    String sqlWithoutImage = "UPDATE package SET packageName=?, packagePrice=?, bfrReq=?, isExist=? WHERE packageID=?";
 
-	            ps.setString(1, p.getPackageName());
+		    try (Connection connection = ConnectionManager.getConnection()) {
+		        PreparedStatement ps;
 
-	            if (p.getPackagePic() != null) {
-	                ps.setBinaryStream(2, p.getPackagePic(), p.getPackagePic().available());
-	            } else {
-	                ps.setNull(2, java.sql.Types.BLOB);
-	            }
+		        if (p.getPackagePic() != null) { // user uploaded a new image
+		            ps = connection.prepareStatement(sqlWithImage);
+		            ps.setString(1, p.getPackageName());
+		            ps.setBinaryStream(2, p.getPackagePic(), p.getPackagePic().available());
+		            ps.setDouble(3, p.getPackagePrice());
+		            ps.setString(4, p.getBfrReq());
+		            ps.setString(5, p.getIsExist());
+		            ps.setInt(6, p.getPackageID());
+		        } else { // keep existing image
+		            ps = connection.prepareStatement(sqlWithoutImage);
+		            ps.setString(1, p.getPackageName());
+		            ps.setDouble(2, p.getPackagePrice());
+		            ps.setString(3, p.getBfrReq());
+		            ps.setString(4, p.getIsExist());
+		            ps.setInt(5, p.getPackageID());
+		        }
 
-	            ps.setDouble(3, p.getPackagePrice());
-	            ps.setString(4, p.getIsbfrReq());
-	            ps.setString(5, p.getIsExist());
-	            ps.setInt(6, p.getPackageID());
-
-	            ps.executeUpdate();
+		        ps.executeUpdate();
+		        ps.close();
 	        }
 	    }
 
@@ -134,8 +160,8 @@ public class PackageDAO {
 			while(rs.next()) {
 				Package service = new Package();
 				service.setPackageID(rs.getInt("packageID"));
-				service.setPackageName(rs.getString("packageName"));
 				service.setPackagePic(rs.getBinaryStream("packagePic"));
+				service.setPackageName(rs.getString("packageName"));
 				service.setPackagePrice(rs.getDouble("packagePrice"));
 			}
 			ps.close();
@@ -144,4 +170,5 @@ public class PackageDAO {
 		}
 		return packages;
 	}
-}
+
+}	
