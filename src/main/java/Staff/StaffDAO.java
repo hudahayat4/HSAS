@@ -77,5 +77,33 @@ public class StaffDAO {
         if (profilePicStream != null) profilePicStream.close();
     }
 
+	public static Staff getStaffById(int staffId) {
+		// TODO Auto-generated method stub
+		Staff s = null;
+		
+		String query = "SELECT * FROM staff WHERE staffID = ?";
+		try(Connection con = ConnectionManager.getConnection();
+			PreparedStatement ps = con.prepareStatement(query)){
+				ps.setInt(1, staffId);
+				try(ResultSet rs = ps.executeQuery()){
+					if(rs.next()) {
+						s = new Staff();
+						
+						s.setName(rs.getString("name"));
+						s.setEmail(rs.getString("email"));
+						s.setNRIC(rs.getString("NRIC"));
+						s.setUsername(rs.getString("username"));
+						s.setPassword(rs.getString("password"));
+						s.setDOB(rs.getDate("DOB"));
+						s.setPhoneNo(rs.getString("PhoneNo"));
+					}
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			return s;
+	}
+
 
 }

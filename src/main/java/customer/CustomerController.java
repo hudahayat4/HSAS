@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 
-@WebServlet("/CustomerController")
+@WebServlet("/account/CustomerController")
 @MultipartConfig(maxFileSize = 10485760)
 public class CustomerController extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -27,26 +27,26 @@ public class CustomerController extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
-
-        if (session == null || session.getAttribute("customerId") == null) {
-            response.sendRedirect("/log_in.jsp");
+        System.out.println("SESSION cusID = " + session.getAttribute("cusID"));
+        // 🔐 Authentication check (ONLY HERE)
+        if (session == null || session.getAttribute("cusID") == null) {
+            response.sendRedirect(request.getContextPath() + "/log_in.jsp");
             return;
         }
 
-        int customerId = (int) session.getAttribute("customerId");
+        int customerId = (int) session.getAttribute("cusID");
         String action = request.getParameter("action");
 
-//        CustomerDAO dao = new CustomerDAO();
         customer customer = CustomerDAO.getCustomerById(customerId);
 
         if (customer == null) {
-            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            response.sendRedirect(request.getContextPath() + "/log_in.jsp");
             return;
         }
 
         if ("view".equals(action)) {
             request.setAttribute("customer", customer);
-            request.getRequestDispatcher("account/viewaccount.jsp")
+            request.getRequestDispatcher("viewaccount.jsp")
                    .forward(request, response);
 
         } else if ("edit".equals(action)) {
@@ -58,6 +58,7 @@ public class CustomerController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/CustomerController?action=view");
         }
     }
+
 
   
 

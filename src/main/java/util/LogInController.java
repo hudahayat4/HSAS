@@ -1,7 +1,17 @@
 package util;
 
+import java.io.IOException;
+
+import Staff.Staff;
+import Staff.StaffDAO;
+import customer.CustomerDAO;
+import customer.customer;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import customer.customer;
@@ -46,11 +56,14 @@ public class LogInController extends HttpServlet {
         customer cust = new customer();
         cust.setCustUsername(username);
         cust.setCustPassword(password);
+        
 
         cust = CustomerDAO.loginCustomer(cust);
 
+
         if (cust != null) {
             HttpSession session = request.getSession(true);
+            session.setAttribute("cusID", cust.getCusID());
             session.setAttribute("custUsername", cust.getCustUsername());
             session.setAttribute("custEmail", cust.getCustEmail());
             response.sendRedirect("home_customer.jsp");
