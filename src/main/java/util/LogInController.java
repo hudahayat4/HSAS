@@ -51,6 +51,7 @@ public class LogInController extends HttpServlet {
 
         if (cust != null) {
             HttpSession session = request.getSession(true);
+            session.setAttribute("cusID", cust.getCusID());
             session.setAttribute("custUsername", cust.getCustUsername());
             session.setAttribute("custEmail", cust.getCustEmail());
             response.sendRedirect("home_customer.jsp");

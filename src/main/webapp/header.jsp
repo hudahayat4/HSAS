@@ -20,7 +20,7 @@
 				<li class="nav-item"><a class="nav-link" href="#">BOOKING</a></li>
 				<li class="nav-item"><a class="nav-link" href="bookAppointment.jsp">APPOINTMENT</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">PACKAGE</a></li>
-				<li class="nav-item"><a class="nav-link" href="CustomerController?action=view">SETTING</a></li>
+				<li class="nav-item"><a class="nav-link" href="account/CustomerController?action=view">SETTING</a></li>
 			</ul>
 			<ul class="navbar-nav align-items-center">
 				<li class="nav-item"><a class="nav-link logout" href="#">Log Out</a></li>
