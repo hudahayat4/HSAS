@@ -42,9 +42,6 @@ public class PackageController extends HttpServlet {
 			case "list":
 				listPackage(request, response);
 				break;
-			case "book":
-				listAvailablePackage(request,response);
-				break;
 			case "edit":
 				showEditForm(request, response);
 			default:
@@ -151,6 +148,7 @@ public class PackageController extends HttpServlet {
 	    PackageDAO.updatePackage(p);
 
 	    response.sendRedirect("PackageController?action=list");
+	}
 
 
 	

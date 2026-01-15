@@ -32,7 +32,7 @@
 		<div class="packages-list">
     		<div class="package-card">
         		<div class="package-image">
-            	<img src="${pageContext.request.contextPath}/package/PackageController?action=image&id=${package.packageID}" alt="Package Image">
+            <!-- <img src="${pageContext.request.contextPath}/package/PackageController?action=image&id=${package.packageID}" alt="Package Image"> -->
         		</div>
 
         	<div class="package-details">
