@@ -19,7 +19,7 @@
 
     	<div class="sidebar-logo-text">
     	     <img src="image/Juzcare.jpg" alt="logo" class="sidebar-logo-img">
-    	     <p>JUZCARE'S STAFF</p>
+    	     <p>JUZCARE'S MANAGER</p>
        		 <%= request.getParameter("name") %>
     	</div>
 	</div>
@@ -34,6 +34,18 @@
        		 <a href="javascript:void(0)" class="sidebar-link">
        		 	<i class="lni lni-file-multiple"></i>
        		 	<span>Package</span>
+       		 </a>
+       	</li>
+       	 <li class="sidebar-item">
+       		 <a href="javascript:void(0)" class="sidebar-link">
+       		 	<i class="lni lni-user-multiple-4"></i>
+       		 	<span>Appointment</span>
+       		 </a>
+       	</li>
+		  	<li class="sidebar-item">
+       		 <a href="teamaccount/listTeamAccount.jsp" class="sidebar-link">
+       		 	<i class="lni lni-hierarchy-1"></i>
+       		 	<span>Team</span>
        		 </a>
        	</li>
     <li class="sidebar-item">

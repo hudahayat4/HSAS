@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/viewTeamAccount.css">
-
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/sideStaff.css">
     <style>
         /* Essential modal styles kept here to ensure it works */
         .custom-modal {
@@ -49,7 +49,8 @@
     </style>
 </head>
 <body>
-
+<div class="wrapper">
+<%@ include file="../sideStaff.jsp"%>
     <main class="content-wrapper">
         <div class="profile-container">
 
@@ -142,7 +143,7 @@
         </form>
     </div>
 </div>
-
+</div>
     <script>
         // Use a single function for show and hide
         function toggleModal(show) {
