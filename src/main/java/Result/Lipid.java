@@ -1,23 +1,17 @@
 package Result;
 import java.io.Serializable;
 
-public class Lipid implements Serializable {
+public class Lipid extends Result implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	private int resultID;
 	private int hdlCholesterol;
 	private String lipidPanelDetails;
 	private int ldlCholesterol;
 	
-	public Lipid() {}
+	public Lipid() {
+		super();
+	}
 	
-	public int getResultID() {
-		return resultID;
-	}
-	public void setResultID(int resultID) {
-		this.resultID = resultID;
-	}
 	public int getHdlCholesterol() {
 		return hdlCholesterol;
 	}

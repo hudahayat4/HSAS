@@ -136,3 +136,37 @@ html body main form .btn-save-container button.btn-save-main[type="submit"]:hove
     background-color: #dc3545;
     color: white;
 }
+
+
+/* SweetAlert Modern Minimalist Theme */
+.my-rounded-popup {
+    border-radius: 20px !important;
+    padding: 2rem !important;
+}
+
+.my-confirm-btn {
+    background-color: #008080 !important;
+    color: white !important;
+    border: none !important;
+    padding: 10px 30px !important;
+    border-radius: 8px !important;
+    margin-left: 10px !important;
+    font-weight: 500 !important;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.my-cancel-btn {
+    background-color: #f1f1f1 !important;
+    color: #666 !important;
+    border: none !important;
+    padding: 10px 30px !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.my-confirm-btn:hover { background-color: #006666 !important; }
+.my-cancel-btn:hover { background-color: #e5e5e5 !important; }
+

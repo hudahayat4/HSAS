@@ -74,7 +74,7 @@
                         <a href="#!" class="link-primary text-decoration-none">Forgot password?</a>
                       </p>
                       <p class="text-center mb-0">
-                        <a href="register.jsp" class="link-primary text-decoration-none">Create New Account</a>
+                        <a href="account/register.jsp" class="link-primary text-decoration-none">Create New Account</a>
                       </p>
                     </form>
                   </div>

@@ -34,6 +34,28 @@
        		 <a href="javascript:void(0)" class="sidebar-link">
        		 	<i class="lni lni-file-multiple"></i>
        		 	<span>Package</span>
+        <li class="sidebar-item">
+       		 <a href="#" class="sidebar-link">
+       		 	<i class="lni lni-hourglass"></i>
+       		 	<span>Pending Accounts</span>
+       		 </a>
+       	</li>
+       	 <li class="sidebar-item">
+       		 <a href="#" class="sidebar-link">
+       		 	<i class="bi bi-person-vcard"></i>
+       		 	<span>Accounts</span>
+       		 </a>
+       	</li>
+       	<li class="sidebar-item">
+       		 <a href="teamaccount/listStaffAccount.jsp" class="sidebar-link">
+       		 	<i class="lni lni-hierarchy-1"></i>
+       		 	<span>Team</span>
+       		 </a>
+       	</li>
+		 <li class="sidebar-item">
+       		 <a href="#" class="sidebar-link">
+       		 	<i class="lni lni-sliders-horizontal-square-2"></i>
+       		 	<span>Access Control</span>
        		 </a>
        	</li>
     <li class="sidebar-item">

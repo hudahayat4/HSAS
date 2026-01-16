@@ -2,21 +2,16 @@ package Result;
 
 import java.io.Serializable;
 
-public class HBA1C implements Serializable{
-	private int resultID;
+public class HBA1C extends Result implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String diabetesRiskLevel;
 	private int HBa1cTreShold;
 	
 	public HBA1C() {
 		super();
-	}
-
-	public int getResultID() {
-		return resultID;
-	}
-
-	public void setResultID(int resultID) {
-		this.resultID = resultID;
 	}
 
 	public String getDiabetesRiskLevel() {

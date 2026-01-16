@@ -105,5 +105,68 @@ public class StaffDAO {
 			return s;
 	}
 
+	public static void updateStaffProfile(Staff s) throws SQLException {
+	    // TUKAR: staffPhone -> phoneNo , staffEmail -> email
+	    String sql = "UPDATE staff SET phoneNo = ?, email = ? WHERE staffID = ?";
+	    
+	    try (Connection con = ConnectionManager.getConnection();
+	         PreparedStatement ps = con.prepareStatement(sql)) {
+	        
+	        ps.setString(1, s.getPhoneNo());
+	        ps.setString(2, s.getEmail());
+	        ps.setInt(3, s.getStaffID());
+	        
+	        int rowsUpdated = ps.executeUpdate();
+	        
+	        if (rowsUpdated > 0) {
+	            System.out.println("DEBUG: Staff Update SUCCESSFUL for ID: " + s.getStaffID());
+	        } else {
+	            System.out.println("DEBUG: Staff Update FAILED. No record found for ID: " + s.getStaffID());
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        throw e;
+	    }
+	}
+	
+	public static boolean updatePassword(int staffID, String newPassword) {
+	    String sql = "UPDATE staff SET password = ? WHERE staffID = ?";
+	    try (Connection con = ConnectionManager.getConnection();
+	         PreparedStatement ps = con.prepareStatement(sql)) {
+	        
+	        ps.setString(1, newPassword);
+	        ps.setInt(2, staffID);
+	        
+	        return ps.executeUpdate() > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	
+	public static java.util.List<Staff> getAllStaff() {
+	    java.util.List<Staff> staffList = new java.util.ArrayList<>();
+	    String query = "SELECT * FROM staff";
 
+	    try (Connection con = ConnectionManager.getConnection();
+	         PreparedStatement ps = con.prepareStatement(query);
+	         ResultSet rs = ps.executeQuery()) {
+
+	        while (rs.next()) {
+	            Staff s = new Staff();
+	            s.setStaffID(rs.getInt("staffID"));
+	            s.setName(rs.getString("name"));
+	            s.setRole(rs.getString("role"));
+	            s.setEmail(rs.getString("email"));
+	            s.setPhoneNo(rs.getString("phoneNo"));
+	            // Tambah field lain jika perlu
+	            staffList.add(s);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return staffList;
+	}
+	
+	
 }
