@@ -5,76 +5,69 @@ const sections = document.querySelectorAll(".section");
 const backBtn = document.querySelector(".previous");
 const nextBtn = document.querySelector(".nexts");
 
+let selectedDate = null;
+let selectedTime = null;
+
+// -----------------------------
+// STEP NAVIGATION
+// -----------------------------
 function updateUI() {
-	steps.forEach((step, i) =>
-		step.classList.toggle("active", i === currentStep)
-	);
-	sections.forEach((section, i) =>
-		section.classList.toggle("active", i === currentStep)
-	);
+    steps.forEach((step, i) => step.classList.toggle("active", i === currentStep));
+    sections.forEach((section, i) => section.classList.toggle("active", i === currentStep));
 
-	/* ---- Button Logic ---- */
-
-	// Step 1: hide Back button
-	if (currentStep === 0) {
-		backBtn.style.display = "none";
-		nextBtn.textContent = "Next";
-	} 
-	// Step 2: show Back, change Next to Submit
-	else if (currentStep === 1) {
-		backBtn.style.display = "inline-block";
-		nextBtn.textContent = "Submit";
-	} 
-	// Other steps
-	else if(currentStep ===2){
-		backBtn.style.display = "none";
-		nextBtn.style.display = "none";
-	}else{
-		backBtn.style.display = "inline-block";
-		nextBtn.textContent = "Next";
-	}
+    if (currentStep === 0) {
+        backBtn.style.display = "none";
+        nextBtn.textContent = "Next";
+        nextBtn.type = "button"; // not submit yet
+        nextBtn.disabled = false;
+    } else if (currentStep === 1) {
+        backBtn.style.display = "inline-block";
+        nextBtn.textContent = "Submit";
+        nextBtn.type = "submit"; // now submits the form
+        // Disable submit until date & time are selected
+        nextBtn.disabled = !(selectedDate && selectedTime);
+    } else if (currentStep === 2) {
+        backBtn.style.display = "none";
+        nextBtn.style.display = "none";
+    } else {
+        backBtn.style.display = "inline-block";
+        nextBtn.textContent = "Next";
+        nextBtn.type = "button";
+        nextBtn.disabled = false;
+    }
 }
 
 function nextStep() {
-	if (currentStep < sections.length - 1) {
-		currentStep++;
-		updateUI();
-	}
+    if (currentStep < sections.length - 1) {
+        currentStep++;
+        updateUI();
+    }
 }
 
 function prevStep() {
-	if (currentStep > 0) {
-		currentStep--;
-		updateUI();
-	}
+    if (currentStep > 0) {
+        currentStep--;
+        updateUI();
+    }
 }
 
-// Initialize on load
+// Initialize on page load
 updateUI();
 
-
-/* ===============================
-   PACKAGE SELECTION
-================================ */
+// -----------------------------
+// PACKAGE SELECTION
+// -----------------------------
 function selectPackage(element, packageId, packageName) {
-    // activate selected card
     document.querySelectorAll(".package-card").forEach(card => card.classList.remove("active"));
     element.classList.add("active");
 
-    // set packageId for form submission
     document.getElementById("packageId").value = packageId;
-
-    // show packageName in confirmation step
     document.getElementById("confirmPackage").innerText = packageName;
 }
 
-
-
-
-
-/* ------------------------------
-   CALENDAR FOR UL / LI STRUCTURE
---------------------------------*/
+// -----------------------------
+// CALENDAR
+// -----------------------------
 const currentMonth = document.querySelector(".current-month");
 const calendarDates = document.querySelector(".calendar-dates");
 const monthBtns = document.querySelectorAll(".month-btn");
@@ -83,15 +76,6 @@ let today = new Date();
 today.setHours(0,0,0,0);
 
 let date = new Date();
-
-/* Show current month */
-currentMonth.textContent = date.toLocaleDateString("en-US", {
-    month: "long",
-    year: "numeric"
-});
-
-/* Render calendar on load */
-renderCalendar();
 
 function renderCalendar() {
     const year = date.getFullYear();
@@ -115,31 +99,60 @@ function renderCalendar() {
             li.classList.add("padding-day");
         } else {
             li.textContent = day;
+            li.classList.add("month-day");
             if(day === today.getDate() && month === today.getMonth() && year === today.getFullYear()){
                 li.classList.add("current-day");
-            } else {
-                li.classList.add("month-day");
             }
+
+            // Click event for selecting a date
+            li.addEventListener("click", function() {
+                document.querySelectorAll(".calendar-dates li").forEach(l => l.classList.remove("selected"));
+                this.classList.add("selected");
+
+                const m = String(month + 1).padStart(2, "0");
+                const d = String(day).padStart(2, "0");
+                selectedDate = `${year}-${m}-${d}`;
+                document.getElementById("apptDate").value = selectedDate;
+                updateConfirmText();
+                updateUI(); // enable submit if on step 2
+            });
         }
 
         calendarDates.appendChild(li);
     }
+    currentMonth.textContent = date.toLocaleDateString("en-US", { month: "long", year: "numeric" });
 }
 
-/* MONTH NAVIGATION */
+// Month navigation buttons
 monthBtns.forEach(btn => {
     btn.addEventListener("click", () => {
-        if(btn.classList.contains("prev")){
-            date.setMonth(date.getMonth() - 1);
-        } else {
-            date.setMonth(date.getMonth() + 1);
-        }
-
-        currentMonth.textContent = date.toLocaleDateString("en-US", {
-            month: "long",
-            year: "numeric"
-        });
-
+        if(btn.classList.contains("prev")) date.setMonth(date.getMonth() - 1);
+        else date.setMonth(date.getMonth() + 1);
         renderCalendar();
     });
 });
+
+// Initial render
+renderCalendar();
+
+// -----------------------------
+// TIME SLOTS
+// -----------------------------
+document.querySelectorAll(".time-slots li").forEach(slot => {
+    slot.addEventListener("click", function() {
+        document.querySelectorAll(".time-slots li").forEach(s => s.classList.remove("selected"));
+        this.classList.add("selected");
+        selectedTime = this.innerText;
+        document.getElementById("apptTime").value = selectedTime;
+        updateConfirmText();
+        updateUI(); // enable submit if on step 2
+    });
+});
+
+// -----------------------------
+// UPDATE CONFIRMATION TEXT
+// -----------------------------
+function updateConfirmText() {
+    document.getElementById("confirmDate").innerText =
+        (selectedDate || "-") + " " + (selectedTime || "-");
+}

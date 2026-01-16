@@ -182,6 +182,6 @@ public class CustomerController extends HttpServlet {
         CustomerDAO.createAccount(cust);
 
         request.getSession().removeAttribute("tempCustomer");
-        response.sendRedirect("log_in.jsp");
+        response.sendRedirect("../log_in.jsp");
     }
 }

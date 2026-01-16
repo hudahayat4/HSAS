@@ -4,10 +4,10 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 public class appointment {
-	private int appointmentId;
-	private int packageId;
-	private int cusNRIC;
-	private int NRIC;
+	private int appointmentID;
+	private int packageID;
+	private int customerID;
+	private int staffID;
 	private Date apptDate;
 	private Timestamp apptTime;
 
@@ -15,30 +15,40 @@ public class appointment {
 	public appointment() {}
 
 	// Parameterized Constructor
-	public appointment(int packageId, int cusNRIC, int NRIC, Date apptDate, Timestamp apptTime) {
-		this.packageId = packageId;
-		this.cusNRIC = cusNRIC;
-		this.NRIC = NRIC;
+	public appointment(int packageID, int customerID, int staffID, Date apptDate, Timestamp apptTime) {
+		this.packageID = packageID;
+		this.setCustomerID(customerID);
+		this.setStaffID(staffID);
 		this.apptDate = apptDate;
 		this.apptTime = apptTime;
 	}
 
 	// GETTERS AND SETTERS (Required for DAO)
-	public int getAppointmentId() { return appointmentId; }
-	public void setAppointmentId(int appointmentId) { this.appointmentId = appointmentId; }
+	public int getAppointmentID() { return appointmentID; }
+	public void setAppointmentID(int appointmentID) { this.appointmentID = appointmentID; }
 
-	public int getPackageId() { return packageId; }
-	public void setPackageId(int packageId) { this.packageId = packageId; }
-
-	public int getCusNRIC() { return cusNRIC; }
-	public void setCusNRIC(int cusNRIC) { this.cusNRIC = cusNRIC; }
-
-	public int getNRIC() { return NRIC; }
-	public void setNRIC(int NRIC) { this.NRIC = NRIC; }
+	public int getPackageID() { return packageID; }
+	public void setPackageID(int packageID) { this.packageID = packageID; }
 
 	public Date getApptDate() { return apptDate; }
 	public void setApptDate(Date apptDate) { this.apptDate = apptDate; }
 
 	public Timestamp getApptTime() { return apptTime; }
 	public void setApptTime(Timestamp apptTime) { this.apptTime = apptTime; }
+
+	public int getCustomerID() {
+		return customerID;
+	}
+
+	public void setCustomerID(int customerID) {
+		this.customerID = customerID;
+	}
+
+	public int getStaffID() {
+		return staffID;
+	}
+
+	public void setStaffID(int staffID) {
+		this.staffID = staffID;
+	}
 }
