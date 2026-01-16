@@ -185,20 +185,42 @@ public class CustomerController extends HttpServlet {
 	}
 
 	private void createAccount(HttpServletRequest request, HttpServletResponse response)
-			throws SQLException, IOException, ServletException {
+	        throws SQLException, IOException, ServletException {
 
-		customer cust = (customer) request.getSession().getAttribute("tempCustomer");
+	    // 1. Ambil data customer dari session
+	    customer cust = (customer) request.getSession().getAttribute("tempCustomer");
 
-		String custUsername = request.getParameter("custUsername");
-		String custPassword = request.getParameter("custPassword");
+	    if (cust != null) {
+	        String custUsername = request.getParameter("custUsername");
+	        String custPassword = request.getParameter("custPassword");
 
-		cust.setCustUsername(custUsername);
-		cust.setCustPassword(custPassword);
+	        // --- 2. ADJUST: TUKAR PASSWORD JADI HASH (MD5) ---
+	        try {
+	            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+	            md.update(custPassword.getBytes());
+	            byte[] byteData = md.digest();
+	            StringBuilder sb = new StringBuilder();
+	            for (byte b : byteData) {
+	                sb.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+	            }
+	            cust.setCustPassword(sb.toString()); // Simpan hash, bukan plain text
+	        } catch (java.security.NoSuchAlgorithmException e) {
+	            e.printStackTrace();
+	        }
 
-		CustomerDAO.createAccount(cust);
+	        cust.setCustUsername(custUsername);
 
-		request.getSession().removeAttribute("tempCustomer");
-		response.sendRedirect("log_in.jsp");
-	}
+	        // 3. Simpan ke database
+	        CustomerDAO.createAccount(cust);
+
+	        // 4. Buang session lama dan redirect
+	        request.getSession().removeAttribute("tempCustomer");
+	        response.sendRedirect("log_in.jsp");
+	    } else {
+	        // Jika data hilang, hantar balik ke page awal
+	        response.sendRedirect("registerAccount.jsp");
+	    }
+	} // Penutup method yang betul
+
 }
 	

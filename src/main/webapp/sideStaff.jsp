@@ -43,7 +43,7 @@
        		 </a>
        	</li>
        	<li class="sidebar-item">
-       		 <a href="teamaccount/listTeamAccount.jsp" class="sidebar-link">
+       		 <a href="teamaccount/listStaffAccount.jsp" class="sidebar-link">
        		 	<i class="lni lni-hierarchy-1"></i>
        		 	<span>Team</span>
        		 </a>
