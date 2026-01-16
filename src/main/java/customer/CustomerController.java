@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
 import java.sql.SQLException;
-import java.util.Date;
 
 @WebServlet("/account/CustomerController")
 @MultipartConfig(maxFileSize = 10485760)
@@ -36,7 +35,7 @@ public class CustomerController extends HttpServlet {
 			} else if ("edit".equals(action)) {
 				updateaccount(request, response);
 			} else {
-				response.sendRedirect("log_in.jsp");
+				response.sendRedirect(request.getContextPath() + "/log_in.jsp");
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -86,10 +85,7 @@ public class CustomerController extends HttpServlet {
 	    String action = request.getParameter("action");
 
 	    try { // TRY BESAR BERMULA SINI
-	        if ("registerAccount".equals(action)) {
-	            registerAccount(request, response);
-	        } 
-	        else if ("createAccount".equals(action)) {
+	        if ("createAccount".equals(action)) {
 	            createAccount(request, response);
 	        } 
 	        else if ("updateAccount".equals(action)) {
@@ -148,7 +144,11 @@ public class CustomerController extends HttpServlet {
 	            } else {
 	                response.sendRedirect("CustomerController?action=view&status=wrongpass");
 	            }
-	        } // Penutup else-if changePassword
+	        } else if ("requestCode".equals(action)) {
+                requestCode(request, response);
+            } else if ("confirmCode".equals(action)) {
+                confirmCode(request, response);
+            }
 	        
 	    } catch (Exception e) { // PENUTUP TRY BESAR
 	        e.printStackTrace();
@@ -156,71 +156,128 @@ public class CustomerController extends HttpServlet {
 	    } 
 	} // PENUTUP METHOD DOPOST
 
-	private void registerAccount(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException {
+	private void createAccount(HttpServletRequest request, HttpServletResponse response) 
+            throws IOException, ServletException {
 
-		String cusNRIC = request.getParameter("cusNRIC");
-		String custName = request.getParameter("custName");
-		String custEmail = request.getParameter("custEmail");
-		java.sql.Date dob = java.sql.Date.valueOf(request.getParameter("DOB"));
-		String custPhoneNo = request.getParameter("custPhoneNo");
-
-		Part filePart = request.getPart("custProfilePic");
-		InputStream inputStream = null;
-		if (filePart != null) {
-			inputStream = filePart.getInputStream();
-		}
-
-		customer cust = new customer();
-		cust.setCusNRIC(cusNRIC);
-		cust.setCustName(custName);
-		cust.setCustEmail(custEmail);
-		cust.setDOB(dob);
-		cust.setCustPhoneNo(custPhoneNo);
-		cust.setCustProfilePic(inputStream);
-
-		request.getSession().setAttribute("tempCustomer", cust);
-
-		response.sendRedirect("createAccount.jsp");
+	    String cusNRIC = request.getParameter("cusNRIC");
+	    String custName = request.getParameter("custName");
+	    String custEmail = request.getParameter("custEmail");
+	    java.sql.Date dob = java.sql.Date.valueOf(request.getParameter("DOB"));
+	    String custPhoneNo = request.getParameter("custPhoneNo");
+	    String custUsername = request.getParameter("custUsername");
+	    String custPassword = request.getParameter("custPassword");
+	
+	    Part filePart = request.getPart("custProfilePic");
+	    InputStream inputStream = null;
+	    if (filePart != null) {
+	        inputStream = filePart.getInputStream();
+	    }
+	
+	    //Hash Password
+	    String hashedPassword = null;
+	    try {
+	        java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+	        md.update(custPassword.getBytes());
+	        byte[] byteData = md.digest();
+	        StringBuilder sb = new StringBuilder();
+	        for (byte b : byteData) {
+	            sb.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+	        }
+	        hashedPassword = sb.toString();
+	    } catch (java.security.NoSuchAlgorithmException e) {
+	        e.printStackTrace();
+	    }
+	
+	    customer cust = new customer();
+	    cust.setCusNRIC(cusNRIC);
+	    cust.setCustName(custName);
+	    cust.setCustEmail(custEmail);
+	    cust.setDOB(dob);
+	    cust.setCustPhoneNo(custPhoneNo);
+	    cust.setCustUsername(custUsername);
+	    cust.setCustPassword(hashedPassword);
+	    cust.setCustProfilePic(inputStream);
+	
+	    //Simpan terus ke db dengan custVerified = 'NO'
+	    try {
+	        CustomerDAO.createAccount(cust);
+	        System.out.println("createAccount → Account created in DB with email: " + cust.getCustEmail());
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        request.setAttribute("alertMessage", "Failed to create account. Please try again.");
+	        request.setAttribute("alertType", "danger");
+	        request.getRequestDispatcher("register.jsp").forward(request, response);
+	        return;
+	    }
+	    
+	    request.getSession().setAttribute("tempCustomer", cust);
+	    response.sendRedirect(request.getContextPath() + "/account/verifyAccount.jsp");
 	}
 
-	private void createAccount(HttpServletRequest request, HttpServletResponse response)
-	        throws SQLException, IOException, ServletException {
+	//Request Code
+    private void requestCode(HttpServletRequest request, HttpServletResponse response) 
+            throws SQLException, IOException, ServletException {
+        
+        customer cust = (customer) request.getSession().getAttribute("tempCustomer");
+        
+        if (cust == null) {
+            request.setAttribute("alertMessage", "Session expired. Please register again.");
+            request.setAttribute("alertType", "danger");
+            
+            RequestDispatcher rd = request.getRequestDispatcher("/account/verifyAccount.jsp");
+            rd.forward(request, response);
+            return;
+        }
 
-	    // 1. Ambil data customer dari session
-	    customer cust = (customer) request.getSession().getAttribute("tempCustomer");
+        String email = cust.getCustEmail();
 
-	    if (cust != null) {
-	        String custUsername = request.getParameter("custUsername");
-	        String custPassword = request.getParameter("custPassword");
+        VerifyService service = new VerifyService();
+        String resultMessage = service.generateAndSendCode(email);
+        request.setAttribute("alertMessage", resultMessage);
+        request.setAttribute("alertType", "success");
 
-	        // --- 2. ADJUST: TUKAR PASSWORD JADI HASH (MD5) ---
-	        try {
-	            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
-	            md.update(custPassword.getBytes());
-	            byte[] byteData = md.digest();
-	            StringBuilder sb = new StringBuilder();
-	            for (byte b : byteData) {
-	                sb.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
-	            }
-	            cust.setCustPassword(sb.toString()); // Simpan hash, bukan plain text
-	        } catch (java.security.NoSuchAlgorithmException e) {
-	            e.printStackTrace();
-	        }
+        RequestDispatcher rd = request.getRequestDispatcher("/account/verifyAccount.jsp");
+        rd.forward(request, response);
+    }
 
-	        cust.setCustUsername(custUsername);
 
-	        // 3. Simpan ke database
-	        CustomerDAO.createAccount(cust);
+    //Confirm Code
+    private void confirmCode(HttpServletRequest request, HttpServletResponse response) 
+    		throws SQLException, IOException, ServletException {
+        
+        customer cust = (customer) request.getSession().getAttribute("tempCustomer");
+        
+        if (cust == null) {
+            System.out.println("TempCustomer is NULL in confirmCode");
+            request.setAttribute("alertMessage", "Session expired. Please register again.");
+            request.setAttribute("alertType", "danger");
+            RequestDispatcher rd = request.getRequestDispatcher("/account/verifyAccount.jsp");
+            rd.forward(request, response);
+            return;
+        } else {
+            System.out.println("TempCustomer email (confirmCode): " + cust.getCustEmail());
+        }
+        
+        String code = request.getParameter("verificationCode");
+        if (code != null) {
+            code = code.trim();
+        }
 
-	        // 4. Buang session lama dan redirect
-	        request.getSession().removeAttribute("tempCustomer");
-	        response.sendRedirect("log_in.jsp");
-	    } else {
-	        // Jika data hilang, hantar balik ke page awal
-	        response.sendRedirect("registerAccount.jsp");
-	    }
-	} // Penutup method yang betul
+        VerifyService service = new VerifyService();
+        boolean valid = service.verifyCode(cust.getCustEmail(), code);
+
+        if (valid) {
+            CustomerDAO.markAsVerified(cust.getCustEmail());
+            request.getSession().removeAttribute("tempCustomer");
+            response.sendRedirect(request.getContextPath() + "/log_in.jsp");
+        } else {
+            request.setAttribute("alertMessage", "The code is invalid or has expired.");
+            request.setAttribute("alertType", "danger");
+            RequestDispatcher rd = request.getRequestDispatcher("/account/verifyAccount.jsp");
+            rd.forward(request, response);
+        }
+    }
+	
 
 }
 	

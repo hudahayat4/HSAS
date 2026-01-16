@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 
 import util.ConnectionManager;
 import java.io.IOException;
@@ -13,11 +12,11 @@ import java.io.InputStream;
 public class CustomerDAO {
     private static Connection connection = null;
 
-    // Create Account
+    //Create Account
     public static void createAccount(customer cust) throws SQLException, IOException {
-        String query = "INSERT INTO customer"
-                + "(cusNRIC, custName, custEmail, custProfilePic, DOB, custUsername, custPassword, custPhoneNo) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    	String query = "INSERT INTO customer"
+    	        + "(cusNRIC, custName, custEmail, custProfilePic, DOB, custUsername, custPassword, custPhoneNo, custVerified) "
+    	        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         connection = ConnectionManager.getConnection();
         PreparedStatement ps = connection.prepareStatement(query);
@@ -28,7 +27,7 @@ public class CustomerDAO {
 
         InputStream profilePicStream = cust.getCustProfilePic();
         if (profilePicStream != null) {
-            ps.setBinaryStream(4, profilePicStream, profilePicStream.available());
+            ps.setBinaryStream(4, profilePicStream);
         } else {
             ps.setNull(4, java.sql.Types.BLOB);
         }
@@ -37,9 +36,70 @@ public class CustomerDAO {
         ps.setString(6, cust.getCustUsername());
         ps.setString(7, cust.getCustPassword());
         ps.setString(8, cust.getCustPhoneNo());
-
+        ps.setString(9, "NO");
         ps.executeUpdate();
         ps.close();
+    }
+    
+  //Simpan Verify Code
+    public static void saveVerificationCode(String email, String code, java.sql.Timestamp expiry) throws SQLException {
+        String sql = "UPDATE customer SET verificationCode = ?, verificationExpiry = ? WHERE LOWER(custEmail) = LOWER(?)";
+
+        try (Connection conn = ConnectionManager.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, code);
+            ps.setTimestamp(2, expiry);
+            ps.setString(3, email.trim());
+
+            int rows = ps.executeUpdate();
+
+            //Log untuk debug
+            System.out.println("saveVerificationCode → Rows updated: " + rows);
+            System.out.println("saveVerificationCode → Code: " + code);
+            System.out.println("saveVerificationCode → Expiry: " + expiry);
+            System.out.println("saveVerificationCode → Email: " + email);
+        }
+    }
+
+
+    //Check Verify Code
+    public static boolean isCodeValid(String email, String inputCode) throws SQLException {
+        String sql = "SELECT verificationCode, verificationExpiry FROM customer WHERE custEmail=?";
+        try (Connection conn = ConnectionManager.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, email.trim());
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                String storedCode = rs.getString("verificationCode");
+                java.sql.Timestamp expiry = rs.getTimestamp("verificationExpiry");
+                java.sql.Timestamp now = new java.sql.Timestamp(System.currentTimeMillis());
+
+                //Log untuk debug
+                System.out.println("DB code: " + storedCode);
+                System.out.println("Input code: " + inputCode);
+                System.out.println("Expiry: " + expiry);
+                System.out.println("Now: " + now);
+
+                if (storedCode != null && storedCode.equals(inputCode) && expiry != null && now.before(expiry)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    //Update Status Verify
+    public static void markAsVerified(String email) throws SQLException {
+        String sql = "UPDATE customer SET custVerified='YES' WHERE custEmail=?";
+        try (Connection conn = ConnectionManager.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+        	ps.setString(1, email.trim());
+            ps.executeUpdate();
+        }
     }
 
     // Login Customer
