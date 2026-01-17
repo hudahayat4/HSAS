@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,23 +28,20 @@
                 <img src="${pageContext.request.contextPath}/image/logo.png" alt="JuzCare" class="logo">
                 <h3 class="thank-you-text">Thank you for your appointment in JuzCare Pharmacy</h3>
             </div>
-
-            <%-- Kita andaikan Servlet hantar objek bernama 'apt' --%>
             <div class="appointment-meta">
                 <p class="section-title-small">DETAIL APPOINTMENT</p>
                 <div class="date-time-row">
-                    <span>📅 ${apt.apptDate}</span>
-                    <span>🕒 ${apt.apptTime}</span>
+                    <span>📅 <fmt:formatDate value="${apt.apptDate}" pattern="dd/MM/yyyy" /></span>
+                    <span>🕒 <fmt:formatDate value="${apt.apptTime}" pattern="HH:mm" /></span>
                 </div>
                 <hr>
             </div>
 
             <div class="patient-info">
-                <%-- Gunakan sintaks ${objek.property} untuk tarik data database --%>
-                <p><strong>Name :</strong> ${apt.patientName}</p>
+                <p><strong>Name :</strong> ${apt.customerName}</p>
                 <p><strong>Package :</strong> ${apt.packageName}</p>
                 <p><strong>Pharmacist :</strong> ${apt.pharmacistName}</p>
-                <p><strong>Price :</strong> RM ${apt.packagePrice}</p>
+                <p><strong>Price :</strong> RM <fmt:formatNumber value="${apt.packagePrice}" type="number" minFractionDigits="2" maxFractionDigits="2"/></p>
             </div>
 
             <div class="terms">

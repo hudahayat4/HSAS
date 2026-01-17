@@ -55,7 +55,7 @@ public class PackageController extends HttpServlet {
 				listPackage(request, response);
 				return;
 
-			case "book":
+			case "view":
 				listAvailablePackage(request, response);
 				return;
 
@@ -84,9 +84,17 @@ public class PackageController extends HttpServlet {
 		}
 	}
 
-	private void listAvailablePackage(HttpServletRequest request, HttpServletResponse response) {
+	private void listAvailablePackage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		List<Package> packages = PackageDAO.getAvailablePackage();
 
+		// Ensure packages is never null
+		if (packages == null) {
+			packages = new ArrayList<>();
+		}
+
+		request.setAttribute("packages", packages);
+		request.getRequestDispatcher("/package/viewpackageCus.jsp").forward(request, response);
 	}
 
 	/**
@@ -200,7 +208,6 @@ public class PackageController extends HttpServlet {
 
 		PackageDAO.updatePackage(p);
 
-		response.sendRedirect("PackageController?action=list");
+		response.sendRedirect("PackageController?action=list");	
 	}
-
 }
