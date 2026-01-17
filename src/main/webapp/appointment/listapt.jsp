@@ -38,7 +38,7 @@
                         <div class="patient-row">
                             <i class="fas fa-user"></i>
                             <span class="text">${apt.patientName}</span>
-                        </div>
+                        </div>         
                     </div>
                     
                     <div class="appointment-package">

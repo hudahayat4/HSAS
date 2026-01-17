@@ -50,6 +50,9 @@ public class AppointmentController extends HttpServlet {
 			case "image":
 				showImage(request,response);
 				break;
+			case "view":
+                viewAppointment(request, response); // <--- TAMBAH INI
+                break;
 			default :
 				listAppointment(request,response);
 				break;
@@ -60,6 +63,31 @@ public class AppointmentController extends HttpServlet {
 		}
 	}
 	
+	private void viewAppointment(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+		// TODO Auto-generated method stub
+		try {
+	        String idStr = request.getParameter("id");
+	        if (idStr != null) {
+	            int id = Integer.parseInt(idStr);
+	            
+	            // Panggil DAO untuk ambil data appointment
+	            // Pastikan method getAppointmentById wujud dalam AppointmentDAO
+	            appointment apt = AppointmentDAO.getAppointmentById(id); 
+	            
+	            if (apt != null) {
+	                request.setAttribute("apt", apt);
+	                request.getRequestDispatcher("/appointment/viewapt.jsp").forward(request, response);
+	            } else {
+	                response.sendRedirect("AppointmentController?action=list&error=notfound");
+	            }
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        throw new ServletException(e);
+	    }
+	}
+	
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -155,9 +183,18 @@ public class AppointmentController extends HttpServlet {
 		
 	}
 
-	private void listAppointment(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		
+	private void listAppointment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    // 1. Ambil ID customer dari session
+	    Integer customerID = (Integer) request.getSession().getAttribute("cusID");
+	    
+	    if (customerID != null) {
+	       
+	        List<appointment> appointments = AppointmentDAO.getAllAppointmentsByCustomerId(customerID);
+	        request.setAttribute("appointments", appointments);
+	        request.getRequestDispatcher("/appointment/listapt.jsp").forward(request, response);
+	    } else {
+	        response.sendRedirect("../log_in.jsp");
+	    }
 	}
 
 	private void listAvailablePackage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
