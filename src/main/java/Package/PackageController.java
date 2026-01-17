@@ -200,16 +200,6 @@ public class PackageController extends HttpServlet {
 
 		PackageDAO.updatePackage(p);
 
-		response.sendRedirect("PackageController?action=list");
+		response.sendRedirect("PackageController?action=list");	
 	}
-
-<<<<<<< HEAD
-
-	
-	}
-	
-
-
-=======
 }
->>>>>>> 10b890ec5ae0edf0fc233450a3e9eed0d6195ad4
