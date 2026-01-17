@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import util.ConnectionManager;
 import java.io.IOException;
 import java.io.InputStream;
@@ -144,13 +147,14 @@ public class StaffDAO {
 	    }
 	}
 	
-	public static java.util.List<Staff> getAllStaff() {
-	    java.util.List<Staff> staffList = new java.util.ArrayList<>();
-	    String query = "SELECT * FROM staff";
+	public static List<Staff> getAllStaff() {
+	    List<Staff> staffList = new ArrayList<>();
 
-	    try (Connection con = ConnectionManager.getConnection();
-	         PreparedStatement ps = con.prepareStatement(query);
-	         ResultSet rs = ps.executeQuery()) {
+	    try {
+	    	String query = "SELECT * FROM staff";
+	    	connection = ConnectionManager.getConnection();
+	         PreparedStatement ps = connection.prepareStatement(query);
+	         ResultSet rs = ps.executeQuery();
 
 	        while (rs.next()) {
 	            Staff s = new Staff();
@@ -162,6 +166,7 @@ public class StaffDAO {
 	            // Tambah field lain jika perlu
 	            staffList.add(s);
 	        }
+	        ps.close();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
