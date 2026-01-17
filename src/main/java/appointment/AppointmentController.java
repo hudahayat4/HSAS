@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Random;
 
 import Package.Package;
+import Package.PackageDAO;
 
 /**
  * Servlet implementation class AppointmentController
@@ -53,6 +54,9 @@ public class AppointmentController extends HttpServlet {
 			case "view":
                 viewAppointment(request, response); // <--- TAMBAH INI
                 break;
+			case "list":
+				listAppointment(request,response);
+				break;
 			default :
 				listAppointment(request,response);
 				break;
@@ -63,29 +67,25 @@ public class AppointmentController extends HttpServlet {
 		}
 	}
 	
-	private void viewAppointment(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-		// TODO Auto-generated method stub
-		try {
-	        String idStr = request.getParameter("id");
-	        if (idStr != null) {
-	            int id = Integer.parseInt(idStr);
-	            
-	            // Panggil DAO untuk ambil data appointment
-	            // Pastikan method getAppointmentById wujud dalam AppointmentDAO
-	            appointment apt = AppointmentDAO.getAppointmentById(id); 
-	            
-	            if (apt != null) {
-	                request.setAttribute("apt", apt);
-	                request.getRequestDispatcher("/appointment/viewapt.jsp").forward(request, response);
-	            } else {
-	                response.sendRedirect("AppointmentController?action=list&error=notfound");
-	            }
+	private void viewAppointment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    String apptIdStr = request.getParameter("appointmentID");
+
+	    if (apptIdStr != null) {
+	        int appointmentID = Integer.parseInt(apptIdStr);
+	        appointment apt = AppointmentDAO.getAppointmentById(appointmentID);
+
+	        if (apt != null) {
+	            request.setAttribute("apt", apt);
+	            request.getRequestDispatcher("/appointment/viewapt.jsp").forward(request, response);
+	        } else {
+	            response.sendRedirect("AppointmentController?action=list"); // No appointment found
 	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        throw new ServletException(e);
+
+	    } else {
+	        response.sendRedirect("AppointmentController?action=list"); // No ID provided
 	    }
 	}
+
 	
 
 	/**
@@ -183,7 +183,7 @@ public class AppointmentController extends HttpServlet {
 		
 	}
 
-	private void listAppointment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void listAppointment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 	    // 1. Ambil ID customer dari session
 	    Integer customerID = (Integer) request.getSession().getAttribute("cusID");
 	    

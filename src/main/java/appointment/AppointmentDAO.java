@@ -77,44 +77,48 @@ public class AppointmentDAO {
 		
 	}
 
-	public static appointment getAppointmentById(int id) {
+	public static appointment getAppointmentById(int appointmentID) {
 	    appointment apt = null;
-	    // SQL JOIN untuk tarik nama dari table berkaitan
-	    String sql = "SELECT a.*, c.custName, p.packageName, p.packagePrice, s.staffName " +
+	    String sql = "SELECT a.*, c.custName, p.packageName, p.packagePrice, s.name AS staffName " +
 	                 "FROM appointment a " +
-	                 "JOIN customer c ON a.customerID = c.customerID " +
+	                 "JOIN customer c ON a.cusID = c.cusID " +
 	                 "JOIN package p ON a.packageID = p.packageID " +
 	                 "JOIN staff s ON a.staffID = s.staffID " +
 	                 "WHERE a.appointmentID = ?";
 
 	    try (Connection conn = ConnectionManager.getConnection();
 	         PreparedStatement ps = conn.prepareStatement(sql)) {
-	        
-	        ps.setInt(1, id);
+
+	        ps.setInt(1, appointmentID);
+
 	        try (ResultSet rs = ps.executeQuery()) {
 	            if (rs.next()) {
 	                apt = new appointment();
 	                apt.setAppointmentID(rs.getInt("appointmentID"));
 	                apt.setApptDate(rs.getDate("apptDate"));
 	                apt.setApptTime(rs.getTimestamp("apptTime"));
-	                
-	                // Set data tambahan untuk dipapar di viewapt.jsp
-	                apt.setPatientName(rs.getString("custName"));
+
+	                // Set additional fields for viewapt.jsp
+	                apt.setCustomerName(rs.getString("custName"));
 	                apt.setPackageName(rs.getString("packageName"));
 	                apt.setPackagePrice(rs.getDouble("packagePrice"));
 	                apt.setPharmacistName(rs.getString("staffName"));
 	            }
 	        }
+
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
+
 	    return apt;
 	}
 
+
 	public static List<appointment> getAllAppointmentsByCustomerId(int cusID) {
-	    List<appointment> list = new ArrayList<>();
-	    String sql = "SELECT a.*, p.packageName FROM appointment a " +
+	    List<appointment> appointments = new ArrayList<>();
+	    String sql = "SELECT a.*, p.packageName,c.custName FROM appointment a " +
 	                 "JOIN package p ON a.packageID = p.packageID " +
+	                 "JOIN customer c ON a.cusID = c.cusID " +
 	                 "WHERE a.cusID = ? ORDER BY a.apptDate DESC";
 
 	    try (Connection conn = ConnectionManager.getConnection();
@@ -127,12 +131,14 @@ public class AppointmentDAO {
 	            apt.setApptDate(rs.getDate("apptDate"));
 	            apt.setApptTime(rs.getTimestamp("apptTime"));
 	            apt.setPackageName(rs.getString("packageName"));
-	            list.add(apt);
+	            apt.setCustomerName(rs.getString("custName"));
+	            appointments.add(apt);
 	        }
+	        ps.close();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
-	    return list;
+	    return appointments;
 	}
 
 }

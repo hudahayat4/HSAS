@@ -10,9 +10,8 @@
 <title>Juzcare Pharmacy - Login</title>
 <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-<link rel="stylesheet" href="css/stylesheet.css">
 
-<link rel="stylesheet" type="text/css" href="<c:url value='/css/stylesheet.css'/>" />
+<link rel="stylesheet" type="text/css" href="css/stylesheet.css">
 <style>
   .password-toggle {
     cursor: pointer;

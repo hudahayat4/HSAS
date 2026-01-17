@@ -149,23 +149,25 @@ public class PackageDAO {
 
 	public static List<Package> getAvailablePackage() {
 		// TODO Auto-generated method stub
-		List<Package> packages = new ArrayList<>();
+List<Package> packages = new ArrayList<>();
 		
-		try {
-			String query = "SELECT * FROM package WHERE isExist = 'YES'";
+		try{
+			String query = "SELECT * FROM package WHERE isExist='YES'";
 			connection = ConnectionManager.getConnection();
 			PreparedStatement ps = connection.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
-			
-			while(rs.next()) {
-				Package service = new Package();
-				service.setPackageID(rs.getInt("packageID"));
-				service.setPackagePic(rs.getBinaryStream("packagePic"));
-				service.setPackageName(rs.getString("packageName"));
-				service.setPackagePrice(rs.getDouble("packagePrice"));
+
+			while (rs.next()) {
+				Package p= new Package();
+				p.setPackageID(rs.getInt("packageID"));
+				p.setPackagePic(rs.getBinaryStream("packagePic"));
+				p.setPackageName(rs.getString("packageName"));
+				p.setPackagePrice(rs.getDouble("packagePrice"));
+				packages.add(p);
+				
 			}
 			ps.close();
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return packages;

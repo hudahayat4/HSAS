@@ -18,8 +18,8 @@
 			<ul class="navbar-nav mx-auto align-items-center">
 				<li class="nav-item"><a class="nav-link" href="#">HOME</a></li>
 				<li class="nav-item"><a class="nav-link" href="appointment/AppointmentController?action=package">BOOKING</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">APPOINTMENT</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">PACKAGE</a></li>
+				<li class="nav-item"><a class="nav-link" href="appointment/AppointmentController?action=list">APPOINTMENT</a></li>
+				<li class="nav-item"><a class="nav-link" href="package/PackageController?action=view">PACKAGE</a></li>
 				<li class="nav-item"><a class="nav-link" href="account/CustomerController?action=view">SETTING</a></li>
 			</ul>
 			<ul class="navbar-nav align-items-center">

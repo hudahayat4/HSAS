@@ -12,7 +12,7 @@ public class appointment {
     private Timestamp apptTime;
 
     // --- TAMBAH VARIABLE BARU DI SINI ---
-    private String patientName;
+    private String customerName;
     private String packageName;
     private double packagePrice;
     private String pharmacistName;
@@ -34,8 +34,8 @@ public class appointment {
     public void setApptTime(Timestamp apptTime) { this.apptTime = apptTime; }
 
     // --- BETULKAN SETTERS & GETTERS BARU (Penting untuk DAO & JSP) ---
-    public String getPatientName() { return patientName; }
-    public void setPatientName(String patientName) { this.patientName = patientName; }
+    public String getCustomerName() { return customerName; }
+    public void setCustomerName(String customerName) { this.customerName = customerName; }
 
     public String getPackageName() { return packageName; }
     public void setPackageName(String packageName) { this.packageName = packageName; }
