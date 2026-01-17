@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/viewTeamAccount.css">
-
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/sideStaff.css">
     <style>
         /* Essential modal styles kept here to ensure it works */
         .custom-modal {
@@ -75,7 +75,8 @@
     </style>
 </head>
 <body>
-
+<div class="wrapper">
+<%@ include file="../sideStaff.jsp"%>
     <main class="content-wrapper">
         <div class="profile-container">
 
@@ -169,6 +170,16 @@
         </form>
     </div>
 </div>
+<<<<<<< HEAD
+</div>
+    <script>
+        // Use a single function for show and hide
+        function toggleModal(show) {
+            const modal = document.getElementById('passwordModal');
+            if(modal) {
+                modal.style.display = show ? 'flex' : 'none';
+            }
+=======
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -190,6 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const headerEmail = document.querySelector('.name-meta p');
             if(headerName) headerName.innerText = data.name || "";
             if(headerEmail) headerEmail.innerText = data.email || "";
+>>>>>>> 10b890ec5ae0edf0fc233450a3e9eed0d6195ad4
         }
     })
     .catch(err => console.error("Fetch error:", err));

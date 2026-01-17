@@ -8,6 +8,39 @@
     padding: 0;
 }
 
+/* MAIN PAGE LAYOUT */
+.layout {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    background-color: #D8EEEE;
+}
+
+/* CONTENT AREA NEXT TO SIDEBAR */
+.main-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;   /* horizontal center */
+    align-items: flex-start;   /* NOT full vertical center */
+    padding: 60px 40px;
+}
+
+/* LIMIT CONTENT WIDTH */
+.content-wrapper {
+    width: 100%;
+    max-width: 1100px;
+}
+
+/* CONTENT CARD */
+.content-card {
+    background: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+
+
 a{
 	text-decoration: none;
 }
@@ -43,7 +76,7 @@ body {
     width: 32px;
     height: 32px;
     object-fit: contain;
-    border-radius: 10px; 
+    border-radius: 50px; 
 }
 
 /*hide name*/

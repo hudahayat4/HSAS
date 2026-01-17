@@ -78,3 +78,46 @@
   justify-content: center;
   height: 100%;
 }
+
+/*untuk verify account*/
+
+/*Input box untuk 6-digit code*/
+.code-input {
+    width: 3rem;
+    height: 3rem;
+    text-align: center;
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+}
+
+/*Mesej error bila user masuk huruf*/
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/*Link Resend*/
+.resend-link {
+    color: #0d6efd;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/*Link Resend bila hover*/
+.resend-link:hover {
+    color: #084298;
+}
+
+/*Link Resend bila cooldown aktif*/
+.resend-link.disabled {
+    color: grey;
+    pointer-events: none;
+}
+
+/*Button verify*/
+.verify-btn {
+  width: calc(3rem * 6 + 0.5rem * 5);
+  max-width: 100%;
+}

@@ -29,10 +29,9 @@ body {
 </head>
 <body>
 	<div class="wrapper">
-		<!-- Sidebar -->
-		<aside id="sidebar">
-			<%@ include file="../sideStaff.jsp"%>
-		</aside>
+		
+			<%@ include file="../sideManager.jsp"%>
+		
 		<div class="main">
 			<h2>Team Member's Personal</h2>
 			<h2>Information</h2>
