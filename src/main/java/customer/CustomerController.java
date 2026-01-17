@@ -51,7 +51,7 @@ public class CustomerController extends HttpServlet {
 
 		// 2. TERUS panggil DAO. Tak perlu buat 'new customer()' sendiri.
 		// DAO akan pulangkan objek customer yang lengkap dengan data dari DB.
-		customer c = CustomerDAO.getCustomerById(cusID);
+		Customer c = CustomerDAO.getCustomerById(cusID);
 
 		// 3. Simpan objek tadi untuk kegunaan JSP
 		request.setAttribute("customer", c);
@@ -69,7 +69,7 @@ public class CustomerController extends HttpServlet {
 			return;
 		}
 		int cusID = (int) session.getAttribute("cusID");
-		customer c = CustomerDAO.getCustomerById(cusID);
+		Customer c = CustomerDAO.getCustomerById(cusID);
 
 		if (c == null) {
 			response.sendRedirect(request.getContextPath() + "/log_in.jsp");
@@ -92,7 +92,7 @@ public class CustomerController extends HttpServlet {
 	            HttpSession session = request.getSession();
 	            int cusID = (int) session.getAttribute("cusID");
 
-	            customer c = new customer();
+	            Customer c = new Customer();
 	            c.setCusID(cusID);
 	            c.setCusNRIC(request.getParameter("cusNRIC"));
 	            c.setCustPhoneNo(request.getParameter("custPhoneNo"));
@@ -114,7 +114,7 @@ public class CustomerController extends HttpServlet {
 	            String newPass = request.getParameter("newPassword");
 	            String confirmPass = request.getParameter("confirmPassword");
 
-	            customer c = CustomerDAO.getCustomerById(customerId);
+	            Customer c = CustomerDAO.getCustomerById(customerId);
 
 	            // --- 1. ADJUST PASSWORD JADI HASH (MD5) ---
 	            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
@@ -188,7 +188,7 @@ public class CustomerController extends HttpServlet {
 	        e.printStackTrace();
 	    }
 	
-	    customer cust = new customer();
+	    Customer cust = new Customer();
 	    cust.setCusNRIC(cusNRIC);
 	    cust.setCustName(custName);
 	    cust.setCustEmail(custEmail);
@@ -215,16 +215,17 @@ public class CustomerController extends HttpServlet {
 	}
 
 	//Request Code
+	// Request Code
+	//Request Code
     private void requestCode(HttpServletRequest request, HttpServletResponse response) 
             throws SQLException, IOException, ServletException {
         
-        customer cust = (customer) request.getSession().getAttribute("tempCustomer");
+        Customer cust = (Customer) request.getSession().getAttribute("tempCustomer");
         
         if (cust == null) {
             request.setAttribute("alertMessage", "Session expired. Please register again.");
             request.setAttribute("alertType", "danger");
-            
-            RequestDispatcher rd = request.getRequestDispatcher("/account/verifyAccount.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("verifyAccount.jsp");
             rd.forward(request, response);
             return;
         }
@@ -236,7 +237,7 @@ public class CustomerController extends HttpServlet {
         request.setAttribute("alertMessage", resultMessage);
         request.setAttribute("alertType", "success");
 
-        RequestDispatcher rd = request.getRequestDispatcher("/account/verifyAccount.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("verifyAccount.jsp");
         rd.forward(request, response);
     }
 
@@ -245,7 +246,7 @@ public class CustomerController extends HttpServlet {
     private void confirmCode(HttpServletRequest request, HttpServletResponse response) 
     		throws SQLException, IOException, ServletException {
         
-        customer cust = (customer) request.getSession().getAttribute("tempCustomer");
+        Customer cust = (Customer) request.getSession().getAttribute("tempCustomer");
         
         if (cust == null) {
             System.out.println("TempCustomer is NULL in confirmCode");
