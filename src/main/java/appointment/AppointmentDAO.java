@@ -140,5 +140,20 @@ public class AppointmentDAO {
 	    }
 	    return appointments;
 	}
+	
+	public static void cancelAppointment(int appointmentID) throws SQLException {
+	    String sql = "DELETE FROM appointment WHERE appointmentID = ?";
+
+	    try (Connection conn = ConnectionManager.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+	        ps.setInt(1, appointmentID);
+	        ps.executeUpdate();
+	        ps.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+
 
 }
