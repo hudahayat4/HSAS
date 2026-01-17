@@ -13,7 +13,7 @@ public class CustomerDAO {
     private static Connection connection = null;
 
     //Create Account
-    public static void createAccount(customer cust) throws SQLException, IOException {
+    public static void createAccount(Customer cust) throws SQLException, IOException {
     	String query = "INSERT INTO customer"
     	        + "(cusNRIC, custName, custEmail, custProfilePic, DOB, custUsername, custPassword, custPhoneNo, custVerified) "
     	        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -103,7 +103,7 @@ public class CustomerDAO {
     }
 
     // Login Customer
-    public static customer loginCustomer(customer cust) throws SQLException {
+    public static Customer loginCustomer(Customer cust) throws SQLException {
         String query = "SELECT * FROM customer WHERE custUsername=? AND custPassword=?";
 
         connection = ConnectionManager.getConnection();
@@ -129,8 +129,8 @@ public class CustomerDAO {
     }
     
     //view account
-    public static customer getCustomerById(int customerId) {
-        customer c = null;
+    public static Customer getCustomerById(int customerId) {
+        Customer c = null;
 
         try {
 			String query = "SELECT * FROM customer WHERE cusID = ?";
@@ -141,7 +141,7 @@ public class CustomerDAO {
 
   
                 if (rs.next()) {
-                    c = new customer(); // Initialize object here
+                    c = new Customer(); // Initialize object here
 
                     c.setCusID(rs.getInt("cusID"));
                     c.setCusNRIC(rs.getString("cusNRIC"));
@@ -168,7 +168,7 @@ public class CustomerDAO {
     
     //update account 
  // Method to update customer profile
-    public static void updateprofile(customer c) throws SQLException {
+    public static void updateprofile(Customer c) throws SQLException {
         // Ensure column names (custPhoneNo, custEmail, cusID) match your database table exactly
         String sql = "UPDATE customer SET custPhoneNo = ?, custEmail = ? WHERE cusID = ?";
         

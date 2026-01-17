@@ -1,4 +1,4 @@
-package Staff;
+package staff;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import customer.CustomerDAO;
-import customer.customer;
+import customer.Customer;
 
 @WebServlet("/teamaccount/StaffController")
 @MultipartConfig(maxFileSize = 10485760)
