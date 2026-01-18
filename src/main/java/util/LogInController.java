@@ -1,6 +1,8 @@
 package util;
+
 import java.io.IOException;
 import customer.Customer;
+import customer.CustomerDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -49,6 +51,7 @@ public class LogInController extends HttpServlet {
         cust.setCustUsername(username);
         cust.setCustPassword(password);
 
+        cust = CustomerDAO.loginCustomer(cust);
 
         if (cust != null) {
             HttpSession session = request.getSession(true);
@@ -57,10 +60,11 @@ public class LogInController extends HttpServlet {
             session.setAttribute("custEmail", cust.getCustEmail());
             response.sendRedirect("home_customer.jsp");
         } else {
-        	request.setAttribute("errorMessage", "Invalid customer login.");
-        	request.getRequestDispatcher("log_in.jsp").forward(request, response);
+            request.setAttribute("errorMsg", "Invalid username or password.");
+            request.getRequestDispatcher("log_in.jsp").forward(request, response);
         }
     }
+
 
     //Log In Staff
     private void loginStaff(HttpServletRequest request, HttpServletResponse response)
@@ -81,7 +85,7 @@ public class LogInController extends HttpServlet {
             session.setAttribute("staffRole", staff.getRole());
             response.sendRedirect("test.jsp");
         } else {
-            request.setAttribute("errorMessage", "Invalid staff login.");
+            request.setAttribute("errorMsg", "Invalid username or password.");
             request.getRequestDispatcher("log_in.jsp").forward(request, response);
         }
     }
