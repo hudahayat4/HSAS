@@ -40,6 +40,16 @@
   background-color: #D8EEEE;
 }
 
+.floating-alert {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1050;
+  width: 80%;
+  max-width: 600px;
+}
+
 .bg-image {
 	background-image: url('../image/Juzcare.jpg');
 	background-size: cover;
