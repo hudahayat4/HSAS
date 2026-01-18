@@ -33,14 +33,6 @@ public class Result implements Serializable {
 		this.resultId = resultId;
 	}
 
-	public int getAppointmentId() {
-		return appointmentId;
-	}
-
-	public void setAppointmentId(int appointmentId) {
-		this.appointmentId = appointmentId;
-	}
-
 	public Date getResultDate() {
 		return resultDate;
 	}
@@ -55,6 +47,14 @@ public class Result implements Serializable {
 
 	public void setResultComment(String resultComment) {
 		this.resultComment = resultComment;
+	}
+
+	public int getAppointmentId() {
+		return appointmentId;
+	}
+
+	public void setAppointmentId(int appointmentId) {
+		this.appointmentId = appointmentId;
 	}
 	
 }
