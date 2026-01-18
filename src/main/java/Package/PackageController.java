@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -181,6 +182,8 @@ public class PackageController extends HttpServlet {
 		packages.setIsExist(isExist);
 
 		PackageDAO.addPackage(packages);
+		HttpSession session = request.getSession();
+		session.setAttribute("message", "Package added successfully!");
 		response.sendRedirect("PackageController?action=list");
 
 	}
