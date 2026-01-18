@@ -8,6 +8,7 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet">
+<link rel="stylesheet" href="../css/sideStaff.css">
 <title>Create Result</title>
 <style>
 @import
@@ -16,6 +17,8 @@
 </style>
 </head>
 <body>
+<div class="wrapper">
+<%@ include file="../sidePharmacist.jsp"%>
 	<h5 class="text-center fw-bold mb-4" style="color: #17a2b8;">Add
 		Result</h5>
 	<div class="container mt-5" style="max-width: 900px;">
@@ -87,5 +90,6 @@
 			</div>
 		</form>
 	</div>
+</div>
 </body>
 </html>

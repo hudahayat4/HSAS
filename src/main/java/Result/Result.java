@@ -3,7 +3,7 @@ package Result;
 import java.sql.Date;
 import java.io.Serializable;
 
-public class result implements Serializable {
+public class Result implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -14,10 +14,10 @@ public class result implements Serializable {
 	private String resultComment;
 	
 	//default constructor 
-	public result() {}
+	public Result() {}
 	
 	//parameterized constructor 
-	public result( int resultId, int appointmentId,
+	public Result( int resultId, int appointmentId,
 	 Date resultDate, String resultComment) {
 		this.setResultId(resultId);
 		this.setAppointmentId(appointmentId);

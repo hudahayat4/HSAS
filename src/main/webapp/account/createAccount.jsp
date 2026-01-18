@@ -8,7 +8,7 @@
 <title>Juzcare Pharmacy - Create Account</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="css/stylesheet.css">
+<link rel="stylesheet" href="../css/stylesheet.css">
 </head>
 <body>
     <section class="bg-light p-3 p-md-4 p-xl-5 min-vh-100 d-flex align-items-center bg-cover">

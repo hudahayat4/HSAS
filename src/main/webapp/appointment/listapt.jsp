@@ -1,128 +1,117 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Appointment Record | JuzCare</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/listapt.css">
-    <link rel="stylesheet" href="../css/header.css">
-    <link rel="stylesheet" href="../css/footer.css">
-    <style type="text/css">
-    <%@ include file="../css/listapt.css" %>
-    </style>
+<meta charset="UTF-8">
+<title>Appointment Record | JuzCare</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/listapt.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <%@ include file="../header.jsp" %>
+	<%@ include file="../header.jsp"%>
 
-    <div class="appointment-container">
-        <h2 class="section-title">Appointment Record</h2>
+	<div class="appointment-container">
+		<h2 class="section-title" style="text-align: center; margin: 30px 0; color: #333;">
+			Appointment Record
+		</h2>
 
-        <div class="appointment-list">
-            
-            <div class="appointment-card">
-                <div class="date-badge">
-                    <span class="day">Tues</span>
-                    <span class="date">25</span>
-                </div>
+		<div class="appointment-list">
+			<c:forEach var="apt" items="${appointments}">
+				<div class="appointment-card">
+					<div class="appointment-date">
+						<span class="day"><fmt:formatDate value="${apt.apptDate}" pattern="EEEE" /></span> 
+						<span class="date"><fmt:formatDate value="${apt.apptDate}" pattern="dd" /></span>
+					</div>
 
-                <div class="appointment-details">
-                    <div class="detail-row">
-                        <span class="icon">🕒</span>
-                        <span class="text">11:00 AM</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="icon">👤</span>
-                        <span class="text">Nur Nazmeen</span>
-                    </div>
-                </div>
-                
-                <div class="appointment-info">
-                    <a href="#" class="test-link">Lipid Profile</a>
-                    <p class="appointment-date">25/03/2025</p>
-                </div>
+					<div class="appointment-info">
+						<div class="time-row">
+							<i class="far fa-clock"></i> 
+							<span class="text"><fmt:formatDate value="${apt.apptTime}" pattern="HH:mm" /></span>
+						</div>
+						<div class="patient-row">
+							<i class="fas fa-user"></i> 
+							<span class="text">${apt.customerName}</span>
+						</div>
+					</div>
 
-                <div class="action-area">
-                    <button class="view-btn" onclick="viewAppointment('101')" title="View">
-                        <span class="eye-icon">👁️</span>
-                    </button>
-                    <button class="cancel-btn" onclick="cancelAppointment('101')" title="Cancel">
-                        <span class="trash-icon">🗑️</span>
-                    </button>
-                </div>
-            </div>
+					<div class="appointment-package">
+						<p class="package-name">${apt.packageName}</p>
+						<p class="package-date">
+							<fmt:formatDate value="${apt.apptDate}" pattern="dd/MM/yyyy" />
+						</p>
+					</div>
 
-            <div class="appointment-card">
-                <div class="date-badge">
-                    <span class="day">Fri</span>
-                    <span class="date">25</span>
-                </div>
+					<div class="appointment-action">
+						<a href="AppointmentController?action=view&appointmentID=${apt.appointmentID}" class="btn-view" title="View">
+							<i class="fas fa-eye"></i>
+						</a>
 
-                <div class="appointment-details">
-                    <div class="detail-row">
-                        <span class="icon">🕒</span>
-                        <span class="text">15:00 PM</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="icon">👤</span>
-                        <span class="text">Nurul Huda Aliya</span>
-                    </div>
-                </div>
+						<button class="btn-delete" data-id="${apt.appointmentID}">
+							<i class="fas fa-trash-alt"></i>
+						</button>
+					</div>
+				</div>
+			</c:forEach>
 
-                <div class="appointment-info">
-                    <a href="#" class="test-link">Blood uric acid</a>
-                    <p class="appointment-date">21/03/2025</p>
-                </div>
+			<c:if test="${empty appointments}">
+				<div style="text-align: center; padding: 50px; color: #888;">
+					<p>No appointment records found.</p>
+				</div>
+			</c:if>
+		</div>
+	</div>
 
-                <div class="action-area">
-                    <button class="view-btn" onclick="viewAppointment('102')" title="View">
-                        <span class="eye-icon">👁️</span>
-                    </button>
-                    <button class="cancel-btn" onclick="cancelAppointment('102')" title="Cancel">
-                        <span class="trash-icon">🗑️</span>
-                    </button>
-                </div>
-            </div>
+	<%@ include file="../footer.jsp"%>
 
-            <div class="appointment-card">
-                <div class="date-badge">
-                    <span class="day">Fri</span>
-                    <span class="date">25</span>
-                </div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-                <div class="appointment-details">
-                    <div class="detail-row">
-                        <span class="icon">🕒</span>
-                        <span class="text">13:00 PM</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="icon">👤</span>
-                        <span class="text">Nur Afiqah</span>
-                    </div>
-                </div>
+	<script>
+	document.addEventListener("DOMContentLoaded", function () {
+	    const deleteButtons = document.querySelectorAll(".btn-delete");
 
-                <div class="appointment-info">
-                    <a href="#" class="test-link">HBA1c</a>
-                    <p class="appointment-date">31/03/2025</p>
-                </div>
+	    deleteButtons.forEach(button => {
+	        button.addEventListener("click", function () {
+	            const appointmentId = this.getAttribute("data-id");
 
-                <div class="action-area">
-                    <button class="view-btn" onclick="viewAppointment('103')" title="View">
-                        <span class="eye-icon">👁️</span>
-                    </button>
-                    <button class="cancel-btn" onclick="cancelAppointment('103')" title="Cancel">
-                        <span class="trash-icon">🗑️</span>
-                    </button>
-                </div>
-            </div>
+	            Swal.fire({
+	                title: "Are you sure?",
+	                text: "You won’t be able to undo this.",
+	                icon: "warning",
+	                showCancelButton: true,
+	                confirmButtonColor: "#3085d6",
+	                cancelButtonColor: "#d33",
+	                confirmButtonText: "Yes, cancel it!",
+	                cancelButtonText: "No"
+	            }).then((result) => {
+	                if (result.isConfirmed) {
+	                    // Show success alert first
+	                    Swal.fire(
+	                        "Deleted!",
+	                        "Appointment has been canceled.",
+	                        "success"
+	                    ).then(() => {
+	                        // Redirect after user clicks OK
+	                        window.location.href = "AppointmentController?action=cancel&appointmentID=" + appointmentId;
+	                    });
+	                }
+	            });
+	        });
+	    });
+	});
 
-        </div>
-    </div>
+	</script>
 
-    <%@ include file="../footer.jsp" %>
-
-    <script src="listapt.js"></script>
 </body>
 </html>

@@ -2,18 +2,15 @@ package Result;
 
 import java.io.Serializable;
 
-public class UricAcid implements Serializable {
+public class UricAcid extends Result implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private int resultID;
 	private String riskIndicator;
 	private String UricLevelRange;
 	
-	public int getResultID() {
-		return resultID;
+	public UricAcid() {
+		super();
 	}
-	public void setResultID(int resultID) {
-		this.resultID = resultID;
-	}
+	
 	public String getRiskIndicator() {
 		return riskIndicator;
 	}

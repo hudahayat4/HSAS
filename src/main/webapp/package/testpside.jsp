@@ -1,7 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,15 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>View Package Staff</title>
 
+<link rel="stylesheet" href="../css/sideStaff.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/viewpackageStaff.css">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 
 </head>
 
 <body>
 
+<div class="wrapper">
+    <%@ include file="../sideStaff.jsp"%>
  <div class="main-container">
  
 <div class="content-wrapper">
@@ -167,6 +169,7 @@
     </div>
   </div>
 </div>
+ </div>
 
 
 
@@ -233,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
-
+<script src="${pageContext.request.contextPath}/js/sidebar.js"></script>
 
 </body>
 </html>

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +10,8 @@
 <title>Juzcare Pharmacy - Login</title>
 <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-<link rel="stylesheet" href="css/stylesheet.css">
+
+<link rel="stylesheet" type="text/css" href="css/stylesheet.css">
 <style>
   .password-toggle {
     cursor: pointer;
@@ -70,7 +73,7 @@
                         <a href="#!" class="link-primary text-decoration-none">Forgot password?</a>
                       </p>
                       <p class="text-center mb-0">
-                        <a href="register.jsp" class="link-primary text-decoration-none">Create New Account</a>
+                        <a href="account/register.jsp" class="link-primary text-decoration-none">Create New Account</a>
                       </p>
                     </form>
                   </div>

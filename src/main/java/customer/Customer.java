@@ -1,6 +1,7 @@
 package customer;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.io.InputStream;
 
@@ -15,6 +16,9 @@ public class Customer implements Serializable {
 	private String custUsername;
 	private String custPassword;
 	private String custPhoneNo;
+	private String verificationCode;
+	private Timestamp verificationExpiry;
+	private String custVerified;
 	
 	public int getCusID() {
 		return cusID;
@@ -69,5 +73,23 @@ public class Customer implements Serializable {
 	}
 	public void setCustPhoneNo(String custPhoneNo) {
 		this.custPhoneNo = custPhoneNo;
+	}
+	public String getVerificationCode() {
+		return verificationCode;
+	}
+	public void setVerificationCode(String verificationCode) {
+		this.verificationCode = verificationCode;
+	}
+	public Timestamp getVerificationExpiry() {
+		return verificationExpiry;
+	}
+	public void setVerificationExpiry(Timestamp verificationExpiry) {
+		this.verificationExpiry = verificationExpiry;
+	}
+	public String getCustVerified() {
+		return custVerified;
+	}
+	public void setCustVerified(String custVerified) {
+		this.custVerified = custVerified;
 	}
 }

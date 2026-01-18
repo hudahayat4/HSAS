@@ -18,18 +18,23 @@
     	</button>
 
     	<div class="sidebar-logo-text">
-    	     <img src="image/juzcarelogosquare.jpg" alt="logo" class="sidebar-logo-img">
-    	     <p>JUZCARE'S MANAGER</p>
+    	     <img src="image/Juzcare.jpg" alt="logo" class="sidebar-logo-img">
+    	     <p>JUZCARE'S STAFF</p>
        		 <%= request.getParameter("name") %>
     	</div>
 	</div>
       <ul class="sidebar-nav">
       <li class="sidebar-item">
-       		 <a href="#" class="sidebar-link">
+       		 <a href="javascript:void(0)" class="sidebar-link">
        		 	<i class="lni lni-dashboard-square-1"></i>
        		 	<span>Dashboard</span>
        		 </a>
        	</li>
+       <li class="sidebar-item">
+       		 <a href="package/PackageController?action=list" class="sidebar-link">
+       		 	<i class="lni lni-file-multiple"></i>
+       		 	<span>Package</span>
+       		 </a>
         <li class="sidebar-item">
        		 <a href="#" class="sidebar-link">
        		 	<i class="lni lni-hourglass"></i>
@@ -43,7 +48,7 @@
        		 </a>
        	</li>
        	<li class="sidebar-item">
-       		 <a href="teamaccount/listTeamAccount.jsp" class="sidebar-link">
+       		 <a href="teamaccount/StaffController?action=list" class="sidebar-link">
        		 	<i class="lni lni-hierarchy-1"></i>
        		 	<span>Team</span>
        		 </a>
@@ -55,18 +60,15 @@
        		 </a>
        	</li>
     <li class="sidebar-item">
-        <a href="StaffController?action=view" class="sidebar-link">
+        <a href="teamaccount/StaffController?action=view" class="sidebar-link">
             <i class="lni lni-gear-1"></i>
             <span>Settings</span>
         </a>
     </li>
      </ul>
      <div class="sidebar-footer">
-     	<a href="#" class="sidebar-link">
-            <i class="lni lni-question-mark-circle"></i>
-            <span>Help</span>
-        </a>
-         <a href="#" class="sidebar-link">
+     
+         <a href="javascript:void(0)" class="sidebar-link">
             <i class="lni lni-exit"></i>
             <span>Log out</span>
         </a>
@@ -75,7 +77,8 @@
     </aside>
   
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
- <script type="text/javascript" src="js/sidebar.js"></script>
+<script src="${pageContext.request.contextPath}/js/sidebar.js"></script>
+
 
 </body>
 </html>

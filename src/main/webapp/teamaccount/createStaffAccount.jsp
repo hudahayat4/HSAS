@@ -29,10 +29,9 @@ body {
 </head>
 <body>
 	<div class="wrapper">
-		<!-- Sidebar -->
-		<aside id="sidebar">
-			<%@ include file="../sideStaff.jsp"%>
-		</aside>
+		
+			<%@ include file="../sideManager.jsp"%>
+		
 		<div class="main">
 			<h2>Team Member's Personal</h2>
 			<h2>Information</h2>
@@ -71,9 +70,9 @@ body {
 					<div class="col-md-3">
 						<select class="form-select" name="role">
 							<option selected disabled>Position</option>
-							<option value="Manager">Manager</option>
-							<option value="Staff">Staff</option>
-							<option value="Pharmacist">Pharmacist</option>
+							<option value="MANAGER">Manager</option>
+							<option value="STAFF">Staff</option>
+							<option value="PHARMACIST">Pharmacist</option>
 						</select>
 					</div>
 
