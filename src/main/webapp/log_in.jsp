@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     
 <!DOCTYPE html>
 <html>
@@ -10,7 +10,6 @@
 <title>Juzcare Pharmacy - Login</title>
 <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-
 <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
 <style>
   .password-toggle {
@@ -20,7 +19,14 @@
 </head>
 <body>
   <section class="min-vh-100 d-flex align-items-center bg-page">
-    <div class="container">
+  <c:if test="${not empty errorMsg}">
+		  <div class="alert alert-danger alert-dismissible fade show text-center floating-alert" role="alert">
+		    ${errorMsg}
+		    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		  </div>
+		</c:if>
+    <div class="container position-relative">
+       
       <div class="row justify-content-center">
         <div class="col-lg-8">
           <div class="card border-light-subtle shadow-sm h-100">
@@ -98,6 +104,7 @@
                       <div class="d-grid mb-3">
                         <button type="submit" class="btn btn-dark btn-lg">Log in</button>
                       </div>
+                      
                       <p class="text-center mb-0">
                         <a href="#!" class="link-primary text-decoration-none">Forgot password?</a>
                       </p>
@@ -111,47 +118,7 @@
       </div>
     </div>
   </section>
-
-  <script>
-    const customerBtn = document.getElementById('customerBtn');
-    const staffBtn = document.getElementById('staffBtn');
-    const customerForm = document.getElementById('customerForm');
-    const staffForm = document.getElementById('staffForm');
-
-    customerBtn.addEventListener('click', () => {
-      customerBtn.classList.add('active');
-      staffBtn.classList.remove('active');
-      customerForm.style.display = 'block';
-      staffForm.style.display = 'none';
-    });
-
-    staffBtn.addEventListener('click', () => {
-      staffBtn.classList.add('active');
-      customerBtn.classList.remove('active');
-      staffForm.style.display = 'block';
-      customerForm.style.display = 'none';
-    });
-
-    //password visibility
-    function setupToggle(inputId, toggleId) {
-      const input = document.getElementById(inputId);
-      const toggle = document.getElementById(toggleId);
-      toggle.addEventListener('click', () => {
-        const icon = toggle.querySelector('i');
-        if (input.type === 'password') {
-          input.type = 'text';
-          icon.classList.remove('bi-eye-slash-fill');
-          icon.classList.add('bi-eye-fill');
-        } else {
-          input.type = 'password';
-          icon.classList.remove('bi-eye-fill');
-          icon.classList.add('bi-eye-slash-fill');
-        }
-      });
-    }
-
-    setupToggle('custPassword', 'toggleCustPassword');
-    setupToggle('Password', 'toggleStaffPassword');
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/logIn.js"></script>
 </body>
 </html>

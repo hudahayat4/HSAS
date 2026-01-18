@@ -1,4 +1,4 @@
-package Staff;
+package staff;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import util.ConnectionManager;
+import util.Password;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -22,8 +24,8 @@ public class StaffDAO {
         PreparedStatement ps = connection.prepareStatement(query);
 
         ps.setString(1, staff.getUsername());
-        ps.setString(2, staff.getPassword());
-
+        ps.setString(2, Password.md5Hash(staff.getPassword()));
+        
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
             staff.setStaffID(rs.getInt("staffID"));
@@ -50,7 +52,7 @@ public class StaffDAO {
         }
 
         // --- 3️⃣ Insert staff into database ---
-        String query = "INSERT INTO staff(NRIC, managerID, name, phoneNo, username, password, DOB, profilePic, email, role) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        String query = "INSERT INTO JuzCare.staff(NRIC, managerID, name, phoneNo, username, password, DOB, profilePic, email, role) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
         connection = ConnectionManager.getConnection();
         PreparedStatement ps = connection.prepareStatement(query);

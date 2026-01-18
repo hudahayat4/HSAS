@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import util.Password;
 import util.ConnectionManager;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,8 +13,8 @@ public class CustomerDAO {
     private static Connection connection = null;
 
     //Create Account
-    public static void createAccount(customer cust) throws SQLException, IOException {
-    	String query = "INSERT INTO customer"
+    public static void createAccount(Customer cust) throws SQLException, IOException {
+    	String query = "INSERT INTO CUSTOMER"
     	        + "(cusNRIC, custName, custEmail, custProfilePic, DOB, custUsername, custPassword, custPhoneNo, custVerified) "
     	        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -65,7 +65,7 @@ public class CustomerDAO {
 
     //Check Verify Code
     public static boolean isCodeValid(String email, String inputCode) throws SQLException {
-        String sql = "SELECT verificationCode, verificationExpiry FROM customer WHERE custEmail=?";
+        String sql = "SELECT verificationCode, verificationExpiry FROM CUSTOMER WHERE custEmail=?";
         try (Connection conn = ConnectionManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -101,36 +101,44 @@ public class CustomerDAO {
             ps.executeUpdate();
         }
     }
-
-    // Login Customer
-    public static customer loginCustomer(customer cust) throws SQLException {
+    
+    //Log In Customer
+    public static Customer loginCustomer(Customer cust) throws SQLException {
         String query = "SELECT * FROM customer WHERE custUsername=? AND custPassword=?";
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
-        connection = ConnectionManager.getConnection();
-        PreparedStatement ps = connection.prepareStatement(query);
+        try {
+            connection = ConnectionManager.getConnection();
+            ps = connection.prepareStatement(query);
+            ps.setString(1, cust.getCustUsername());
+            ps.setString(2, Password.md5Hash(cust.getCustPassword()));
 
-        ps.setString(1, cust.getCustUsername());
-        ps.setString(2, cust.getCustPassword());
-
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-        	cust.setCusID(rs.getInt("cusID"));
-            cust.setCusNRIC(rs.getString("cusNRIC"));
-            cust.setCustName(rs.getString("custName"));
-            cust.setCustEmail(rs.getString("custEmail"));
-            cust.setCustPhoneNo(rs.getString("custPhoneNo"));
-            cust.setDOB(rs.getDate("DOB"));
-            return cust;
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                Customer found = new Customer();
+                found.setCusID(rs.getInt("cusID"));
+                found.setCusNRIC(rs.getString("cusNRIC"));
+                found.setCustName(rs.getString("custName"));
+                found.setCustEmail(rs.getString("custEmail"));
+                found.setCustPhoneNo(rs.getString("custPhoneNo"));
+                found.setDOB(rs.getDate("DOB"));
+                found.setCustUsername(rs.getString("custUsername"));
+                return found;
+            }
+            return null;
+        } finally {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+            if (connection != null) connection.close();
         }
-
-        rs.close();
-        ps.close();
-        return null;
     }
+
     
     //view account
-    public static customer getCustomerById(int customerId) {
-        customer c = null;
+    public static Customer getCustomerById(int customerId) {
+        Customer c = null;
 
         try {
 			String query = "SELECT * FROM customer WHERE cusID = ?";
@@ -141,7 +149,7 @@ public class CustomerDAO {
 
   
                 if (rs.next()) {
-                    c = new customer(); // Initialize object here
+                    c = new Customer(); // Initialize object here
 
                     c.setCusID(rs.getInt("cusID"));
                     c.setCusNRIC(rs.getString("cusNRIC"));
@@ -168,7 +176,7 @@ public class CustomerDAO {
     
     //update account 
  // Method to update customer profile
-    public static void updateprofile(customer c) throws SQLException {
+    public static void updateprofile(Customer c) throws SQLException {
         // Ensure column names (custPhoneNo, custEmail, cusID) match your database table exactly
         String sql = "UPDATE customer SET custPhoneNo = ?, custEmail = ? WHERE cusID = ?";
         
@@ -207,7 +215,5 @@ public class CustomerDAO {
             ps.executeUpdate();
         }
     }
-    
-    
     
 }

@@ -25,10 +25,13 @@ public class ConnectionManager {
 				//2. create connection
 				con = DriverManager.getConnection(DB_CONNECTION,DB_USER,DB_PASSWORD);
 				System.out.println("Connected");
+				System.out.println("Connected as user: " + con.getMetaData().getUserName());
 			}catch(SQLException e) {
+				System.out.println("SQL Error semasa connect:");
 				e.printStackTrace();
-			}
+							}
 		}catch(ClassNotFoundException e) {
+			System.out.println("Driver tidak jumpa:");
 			e.printStackTrace();
 		}		
 		return con;

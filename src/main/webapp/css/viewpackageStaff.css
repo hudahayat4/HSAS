@@ -99,3 +99,34 @@ body {
     margin-top: 30px;
     text-align: right;
 }
+
+.error-message,
+.error-icon {
+    display: none;
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 4px;
+}
+
+.error-icon {
+    margin-left: 5px;
+}
+
+/* Show error when active */
+.error-active .error-message,
+.error-active .error-icon {
+    display: inline;
+}
+
+/* Show errors when parent .mb-3 has .error-active */
+.mb-3.error-active .error-message,
+.mb-3.error-active .error-icon {
+    display: block;
+}
+
+/* Optional: highlight input with error */
+.mb-3.error-active input,
+.mb-3.error-active select {
+    border-color: red;
+}
+

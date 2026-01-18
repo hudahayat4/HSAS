@@ -1,23 +1,17 @@
 package util;
 
 import java.io.IOException;
-
-import Staff.Staff;
-import Staff.StaffDAO;
+import customer.Customer;
 import customer.CustomerDAO;
-import customer.customer;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.*;
-import java.io.IOException;
-import customer.customer;
-import customer.CustomerDAO;
-import Staff.Staff;
-import Staff.StaffDAO;
+import staff.Staff;
+import staff.StaffDAO;
+
 
 @WebServlet("/LogInController")
 public class LogInController extends HttpServlet {
@@ -53,13 +47,11 @@ public class LogInController extends HttpServlet {
         String username = request.getParameter("custUsername");
         String password = request.getParameter("custPassword");
 
-        customer cust = new customer();
+        Customer cust = new Customer();
         cust.setCustUsername(username);
         cust.setCustPassword(password);
-        
 
         cust = CustomerDAO.loginCustomer(cust);
-
 
         if (cust != null) {
             HttpSession session = request.getSession(true);
@@ -68,10 +60,11 @@ public class LogInController extends HttpServlet {
             session.setAttribute("custEmail", cust.getCustEmail());
             response.sendRedirect("home_customer.jsp");
         } else {
-            request.setAttribute("errorMessage", "Invalid customer login.");
+            request.setAttribute("errorMsg", "Invalid username or password.");
             request.getRequestDispatcher("log_in.jsp").forward(request, response);
         }
     }
+
 
     //Log In Staff
     private void loginStaff(HttpServletRequest request, HttpServletResponse response)
@@ -92,7 +85,7 @@ public class LogInController extends HttpServlet {
             session.setAttribute("staffRole", staff.getRole());
             response.sendRedirect("test.jsp");
         } else {
-            request.setAttribute("errorMessage", "Invalid staff login.");
+            request.setAttribute("errorMsg", "Invalid username or password.");
             request.getRequestDispatcher("log_in.jsp").forward(request, response);
         }
     }

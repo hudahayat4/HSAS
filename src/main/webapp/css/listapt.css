@@ -13,6 +13,14 @@
     border: 1px solid #f0f0f0;
 }
 
+.appointment-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;   
+    width: 100%;
+}
+
+
 /* Tarikh (Tues 25) */
 .appointment-date {
     display: flex;

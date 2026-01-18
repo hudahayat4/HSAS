@@ -10,9 +10,11 @@ public class appointment {
     private int staffID;
     private Date apptDate;
     private Timestamp apptTime;
+    private String notiStatus;
 
     // --- TAMBAH VARIABLE BARU DI SINI ---
     private String customerName;
+    private String customerEmail;
     private String packageName;
     private double packagePrice;
     private String pharmacistName;
@@ -32,11 +34,16 @@ public class appointment {
     public void setApptDate(Date apptDate) { this.apptDate = apptDate; }
     public Timestamp getApptTime() { return apptTime; }
     public void setApptTime(Timestamp apptTime) { this.apptTime = apptTime; }
+    public String getNotiStatus() { return notiStatus; }
+	public void setNotiStatus(String notiStatus) { this.notiStatus = notiStatus; }
 
     // --- BETULKAN SETTERS & GETTERS BARU (Penting untuk DAO & JSP) ---
     public String getCustomerName() { return customerName; }
     public void setCustomerName(String customerName) { this.customerName = customerName; }
-
+    
+    public String getCustomerEmail() { return customerEmail; }
+	public void setCustomerEmail(String customerEmail) { this.customerEmail = customerEmail; }
+    
     public String getPackageName() { return packageName; }
     public void setPackageName(String packageName) { this.packageName = packageName; }
 
@@ -45,4 +52,5 @@ public class appointment {
 
     public String getPharmacistName() { return pharmacistName; }
     public void setPharmacistName(String pharmacistName) { this.pharmacistName = pharmacistName; }
+
 }
