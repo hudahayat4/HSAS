@@ -212,7 +212,8 @@ public class CustomerController extends HttpServlet {
 	    request.getSession().setAttribute("tempCustomer", cust);
 	    response.sendRedirect(request.getContextPath() + "/account/verifyAccount.jsp");
 	}
-
+	
+//BAHAGIAN BAWAH NI SEMUA BERKAITAN DENGAN VERIFY ACCOUNT
 	//Request Code
     private void requestCode(HttpServletRequest request, HttpServletResponse response) 
             throws SQLException, IOException, ServletException {
@@ -275,6 +276,4 @@ public class CustomerController extends HttpServlet {
             rd.forward(request, response);
         }
     }
-	
-
 }
