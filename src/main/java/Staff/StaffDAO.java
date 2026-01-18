@@ -1,9 +1,12 @@
-package Staff;
+package staff;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import util.ConnectionManager;
 import java.io.IOException;
 import java.io.InputStream;
@@ -77,5 +80,98 @@ public class StaffDAO {
         if (profilePicStream != null) profilePicStream.close();
     }
 
+	public static Staff getStaffById(int staffId) {
+		// TODO Auto-generated method stub
+		Staff s = null;
+		
+		String query = "SELECT * FROM staff WHERE staffID = ?";
+		try(Connection con = ConnectionManager.getConnection();
+			PreparedStatement ps = con.prepareStatement(query)){
+				ps.setInt(1, staffId);
+				try(ResultSet rs = ps.executeQuery()){
+					if(rs.next()) {
+						s = new Staff();
+						
+						s.setName(rs.getString("name"));
+						s.setEmail(rs.getString("email"));
+						s.setNRIC(rs.getString("NRIC"));
+						s.setUsername(rs.getString("username"));
+						s.setPassword(rs.getString("password"));
+						s.setDOB(rs.getDate("DOB"));
+						s.setPhoneNo(rs.getString("PhoneNo"));
+					}
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			return s;
+	}
 
+	public static void updateStaffProfile(Staff s) throws SQLException {
+	    // TUKAR: staffPhone -> phoneNo , staffEmail -> email
+	    String sql = "UPDATE staff SET phoneNo = ?, email = ? WHERE staffID = ?";
+	    
+	    try (Connection con = ConnectionManager.getConnection();
+	         PreparedStatement ps = con.prepareStatement(sql)) {
+	        
+	        ps.setString(1, s.getPhoneNo());
+	        ps.setString(2, s.getEmail());
+	        ps.setInt(3, s.getStaffID());
+	        
+	        int rowsUpdated = ps.executeUpdate();
+	        
+	        if (rowsUpdated > 0) {
+	            System.out.println("DEBUG: Staff Update SUCCESSFUL for ID: " + s.getStaffID());
+	        } else {
+	            System.out.println("DEBUG: Staff Update FAILED. No record found for ID: " + s.getStaffID());
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        throw e;
+	    }
+	}
+	
+	public static boolean updatePassword(int staffID, String newPassword) {
+	    String sql = "UPDATE staff SET password = ? WHERE staffID = ?";
+	    try (Connection con = ConnectionManager.getConnection();
+	         PreparedStatement ps = con.prepareStatement(sql)) {
+	        
+	        ps.setString(1, newPassword);
+	        ps.setInt(2, staffID);
+	        
+	        return ps.executeUpdate() > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	
+	public static List<Staff> getAllStaff() {
+	    List<Staff> staffList = new ArrayList<>();
+
+	    try {
+	    	String query = "SELECT * FROM staff";
+	    	connection = ConnectionManager.getConnection();
+	         PreparedStatement ps = connection.prepareStatement(query);
+	         ResultSet rs = ps.executeQuery();
+
+	        while (rs.next()) {
+	            Staff s = new Staff();
+	            s.setStaffID(rs.getInt("staffID"));
+	            s.setName(rs.getString("name"));
+	            s.setRole(rs.getString("role"));
+	            s.setEmail(rs.getString("email"));
+	            s.setPhoneNo(rs.getString("phoneNo"));
+	            // Tambah field lain jika perlu
+	            staffList.add(s);
+	        }
+	        ps.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return staffList;
+	}
+	
+	
 }

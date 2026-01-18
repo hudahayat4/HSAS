@@ -4,41 +4,45 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 public class appointment {
-	private int appointmentId;
-	private int packageId;
-	private int cusNRIC;
-	private int NRIC;
-	private Date apptDate;
-	private Timestamp apptTime;
+    private int appointmentID;
+    private int packageID;
+    private int customerID;
+    private int staffID;
+    private Date apptDate;
+    private Timestamp apptTime;
 
-	// Default Constructor
-	public appointment() {}
+    // --- TAMBAH VARIABLE BARU DI SINI ---
+    private String customerName;
+    private String packageName;
+    private double packagePrice;
+    private String pharmacistName;
+    
+    public appointment() {}
 
-	// Parameterized Constructor
-	public appointment(int packageId, int cusNRIC, int NRIC, Date apptDate, Timestamp apptTime) {
-		this.packageId = packageId;
-		this.cusNRIC = cusNRIC;
-		this.NRIC = NRIC;
-		this.apptDate = apptDate;
-		this.apptTime = apptTime;
-	}
+    // GETTERS & SETTERS ASAL (Kekalkan yang sedia ada)
+    public int getAppointmentID() { return appointmentID; }
+    public void setAppointmentID(int appointmentID) { this.appointmentID = appointmentID; }
+    public int getPackageID() { return packageID; }
+    public void setPackageID(int packageID) { this.packageID = packageID; }
+    public int getCustomerID() { return customerID; }
+    public void setCustomerID(int customerID) { this.customerID = customerID; }
+    public int getStaffID() { return staffID; }
+    public void setStaffID(int staffID) { this.staffID = staffID; }
+    public Date getApptDate() { return apptDate; }
+    public void setApptDate(Date apptDate) { this.apptDate = apptDate; }
+    public Timestamp getApptTime() { return apptTime; }
+    public void setApptTime(Timestamp apptTime) { this.apptTime = apptTime; }
 
-	// GETTERS AND SETTERS (Required for DAO)
-	public int getAppointmentId() { return appointmentId; }
-	public void setAppointmentId(int appointmentId) { this.appointmentId = appointmentId; }
+    // --- BETULKAN SETTERS & GETTERS BARU (Penting untuk DAO & JSP) ---
+    public String getCustomerName() { return customerName; }
+    public void setCustomerName(String customerName) { this.customerName = customerName; }
 
-	public int getPackageId() { return packageId; }
-	public void setPackageId(int packageId) { this.packageId = packageId; }
+    public String getPackageName() { return packageName; }
+    public void setPackageName(String packageName) { this.packageName = packageName; }
 
-	public int getCusNRIC() { return cusNRIC; }
-	public void setCusNRIC(int cusNRIC) { this.cusNRIC = cusNRIC; }
+    public double getPackagePrice() { return packagePrice; }
+    public void setPackagePrice(double packagePrice) { this.packagePrice = packagePrice; }
 
-	public int getNRIC() { return NRIC; }
-	public void setNRIC(int NRIC) { this.NRIC = NRIC; }
-
-	public Date getApptDate() { return apptDate; }
-	public void setApptDate(Date apptDate) { this.apptDate = apptDate; }
-
-	public Timestamp getApptTime() { return apptTime; }
-	public void setApptTime(Timestamp apptTime) { this.apptTime = apptTime; }
+    public String getPharmacistName() { return pharmacistName; }
+    public void setPharmacistName(String pharmacistName) { this.pharmacistName = pharmacistName; }
 }

@@ -1,26 +1,15 @@
 package util;
-
 import java.io.IOException;
-
-import Staff.Staff;
-import Staff.StaffDAO;
-import customer.CustomerDAO;
-import customer.customer;
+import customer.Customer;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-<<<<<<< HEAD
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-=======
-import jakarta.servlet.http.*;
-import java.io.IOException;
-import customer.customer;
-import customer.CustomerDAO;
-import Staff.Staff;
-import Staff.StaffDAO;
->>>>>>> 16932097d4ba7f14c8891ba0da53ccd9556e095a
+import staff.Staff;
+import staff.StaffDAO;
+
 
 @WebServlet("/LogInController")
 public class LogInController extends HttpServlet {
@@ -56,22 +45,20 @@ public class LogInController extends HttpServlet {
         String username = request.getParameter("custUsername");
         String password = request.getParameter("custPassword");
 
-        customer cust = new customer();
+        Customer cust = new Customer();
         cust.setCustUsername(username);
         cust.setCustPassword(password);
-        
-
-        cust = CustomerDAO.loginCustomer(cust);
 
 
         if (cust != null) {
             HttpSession session = request.getSession(true);
+            session.setAttribute("cusID", cust.getCusID());
             session.setAttribute("custUsername", cust.getCustUsername());
             session.setAttribute("custEmail", cust.getCustEmail());
             response.sendRedirect("home_customer.jsp");
         } else {
-            request.setAttribute("errorMessage", "Invalid customer login.");
-            request.getRequestDispatcher("log_in.jsp").forward(request, response);
+        	request.setAttribute("errorMessage", "Invalid customer login.");
+        	request.getRequestDispatcher("log_in.jsp").forward(request, response);
         }
     }
 
@@ -89,10 +76,7 @@ public class LogInController extends HttpServlet {
 
         if (staff != null) {
             HttpSession session = request.getSession(true);
-<<<<<<< HEAD
-=======
-            session.setAttribute("staffID", staff.getStaffID());  
->>>>>>> 16932097d4ba7f14c8891ba0da53ccd9556e095a
+            session.setAttribute("staffID", staff.getStaffID());
             session.setAttribute("staffUsername", staff.getUsername());
             session.setAttribute("staffRole", staff.getRole());
             response.sendRedirect("test.jsp");

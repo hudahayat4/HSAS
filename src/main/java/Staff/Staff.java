@@ -1,4 +1,4 @@
-package Staff;
+package staff;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -68,8 +68,8 @@ public class Staff implements Serializable{
 	}
 
 
-	public void setPhoneNo(String phoneNo) {
-		PhoneNo = phoneNo;
+	public void setPhoneNo(String PhoneNo) {
+		this.PhoneNo = PhoneNo;
 	}
 
 
