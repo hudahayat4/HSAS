@@ -67,4 +67,8 @@
 </section>
 <script src="${pageContext.request.contextPath}/js/verifyAccount.js"></script>
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> main
