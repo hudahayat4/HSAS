@@ -43,7 +43,7 @@ public class CustomerDAO {
     
   //Simpan Verify Code
     public static void saveVerificationCode(String email, String code, java.sql.Timestamp expiry) throws SQLException {
-        String sql = "UPDATE JuzCare.customer SET verificationCode = ?, verificationExpiry = ? WHERE LOWER(custEmail) = LOWER(?)";
+        String sql = "UPDATE customer SET verificationCode = ?, verificationExpiry = ? WHERE LOWER(custEmail) = LOWER(?)";
 
         try (Connection conn = ConnectionManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
