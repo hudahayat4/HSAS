@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import util.ConnectionManager;
+import util.Password;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -16,14 +18,14 @@ public class StaffDAO {
 
     //Login Staff (JANGAN LUPA UBAH BALIK NANTI)
     public static Staff loginStaff(Staff staff) throws SQLException {
-        String query = "SELECT * FROM staff WHERE username=? AND password=?";
+        String query = "SELECT * FROM JuzCare.staff WHERE username=? AND password=?";
 
         connection = ConnectionManager.getConnection();
         PreparedStatement ps = connection.prepareStatement(query);
 
         ps.setString(1, staff.getUsername());
-        ps.setString(2, staff.getPassword());
-
+        ps.setString(2, Password.md5Hash(staff.getPassword()));
+        
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
             staff.setStaffID(rs.getInt("staffID"));
@@ -50,7 +52,7 @@ public class StaffDAO {
         }
 
         // --- 3️⃣ Insert staff into database ---
-        String query = "INSERT INTO staff(NRIC, managerID, name, phoneNo, username, password, DOB, profilePic, email, role) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        String query = "INSERT INTO JuzCare.staff(NRIC, managerID, name, phoneNo, username, password, DOB, profilePic, email, role) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
         connection = ConnectionManager.getConnection();
         PreparedStatement ps = connection.prepareStatement(query);
@@ -84,7 +86,7 @@ public class StaffDAO {
 		// TODO Auto-generated method stub
 		Staff s = null;
 		
-		String query = "SELECT * FROM staff WHERE staffID = ?";
+		String query = "SELECT * FROM JuzCare.staff WHERE staffID = ?";
 		try(Connection con = ConnectionManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(query)){
 				ps.setInt(1, staffId);
@@ -110,7 +112,7 @@ public class StaffDAO {
 
 	public static void updateStaffProfile(Staff s) throws SQLException {
 	    // TUKAR: staffPhone -> phoneNo , staffEmail -> email
-	    String sql = "UPDATE staff SET phoneNo = ?, email = ? WHERE staffID = ?";
+	    String sql = "UPDATE JuzCare.staff SET phoneNo = ?, email = ? WHERE staffID = ?";
 	    
 	    try (Connection con = ConnectionManager.getConnection();
 	         PreparedStatement ps = con.prepareStatement(sql)) {
@@ -133,7 +135,7 @@ public class StaffDAO {
 	}
 	
 	public static boolean updatePassword(int staffID, String newPassword) {
-	    String sql = "UPDATE staff SET password = ? WHERE staffID = ?";
+	    String sql = "UPDATE JuzCare.staff SET password = ? WHERE staffID = ?";
 	    try (Connection con = ConnectionManager.getConnection();
 	         PreparedStatement ps = con.prepareStatement(sql)) {
 	        
@@ -151,7 +153,7 @@ public class StaffDAO {
 	    List<Staff> staffList = new ArrayList<>();
 
 	    try {
-	    	String query = "SELECT * FROM staff";
+	    	String query = "SELECT * FROM JuzCare.staff";
 	    	connection = ConnectionManager.getConnection();
 	         PreparedStatement ps = connection.prepareStatement(query);
 	         ResultSet rs = ps.executeQuery();

@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.MessageDigest;
 import java.sql.SQLException;
 
 @WebServlet("/account/CustomerController")
@@ -215,8 +214,6 @@ public class CustomerController extends HttpServlet {
 	}
 
 	//Request Code
-	// Request Code
-	//Request Code
     private void requestCode(HttpServletRequest request, HttpServletResponse response) 
             throws SQLException, IOException, ServletException {
         
@@ -281,4 +278,3 @@ public class CustomerController extends HttpServlet {
 	
 
 }
-	
