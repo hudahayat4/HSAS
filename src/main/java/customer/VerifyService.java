@@ -81,8 +81,4 @@ public class VerifyService {
             e.printStackTrace();
         }
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> main
