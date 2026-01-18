@@ -57,6 +57,9 @@ public class AppointmentController extends HttpServlet {
 			case "list":
 				listAppointment(request,response);
 				break;
+			case "cancel":
+			    cancelAppointment(request, response);
+			    break;
 			default :
 				listAppointment(request,response);
 				break;
@@ -67,6 +70,7 @@ public class AppointmentController extends HttpServlet {
 		}
 	}
 	
+
 	private void viewAppointment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    String apptIdStr = request.getParameter("appointmentID");
 
@@ -207,6 +211,14 @@ public class AppointmentController extends HttpServlet {
 		
 		request.setAttribute("packages", packages);
 		request.getRequestDispatcher("/appointment/bookAppointment.jsp").forward(request,response);
+	}
+	
+	private void cancelAppointment(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException{
+		// TODO Auto-generated method stub
+		 int appointmentID = Integer.parseInt(request.getParameter("appointmentID"));
+		    AppointmentDAO.cancelAppointment(appointmentID);
+		    System.out.println("Booking canceled successfully.");
+		    response.sendRedirect("AppointmentController?action=list");
 	}
 
 }
