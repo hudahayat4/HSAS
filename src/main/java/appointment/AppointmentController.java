@@ -20,6 +20,8 @@ import java.util.Random;
 
 import Package.Package;
 import Package.PackageDAO;
+import appointment.SendNotificationService;
+
 
 /**
  * Servlet implementation class AppointmentController
@@ -147,6 +149,9 @@ public class AppointmentController extends HttpServlet {
 	    } catch (IllegalArgumentException e) {
 	        throw new ServletException("Invalid date or time format", e);
 	    }
+	    
+	    String custEmail = request.getParameter("custEmail");
+	    
 	    List<Integer> staffIDs = new ArrayList<>();
 	    String sqlStaff = "SELECT staffID FROM staff";
 	    try (Connection conn = ConnectionManager.getConnection();
@@ -169,8 +174,15 @@ public class AppointmentController extends HttpServlet {
 	    appt.setStaffID(staffID);
 	    appt.setApptDate(apptDate);
 	    appt.setApptTime(apptTime);
+	    appt.setCustomerEmail(custEmail);
 	    AppointmentDAO.bookAppointment(appt);
 	    
+	    //UNTUK TESTING SEND NOTIFICATION
+	    //SendNotificationService service = new SendNotificationService();
+	    //service.sendTwoDaysReminder("aqillghaz@gmail.com", "2026-01-19", "19:10");
+
+	    
+	    response.sendRedirect("AppointmentController?action=list");
 	}
 
 
