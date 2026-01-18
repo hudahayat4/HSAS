@@ -22,87 +22,104 @@ import Package.Package;
 import Package.PackageDAO;
 import appointment.SendNotificationService;
 
-
 /**
  * Servlet implementation class AppointmentController
  */
 @WebServlet("/appointment/AppointmentController")
 public class AppointmentController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public AppointmentController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public AppointmentController() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String action = request.getParameter("action");
-		
+
 		try {
-			switch(action) {
+			switch (action) {
 			case "package":
-				listAvailablePackage(request,response);
+				listAvailablePackage(request, response);
 				break;
 			case "image":
-				showImage(request,response);
+				showImage(request, response);
 				break;
 			case "view":
-                viewAppointment(request, response); // <--- TAMBAH INI
-                break;
+				viewAppointment(request, response); // <--- TAMBAH INI
+				break;
 			case "list":
-				listAppointment(request,response);
+				listAppointment(request, response);
 				break;
 			case "cancel":
-			    cancelAppointment(request, response);
-			    break;
-			default :
-				listAppointment(request,response);
+				cancelAppointment(request, response);
+				break;
+			case "listStaff":
+				listAppointmentStaff(request, response);
+				break;
+			default:
+				listAppointment(request, response);
 				break;
 			}
-		}catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
 
-	private void viewAppointment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    String apptIdStr = request.getParameter("appointmentID");
+	private void listAppointmentStaff(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		Integer staffID = (Integer) request.getSession().getAttribute("staffID");
 
-	    if (apptIdStr != null) {
-	        int appointmentID = Integer.parseInt(apptIdStr);
-	        appointment apt = AppointmentDAO.getAppointmentById(appointmentID);
+		if (staffID != null) {
 
-	        if (apt != null) {
-	            request.setAttribute("apt", apt);
-	            request.getRequestDispatcher("/appointment/viewapt.jsp").forward(request, response);
-	        } else {
-	            response.sendRedirect("AppointmentController?action=list"); // No appointment found
-	        }
-
-	    } else {
-	        response.sendRedirect("AppointmentController?action=list"); // No ID provided
-	    }
+			List<appointment> appointments = AppointmentDAO.getAllAppointmentsByStaffId(staffID);
+			request.setAttribute("appointments", appointments);
+			request.getRequestDispatcher("/appointment/listaptStaff.jsp").forward(request, response);
+		} else {
+			response.sendRedirect("../log_in.jsp");
+		}
 	}
 
-	
+	private void viewAppointment(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String apptIdStr = request.getParameter("appointmentID");
+
+		if (apptIdStr != null) {
+			int appointmentID = Integer.parseInt(apptIdStr);
+			appointment apt = AppointmentDAO.getAppointmentById(appointmentID);
+
+			if (apt != null) {
+				request.setAttribute("apt", apt);
+				request.getRequestDispatcher("/appointment/viewapt.jsp").forward(request, response);
+			} else {
+				response.sendRedirect("AppointmentController?action=list"); // No appointment found
+			}
+
+		} else {
+			response.sendRedirect("AppointmentController?action=list"); // No ID provided
+		}
+	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String appointmentID = request.getParameter("appointmentID");
-		if(appointmentID == null || appointmentID.isEmpty()) {
+		if (appointmentID == null || appointmentID.isEmpty()) {
 			try {
-				bookAppointment(request,response);
+				bookAppointment(request, response);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -111,126 +128,125 @@ public class AppointmentController extends HttpServlet {
 	}
 
 	private void bookAppointment(HttpServletRequest request, HttpServletResponse response)
-	        throws SQLException, ServletException, IOException {
+			throws SQLException, ServletException, IOException {
 
 		Integer loggedInCustomerID = (Integer) request.getSession().getAttribute("cusID");
-	    if (loggedInCustomerID == null) {
-	        throw new ServletException("Customer not logged in!");
-	    }
-	    int customerID;
-	    try {
-	        customerID = Integer.parseInt(loggedInCustomerID.toString());
-	    } catch (NumberFormatException e) {
-	        throw new ServletException("Invalid customerID in session", e);
-	    }
-	    String packageIDStr = request.getParameter("packageId");
-	    if (packageIDStr == null || packageIDStr.isEmpty()) {
-	        throw new ServletException("No package selected!");
-	    }
-	    int packageID;
-	    try {
-	        packageID = Integer.parseInt(packageIDStr);
-	    } catch (NumberFormatException e) {
-	        throw new ServletException("Invalid packageID format", e);
-	    }
-	    String apptDateStr = request.getParameter("apptDate");
-	    String apptTimeStr = request.getParameter("apptTime");
+		if (loggedInCustomerID == null) {
+			throw new ServletException("Customer not logged in!");
+		}
+		int customerID;
+		try {
+			customerID = Integer.parseInt(loggedInCustomerID.toString());
+		} catch (NumberFormatException e) {
+			throw new ServletException("Invalid customerID in session", e);
+		}
+		String packageIDStr = request.getParameter("packageId");
+		if (packageIDStr == null || packageIDStr.isEmpty()) {
+			throw new ServletException("No package selected!");
+		}
+		int packageID;
+		try {
+			packageID = Integer.parseInt(packageIDStr);
+		} catch (NumberFormatException e) {
+			throw new ServletException("Invalid packageID format", e);
+		}
+		String apptDateStr = request.getParameter("apptDate");
+		String apptTimeStr = request.getParameter("apptTime");
 
-	    if (apptDateStr == null || apptTimeStr == null ||
-	        apptDateStr.isEmpty() || apptTimeStr.isEmpty()) {
-	        throw new ServletException("Appointment date or time not selected!");
-	    }
+		if (apptDateStr == null || apptTimeStr == null || apptDateStr.isEmpty() || apptTimeStr.isEmpty()) {
+			throw new ServletException("Appointment date or time not selected!");
+		}
 
-	    Date apptDate;
-	    Timestamp apptTime;
-	    try {
-	        apptDate = Date.valueOf(apptDateStr); // yyyy-MM-dd
-	        apptTime = Timestamp.valueOf(apptDateStr + " " + apptTimeStr + ":00"); // yyyy-MM-dd HH:mm:ss
-	    } catch (IllegalArgumentException e) {
-	        throw new ServletException("Invalid date or time format", e);
-	    }
-	    
-	    String custEmail = request.getParameter("custEmail");
-	    
-	    List<Integer> staffIDs = new ArrayList<>();
-	    String sqlStaff = "SELECT staffID FROM staff";
-	    try (Connection conn = ConnectionManager.getConnection();
-	         PreparedStatement ps = conn.prepareStatement(sqlStaff);
-	         ResultSet rs = ps.executeQuery()) {
-	        while (rs.next()) {
-	            staffIDs.add(rs.getInt("staffID"));
-	        }
-	    }
+		Date apptDate;
+		Timestamp apptTime;
+		try {
+			apptDate = Date.valueOf(apptDateStr); // yyyy-MM-dd
+			apptTime = Timestamp.valueOf(apptDateStr + " " + apptTimeStr + ":00"); // yyyy-MM-dd HH:mm:ss
+		} catch (IllegalArgumentException e) {
+			throw new ServletException("Invalid date or time format", e);
+		}
 
-	    if (staffIDs.isEmpty()) {
-	        throw new ServletException("No staff available!");
-	    }
+		String custEmail = request.getParameter("custEmail");
 
-	    int staffID = staffIDs.get(new Random().nextInt(staffIDs.size()));
+		List<Integer> staffIDs = new ArrayList<>();
+		String sqlStaff = "SELECT staffID FROM staff";
+		try (Connection conn = ConnectionManager.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sqlStaff);
+				ResultSet rs = ps.executeQuery()) {
+			while (rs.next()) {
+				staffIDs.add(rs.getInt("staffID"));
+			}
+		}
 
-	    appointment appt = new appointment();
-	    appt.setCustomerID(customerID);
-	    appt.setPackageID(packageID);
-	    appt.setStaffID(staffID);
-	    appt.setApptDate(apptDate);
-	    appt.setApptTime(apptTime);
-	    appt.setCustomerEmail(custEmail);
-	    AppointmentDAO.bookAppointment(appt);
-	    
-	    //UNTUK TESTING SEND NOTIFICATION
-	    //SendNotificationService service = new SendNotificationService();
-	    //service.sendTwoDaysReminder("aqillghaz@gmail.com", "2026-01-19", "19:10");
+		if (staffIDs.isEmpty()) {
+			throw new ServletException("No staff available!");
+		}
 
-	    
-	    response.sendRedirect("AppointmentController?action=list");
+		int staffID = staffIDs.get(new Random().nextInt(staffIDs.size()));
+
+		appointment appt = new appointment();
+		appt.setCustomerID(customerID);
+		appt.setPackageID(packageID);
+		appt.setStaffID(staffID);
+		appt.setApptDate(apptDate);
+		appt.setApptTime(apptTime);
+		appt.setCustomerEmail(custEmail);
+		AppointmentDAO.bookAppointment(appt);
+
+		// UNTUK TESTING SEND NOTIFICATION
+		// SendNotificationService service = new SendNotificationService();
+		// service.sendTwoDaysReminder("aqillghaz@gmail.com", "2026-01-19", "19:10");
+
+		response.sendRedirect("AppointmentController?action=list");
 	}
-
-
 
 	private void showImage(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
 		// TODO Auto-generated method stub
 		int id = Integer.parseInt(request.getParameter("id"));
 		byte[] img = AppointmentDAO.getPackageImage(id);
-		
-		if(img != null) {
+
+		if (img != null) {
 			response.setContentType("image/jpeg");
 			response.getOutputStream().write(img);
 		}
-		
+
 	}
 
-	private void listAppointment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-	    // 1. Ambil ID customer dari session
-	    Integer customerID = (Integer) request.getSession().getAttribute("cusID");
-	    
-	    if (customerID != null) {
-	       
-	        List<appointment> appointments = AppointmentDAO.getAllAppointmentsByCustomerId(customerID);
-	        request.setAttribute("appointments", appointments);
-	        request.getRequestDispatcher("/appointment/listapt.jsp").forward(request, response);
-	    } else {
-	        response.sendRedirect("../log_in.jsp");
-	    }
+	private void listAppointment(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException, SQLException {
+		// 1. Ambil ID customer dari session
+		Integer customerID = (Integer) request.getSession().getAttribute("cusID");
+
+		if (customerID != null) {
+
+			List<appointment> appointments = AppointmentDAO.getAllAppointmentsByCustomerId(customerID);
+			request.setAttribute("appointments", appointments);
+			request.getRequestDispatcher("/appointment/listapt.jsp").forward(request, response);
+		} else {
+			response.sendRedirect("../log_in.jsp");
+		}
 	}
 
-	private void listAvailablePackage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void listAvailablePackage(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		List<Package> packages = AppointmentDAO.getPackageAvailable();
-		
-		if(packages == null) {
+
+		if (packages == null) {
 			packages = new ArrayList<>();
 		}
-		
+
 		request.setAttribute("packages", packages);
-		request.getRequestDispatcher("/appointment/bookAppointment.jsp").forward(request,response);
+		request.getRequestDispatcher("/appointment/bookAppointment.jsp").forward(request, response);
 	}
-	
-	private void cancelAppointment(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException{
+
+	private void cancelAppointment(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException {
 		// TODO Auto-generated method stub
-		 int appointmentID = Integer.parseInt(request.getParameter("appointmentID"));
-		    AppointmentDAO.cancelAppointment(appointmentID);
-		    System.out.println("Booking canceled successfully.");
-		    response.sendRedirect("AppointmentController?action=list");
+		int appointmentID = Integer.parseInt(request.getParameter("appointmentID"));
+		AppointmentDAO.cancelAppointment(appointmentID);
+		System.out.println("Booking canceled successfully.");
+		response.sendRedirect("AppointmentController?action=list");
 	}
 
 }
