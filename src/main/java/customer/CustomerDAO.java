@@ -14,7 +14,7 @@ public class CustomerDAO {
 
     //Create Account
     public static void createAccount(Customer cust) throws SQLException, IOException {
-    	String query = "INSERT INTO JuzCare.CUSTOMER"
+    	String query = "INSERT INTO CUSTOMER"
     	        + "(cusNRIC, custName, custEmail, custProfilePic, DOB, custUsername, custPassword, custPhoneNo, custVerified) "
     	        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -65,7 +65,7 @@ public class CustomerDAO {
 
     //Check Verify Code
     public static boolean isCodeValid(String email, String inputCode) throws SQLException {
-        String sql = "SELECT verificationCode, verificationExpiry FROM JuzCare.CUSTOMER WHERE custEmail=?";
+        String sql = "SELECT verificationCode, verificationExpiry FROM CUSTOMER WHERE custEmail=?";
         try (Connection conn = ConnectionManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -94,7 +94,7 @@ public class CustomerDAO {
 
     //Update Status Verify
     public static void markAsVerified(String email) throws SQLException {
-        String sql = "UPDATE JuzCare.customer SET custVerified='YES' WHERE custEmail=?";
+        String sql = "UPDATE customer SET custVerified='YES' WHERE custEmail=?";
         try (Connection conn = ConnectionManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
         	ps.setString(1, email.trim());
@@ -104,7 +104,7 @@ public class CustomerDAO {
     
     //Log In Customer
     public static Customer loginCustomer(Customer cust) throws SQLException {
-        String query = "SELECT * FROM JuzCare.customer WHERE custUsername=? AND custPassword=?";
+        String query = "SELECT * FROM customer WHERE custUsername=? AND custPassword=?";
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -141,7 +141,7 @@ public class CustomerDAO {
         Customer c = null;
 
         try {
-			String query = "SELECT * FROM JuzCare.customer WHERE cusID = ?";
+			String query = "SELECT * FROM customer WHERE cusID = ?";
 			connection = ConnectionManager.getConnection();
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.setInt(1, customerId);
@@ -178,7 +178,7 @@ public class CustomerDAO {
  // Method to update customer profile
     public static void updateprofile(Customer c) throws SQLException {
         // Ensure column names (custPhoneNo, custEmail, cusID) match your database table exactly
-        String sql = "UPDATE JuzCare.customer SET custPhoneNo = ?, custEmail = ? WHERE cusID = ?";
+        String sql = "UPDATE customer SET custPhoneNo = ?, custEmail = ? WHERE cusID = ?";
         
         try (Connection con = ConnectionManager.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -205,7 +205,7 @@ public class CustomerDAO {
     //changepassword
     public static void updatePassword(int cusID, String newPassword) throws SQLException {
         // Pastikan nama kolum CUSTPASSWORD dan CUSID betul mengikut table Oracle anda
-        String sql = "UPDATE JuzCare.customer SET custPassword = ? WHERE cusID = ?";
+        String sql = "UPDATE customer SET custPassword = ? WHERE cusID = ?";
         try (Connection con = ConnectionManager.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             

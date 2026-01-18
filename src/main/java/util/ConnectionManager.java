@@ -11,7 +11,7 @@ public class ConnectionManager {
 	//define and initialize database url for Oracle
 	private static final String DB_CONNECTION = "jdbc:oracle:thin:@//localhost:1521/freepdb1";
 	//define and initialize database user
-	private static final String DB_USER = "MICROSERVICE";
+	private static final String DB_USER = "JuzCare";
 	//define and initialize database password
 	private static final String DB_PASSWORD = "oracle";
 

@@ -18,7 +18,7 @@ public class AppointmentDAO {
 		List<Package> packages = new ArrayList<>();
 		
 		try {
-			String query = "SELECT * FROM package WHERE isExist = 'YES'";
+			String query = "SELECT * FROM JuzCare.package WHERE isExist = 'YES'";
 			connection = ConnectionManager.getConnection();
 			PreparedStatement ps = connection.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
@@ -58,7 +58,7 @@ public class AppointmentDAO {
 
 	public static void bookAppointment(appointment appt) throws SQLException {
 		// TODO Auto-generated method stub
-		String query = "INSERT INTO appointment(cusID, staffID, packageID, apptDate,apptTime) VALUES (?,?,?,?,?)";
+		String query = "INSERT INTO appointment(cusID, staffID, packageID, apptDate,apptTime, notiStatus) VALUES (?,?,?,?,?,?)";
 		connection = ConnectionManager.getConnection();
 		PreparedStatement ps = connection.prepareStatement(query);
 		try {
@@ -67,6 +67,7 @@ public class AppointmentDAO {
 			ps.setInt(3, appt.getPackageID());
 			ps.setDate(4, appt.getApptDate());
 			ps.setTimestamp(5, appt.getApptTime());
+			ps.setString(6, "PENDING");
 			
 			ps.executeUpdate();
 			ps.close();
@@ -153,6 +154,57 @@ public class AppointmentDAO {
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
+	}
+	
+	//Notification Status
+	public static void updateNotificationStatus(int appointmentID, String status) throws SQLException {
+	    String sql = "UPDATE appointment SET notiStatus = ? WHERE appointmentID = ?";
+	    try (Connection conn = ConnectionManager.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setString(1, status);
+	        ps.setInt(2, appointmentID);
+	        ps.executeUpdate();
+	    }
+	}
+	
+	//Cari list appointment untuk send notification
+	public static List<appointment> getAppointmentsForReminder(int interval, String unit) {
+	    List<appointment> appointments = new ArrayList<>();
+	    String sql = "";
+
+	    // Pilih query ikut unit (DAY atau HOUR)
+	    if ("DAY".equalsIgnoreCase(unit)) {
+	        sql = "SELECT a.*, c.custEmail " +
+	              "FROM appointment a " +
+	              "JOIN customer c ON a.cusID = c.cusID " +
+	              "WHERE TRUNC(a.apptDate) - TRUNC(SYSDATE) = ? " +
+	              "AND a.notiStatus = 'PENDING'";
+	    } else if ("HOUR".equalsIgnoreCase(unit)) {
+	        sql = "SELECT a.*, c.custEmail " +
+	              "FROM appointment a " +
+	              "JOIN customer c ON a.cusID = c.cusID " +
+	              "WHERE ROUND((a.apptTime - SYSDATE) * 24) = ? " +
+	              "AND a.notiStatus = 'PENDING'";
+	    }
+
+	    try (Connection conn = ConnectionManager.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+	        ps.setInt(1, interval);
+	        ResultSet rs = ps.executeQuery();
+
+	        while (rs.next()) {
+	            appointment apt = new appointment();
+	            apt.setAppointmentID(rs.getInt("appointmentID"));
+	            apt.setApptDate(rs.getDate("apptDate"));
+	            apt.setApptTime(rs.getTimestamp("apptTime"));
+	            apt.setCustomerEmail(rs.getString("custEmail"));
+	            appointments.add(apt);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return appointments;
 	}
 
 
