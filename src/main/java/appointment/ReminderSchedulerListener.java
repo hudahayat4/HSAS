@@ -1,4 +1,4 @@
-package appointment;
+/*package appointment;
 
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
@@ -22,4 +22,4 @@ public class ReminderSchedulerListener implements ServletContextListener {
         scheduler = null;
         System.out.println("ReminderScheduler stopped...");
     }
-}
+}*/
