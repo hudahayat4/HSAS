@@ -17,32 +17,37 @@ public class StaffDAO {
     private static Connection connection = null;
 
     //Login Staff (JANGAN LUPA UBAH BALIK NANTI)
-    public static Staff loginStaff(Staff staff) throws SQLException {
-        String query = "SELECT * FROM staff WHERE username=? AND password=?";
+    public static Staff loginStaff(Staff staff) {
+        Staff result = null;
+        String query = "SELECT staffID, NRIC, managerID, name, PhoneNo, DOB, email, role " +
+                       "FROM staff WHERE username=? AND password=?";
 
-        connection = ConnectionManager.getConnection();
-        PreparedStatement ps = connection.prepareStatement(query);
+        try (Connection conn = ConnectionManager.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
 
-        ps.setString(1, staff.getUsername());
-        ps.setString(2, Password.md5Hash(staff.getPassword()));
-        
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            staff.setStaffID(rs.getInt("staffID"));
-            staff.setNRIC(rs.getString("NRIC"));
-            staff.setManagerID(rs.getInt("managerID"));
-            staff.setName(rs.getString("name"));
-            staff.setPhoneNo(rs.getString("PhoneNo"));
-            staff.setDOB(rs.getDate("DOB"));
-            staff.setEmail(rs.getString("email"));
-            staff.setRole(rs.getString("role"));
-            return staff;
+            ps.setString(1, staff.getUsername());
+            ps.setString(2, Password.md5Hash(staff.getPassword()));
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    result = new Staff();
+                    result.setStaffID(rs.getInt("staffID"));
+                    result.setNRIC(rs.getString("NRIC"));
+                    result.setManagerID(rs.getInt("managerID"));
+                    result.setName(rs.getString("name"));
+                    result.setPhoneNo(rs.getString("PhoneNo"));
+                    result.setDOB(rs.getDate("DOB"));
+                    result.setEmail(rs.getString("email"));
+                    result.setRole(rs.getString("role"));
+                    result.setUsername(staff.getUsername()); // simpan username asal
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        rs.close();
-        ps.close();
-        return null;
+        return result;
     }
+
 
     public static void createStaffAccount(Staff staff) throws SQLException, IOException {
         // --- 1️⃣ Generate raw password from NRIC ---
