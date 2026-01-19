@@ -81,7 +81,7 @@
 							<c:when test="${apt.packageName == 'Lipid'}">
 								<div class="mb-3">
 									<label class="form-label">HDL Cholesterol</label> <input
-										type="number" name="hdl" class="form-control rounded-pill">
+										type="number" name="hdl" class="form-control rounded-pill" step="any" min="0">
 								</div>
 
 								<div class="mb-3">
@@ -90,20 +90,20 @@
 								</div>
 								<div class="mb-3">
 									<label class="form-label">LDL Cholesterol</label> <input
-										type="number" name="ldl" class="form-control rounded-pill">
+										type="number" name="ldl" class="form-control rounded-pill"  step="any" min="0">
 								</div>
 							</c:when>
 
 							<c:when test="${apt.packageName == 'HBA1c'}">
 								<div class="mb-3">
 									<label class="form-label">Diabetes Risk Level</label> <input
-										type="number" name="diabetes"
+										type="text" name="diabetes"
 										class="form-control rounded-pill">
 								</div>
 								<div class="mb-3">
 									<label class="form-label">HBA1c Threshold</label> <input
 										type="number" name="threshold"
-										class="form-control rounded-pill">
+										class="form-control rounded-pill" step="any" min="0">
 								</div>
 							</c:when>
 

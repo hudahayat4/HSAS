@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import appointment.appointment;
 import util.ConnectionManager;
@@ -99,7 +101,7 @@ public class ResultDAO {
 
 	public static void addHBA1cResult(HBA1C hba) {
 	    // SQL: resultID is inserted manually (PK & FK)
-	    String sql = "INSERT INTO hba1c (resultID, diabetesRiskLevel, hBa1cTreShold) VALUES (?, ?, ?)";
+	    String sql = "INSERT INTO hba1c (resultID, diabetesRiskLevel, hBa1cThreshold) VALUES (?, ?, ?)";
 	    
 	    try (Connection con = ConnectionManager.getConnection();
 	         PreparedStatement ps = con.prepareStatement(sql)) {
@@ -140,5 +142,15 @@ public class ResultDAO {
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
+	}
+
+
+
+	public static List<Result> getAllResult()  throws SQLException{
+		// TODO Auto-generated method stub
+		List<Result> results = new ArrayList<>();
+		
+		
+		return results;
 	}
 }
