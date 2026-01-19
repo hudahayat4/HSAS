@@ -15,11 +15,13 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
 <link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/css/listapt.css">
+	href="${pageContext.request.contextPath}/css/listresult.css">
+	<link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/header.css">
+	
 </head>
 <body>
-	<div class="wrapper">
-		<%@ include file="../sideManager.jsp"%>
+<%@ include file="../header.jsp" %>
 		<div class="main">
 			<div class="appointment-container">
 				<h2 class="section-title"
@@ -53,16 +55,13 @@
 							</div>
 
 							<div class="appointment-action d-flex flex-column align-items-center">
+							
 								<a
 									href="${pageContext.request.contextPath}/result/resultController?appointmentID=${apt.appointmentID}"
 									class="btn"
-									style="background: #009FA5; color: white; margin-bottom: 5px;">
-									Add Result </a>
-								<a
-									href="${pageContext.request.contextPath}/result/resultController?action=view&appointmentID=${apt.appointmentID}"
-									class="btn"
 									style="background: white; color: black; border: 1px solid #009FA5;">
-									View Result </a>
+									View Result
+								 </a>
 							</div>
 
 						</div>
@@ -76,6 +75,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
+<%@ include file="../footer.jsp" %>
 </body>
 </html>

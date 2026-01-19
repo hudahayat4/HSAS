@@ -1,109 +1,148 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
- 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-     <link rel="stylesheet" href="../css/sideStaff.css">
- <style>
-@import
-	url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap')
-	;
-</style>
+<title>View Result</title>
 
-<title>view result</title>
+<link rel="stylesheet" href="../css/sideStaff.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="../css/viewresult.css">
 </head>
+
 <body>
 <div class="wrapper">
-<%@ include file="../sidePharmacist.jsp"%>
-	<h5 class="text-center fw-bold mb-4" style="color: #17a2b8;">Result</h5>
-	<div class="container mt-5" style="max-width: 900px;">
-		<div class="card mb-4">
-			<div class="card-body">
-				<div class="row mb-2">
-					<div class="col-md-4 fw-bold">Appointment Date :</div>
-					<div class="col-md-8 text-start">16/11/2025</div>
-				</div>
-				<div class="row mb-2">
-					<div class="col-md-4 fw-bold">Appointment Time :</div>
-					<div class="col-md-8 text-start">10.00 AM</div>
-				</div>
-				<div class="row mb-2">
-					<div class="col-md-4 fw-bold">Pharmacist Name :</div>
-					<div class="col-md-8 text-start">Dr. Ali</div>
-				</div>
-				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
- 					 <button id="viewResultBtn" class="btn " type="button" style="background-color: #17a2b8; color: white;">View results</button>
-				</div>
-			</div>
-		</div>
-<!-- RESULT SECTION (HIDDEN INITIALLY) -->
-<div id="resultSection" class="d-none">
+    <%@ include file="../sideManager.jsp"%>
 
-    <c:choose>
+    <div class="main-content px-3">
+        
+        <div class="result-header d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="mb-0 fw-bold">Test Result</h2>
+                <p class="mb-0 opacity-75">Patient Medical Record</p>
+            </div>
+            <i class="bi bi-file-earmark-medical display-5"></i>
+        </div>
 
-        <!-- URIC -->
-        <c:when test="${packageType == 'URIC'}">
-            <div class="card mb-4 shadow-sm">
-                <div class="card-body">
-                    <h6 class="fw-bold mb-3">Uric Acid Result</h6>
+        <div class="content-card">
+            
+            <div class="section-title">
+                <i class="bi bi-calendar-check"></i> Appointment Details
+            </div>
+            <div class="row g-4 mb-5">
+                <div class="col-md-4">
+                    <div class="label-text">Appointment Date</div>
+                    <div class="value-text">
+                        <fmt:formatDate value="${apt.apptDate}" pattern="dd/MM/yyyy"/>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="label-text">Appointment Time</div>
+                    <div class="value-text">
+                        <fmt:formatDate value="${apt.apptTime}" pattern="HH:mm"/>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="label-text">Pharmacist</div>
+                    <div class="value-text">${apt.pharmacistName}</div>
+                </div>
+            </div>
 
-                    <div class="row mb-2">
-                        <div class="col-md-4 fw-bold">Uric Acid Level :</div>
-                        <div class="col-md-8">${uricLevel} mg/dL</div>
+            <hr class="my-4 opacity-25">
+
+            <div class="section-title">
+                <i class="bi bi-clipboard2-pulse"></i> ${apt.packageName} Details
+            </div>
+            
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="label-text">Result Date</div>
+                    <div class="value-text">
+                        <fmt:formatDate value="${result.date}" pattern="dd/MM/yyyy"/>
                     </div>
                 </div>
             </div>
-        </c:when>
 
-        <!-- LIPID -->
-        <c:when test="${packageType == 'LIPID'}">
-            <div class="card mb-4 shadow-sm">
-                <div class="card-body">
-                    <h6 class="fw-bold mb-3">Lipid Profile</h6>
+            <div class="row g-3">
+                <c:choose>
+                    <c:when test="${apt.packageName == 'Uric Acid'}">
+                        <div class="col-md-6">
+                            <div class="result-tile">
+                                <div class="label-text">Risk Indicator</div>
+                                <span class="badge fs-6 mt-2 px-3 py-2
+                                    ${result.riskIndicator == 'High' ? 'bg-danger' :
+                                      result.riskIndicator == 'Medium' ? 'bg-warning text-dark' :
+                                      'bg-success'}">
+                                    ${result.riskIndicator}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="result-tile">
+                                <div class="label-text">Uric Level</div>
+                                <div class="value-text mt-2">${result.uricLevelRange}</div>
+                            </div>
+                        </div>
+                    </c:when>
 
-                    <div class="row mb-2">
-                        <div class="col-md-4 fw-bold">HDL :</div>
-                        <div class="col-md-8">${hdl} mg/dL</div>
-                    </div>
+                    <c:when test="${apt.packageName == 'Lipid'}">
+                        <div class="col-md-4">
+                            <div class="result-tile">
+                                <div class="label-text">HDL Cholesterol</div>
+                                <div class="value-text mt-1 text-success">${result.hdl}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="result-tile">
+                                <div class="label-text">LDL Cholesterol</div>
+                                <div class="value-text mt-1 text-danger">${result.ldl}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="result-tile">
+                                <div class="label-text">Details</div>
+                                <div class="value-text mt-1">${result.details}</div>
+                            </div>
+                        </div>
+                    </c:when>
 
-                    <div class="row mb-2">
-                        <div class="col-md-4 fw-bold">LDL :</div>
-                        <div class="col-md-8">${ldl} mg/dL</div>
-                    </div>
+                    <c:when test="${apt.packageName == 'HBA1c'}">
+                        <div class="col-md-6">
+                            <div class="result-tile">
+                                <div class="label-text">Diabetes Risk</div>
+                                <div class="value-text mt-1">${result.diabetes}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="result-tile">
+                                <div class="label-text">HBA1c Threshold</div>
+                                <div class="value-text mt-1">${result.threshold}</div>
+                            </div>
+                        </div>
+                    </c:when>
+                </c:choose>
+            </div>
+
+            <div class="mt-5">
+                <div class="label-text mb-2">Comment</div>
+                <div class="comment-box">
+                    ${result.comment}
                 </div>
             </div>
-        </c:when>
 
-        <!-- HBA1C -->
-        <c:when test="${packageType == 'HBA1C'}">
-            <div class="card mb-4 shadow-sm">
-                <div class="card-body">
-                    <h6 class="fw-bold mb-3">HbA1c Result</h6>
-
-                    <div class="row mb-2">
-                        <div class="col-md-4 fw-bold">HbA1c Value :</div>
-                        <div class="col-md-8">${hba1cValue} %</div>
-                    </div>
-                </div>
+            <div class="text-center mt-5">
+                <a href="appointmentList.jsp" class="btn btn-custom" style="background-color: #17a2b8; color: white;">
+                    <i class="bi bi-arrow-left me-2"></i>Back
+                </a>
             </div>
-        </c:when>
 
-    </c:choose>
-
-    <!-- Comment -->
-    <div class="card mb-4 shadow-sm">
-        <div class="card-body">
-            <h6 class="fw-bold">Pharmacist Comment</h6>
-            <p>${comment}</p>
         </div>
     </div>
+</div>
 
-</div>
-</div>
-</div>
 </body>
-<script src="${pageContext.request.contextPath}/js/viewresult.js"></script>
 </html>

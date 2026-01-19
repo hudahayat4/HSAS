@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
 
 import appointment.appointment;
 
@@ -42,6 +43,9 @@ public class resultController extends HttpServlet {
 	        }
 
 	        switch (action) {
+	        	case "view":
+                viewResult(request, response);
+                break;
 	            case "list":
 	                listResult(request, response);
 	                break;
@@ -69,11 +73,25 @@ public class resultController extends HttpServlet {
 		
 	}
 
+	
+
 	private void listResult(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		
+			//List<Result> results = ResultDAO.getAllResult();
+			
+			//request.setAttribute("results", results);
+			//request.getRequestDispatcher("/package/listresult.jsp").forward(request, response);
 	}
-
+	
+	private void viewResult(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+			//List<Result> results = ResultDAO.getAllResult();
+			
+			//request.setAttribute("results", results);
+			//request.getRequestDispatcher("/package/listresult.jsp").forward(request, response);
+	}
+	
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
@@ -142,6 +160,7 @@ public class resultController extends HttpServlet {
 	        e.printStackTrace();
 	    }
 	}
-
-
+	
+	
+	
 }
