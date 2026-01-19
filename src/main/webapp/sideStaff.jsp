@@ -35,28 +35,11 @@
        		 	<i class="lni lni-file-multiple"></i>
        		 	<span>Package</span>
        		 </a>
-        <li class="sidebar-item">
-       		 <a href="#" class="sidebar-link">
-       		 	<i class="lni lni-hourglass"></i>
-       		 	<span>Pending Accounts</span>
-       		 </a>
        	</li>
        	 <li class="sidebar-item">
-       		 <a href="#" class="sidebar-link">
-       		 	<i class="bi bi-person-vcard"></i>
-       		 	<span>Accounts</span>
-       		 </a>
-       	</li>
-       	<li class="sidebar-item">
-       		 <a href="teamaccount/StaffController?action=list" class="sidebar-link">
-       		 	<i class="lni lni-hierarchy-1"></i>
-       		 	<span>Team</span>
-       		 </a>
-       	</li>
-		 <li class="sidebar-item">
-       		 <a href="#" class="sidebar-link">
-       		 	<i class="lni lni-sliders-horizontal-square-2"></i>
-       		 	<span>Access Control</span>
+       		 <a href="javascript:void(0)" class="sidebar-link">
+       		 	<i class="lni lni-user-multiple-4"></i>
+       		 	<span>Appointment</span>
        		 </a>
        	</li>
     <li class="sidebar-item">

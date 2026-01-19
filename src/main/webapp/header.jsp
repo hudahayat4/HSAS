@@ -27,14 +27,14 @@
 						href="${pageContext.request.contextPath}/appointment/AppointmentController?action=package">BOOKING</a>
 					</li>		
 					<li class="nav-item"><a
-						class="nav-link ${param.action == 'list' ? 'active' : ''}"
-						href="${pageContext.request.contextPath}/result/ResultController?action=listResult">RESULT</a>
+						class="nav-link ${param.action == 'list' && pageContext.request.requestURI.contains('result') ? 'active' : ''}"
+						href="${pageContext.request.contextPath}/result/resultController?action=list">RESULT</a>
 					</li>
 					<li class="nav-item"><a
-						class="nav-link ${param.action == 'list' ? 'active' : ''}"
+						class="nav-link ${param.action == 'list' && pageContext.request.requestURI.contains('appointment') ? 'active' : ''}"
 						href="${pageContext.request.contextPath}/appointment/AppointmentController?action=list">APPOINTMENT</a>
 					</li>
-					<li class="nav-item"><a class="nav-link"
+					<li class="nav-item"><a class="nav-link ${param.action == 'view' && pageContext.request.requestURI.contains('package') ? 'active' : ''}"
 						href="${pageContext.request.contextPath}/package/PackageController?action=view">PACKAGE</a>
 					</li>
 					<li class="nav-item"><a

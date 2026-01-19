@@ -8,6 +8,6 @@
 <link rel="stylesheet" href="../css/sideStaff.css">
 </head>
 <body>
-<%@ include file="../sidePharmacist.jsp" %>
+<%@ include file="../sideManager.jsp" %>
 </body>
 </html>

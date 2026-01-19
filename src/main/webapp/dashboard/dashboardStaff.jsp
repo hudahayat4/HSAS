@@ -66,8 +66,7 @@
 <body>
 
 <div class="wrapper d-flex">
-    <%-- Sidebar Include --%>
-    <%@ include file="../sidePharmacist.jsp"%>
+    <%@ include file="../sideStaff.jsp"%>
 
     <main class="flex-grow-1 px-md-4 py-4">
         <div class="d-flex justify-content-between align-items-center mb-4">

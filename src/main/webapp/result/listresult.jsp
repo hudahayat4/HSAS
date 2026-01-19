@@ -57,7 +57,7 @@
 							<div class="appointment-action d-flex flex-column align-items-center">
 							
 								<a
-									href="${pageContext.request.contextPath}/result/resultController?appointmentID=${apt.appointmentID}"
+									href="${pageContext.request.contextPath}/result/resultController?action=viewMore&appointmentID=${apt.appointmentID}"
 									class="btn"
 									style="background: white; color: black; border: 1px solid #009FA5;">
 									View Result

@@ -146,11 +146,114 @@ public class ResultDAO {
 
 
 
-	public static List<Result> getAllResult()  throws SQLException{
+	public static List<appointment> getAllResult(int cusID)  throws SQLException{
 		// TODO Auto-generated method stub
-		List<Result> results = new ArrayList<>();
-		
-		
-		return results;
+		List<appointment> appointments = new ArrayList<>();
+		String sql = "SELECT a.*, p.packageName,c.custName FROM appointment a "
+				+ "JOIN package p ON a.packageID = p.packageID " + "JOIN customer c ON a.cusID = c.cusID "
+				+ "WHERE a.cusID = ? AND a.apptTime < CURRENT_TIMESTAMP ORDER BY a.apptDate DESC";
+
+		try (Connection conn = ConnectionManager.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, cusID);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				appointment apt = new appointment();
+				apt.setAppointmentID(rs.getInt("appointmentID"));
+				apt.setApptDate(rs.getDate("apptDate"));
+				apt.setApptTime(rs.getTimestamp("apptTime"));
+				apt.setPackageName(rs.getString("packageName"));
+				apt.setCustomerName(rs.getString("custName"));
+				appointments.add(apt);
+			}
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return appointments;
 	}
+	
+	public static Result getResultByAppointmentId(int appointmentID) {
+	    Result result = null;
+
+	    String query =
+	        "SELECT " +
+	        "r.resultID, r.resultDate, r.resultComment, " +
+	        "a.appointmentID, a.apptDate, a.apptTime, s.name AS pharmacistName, " +
+	        "p.packageName, " +
+	        "u.UricLevelRange, u.riskIndicator, " +
+	        "l.hdlCholesterol, l.ldlCholesterol, l.lipidPanelDetails, " +
+	        "h.diabetesRiskLevel, h.hba1cThreshold " +
+	        "FROM result r " +
+	        "JOIN appointment a ON r.appointmentID = a.appointmentID " +
+	        "JOIN package p ON a.packageID = p.packageID " +
+	        "JOIN staff s ON a.staffID = s.staffID " +
+	        "LEFT JOIN UricAcid u ON r.resultID = u.resultID " +
+	        "LEFT JOIN lipid l ON r.resultID = l.resultID " +
+	        "LEFT JOIN HbA1c h ON r.resultID = h.resultID " +
+	        "WHERE r.appointmentID = ?";
+
+	    try (Connection conn = ConnectionManager.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(query)) {
+
+	        ps.setInt(1, appointmentID);
+
+	        try (ResultSet rs = ps.executeQuery()) {
+	            if (rs.next()) {
+
+	                result = new Result();
+	                result.setResultId(rs.getInt("resultID"));
+	                result.setAppointmentId(rs.getInt("appointmentID"));
+	                result.setResultDate(rs.getDate("resultDate"));
+	                result.setResultComment(rs.getString("resultComment"));
+
+	                // ===== Create Appointment object =====
+	               appointment apt = new appointment();
+	                apt.setAppointmentID(rs.getInt("appointmentID"));
+	                apt.setApptDate(rs.getDate("apptDate"));
+	                apt.setApptTime(rs.getTimestamp("apptTime"));
+	                apt.setPharmacistName(rs.getString("pharmacistName")); // matches alias in query
+	                apt.setPackageName(rs.getString("packageName"));
+	                result.setApt(apt);
+
+	                // ===== Optional children =====
+	                if (rs.getObject("uricLevelRange") != null) {
+	                    UricAcid ua = new UricAcid();
+	                    ua.setResultId(result.getResultId());
+	                    ua.setResultDate(result.getResultDate());
+	                    ua.setResultComment(result.getResultComment());
+	                    ua.setUricLevelRange(rs.getDouble("UricLevelRange"));
+	                    ua.setRiskIndicator(rs.getString("riskIndicator"));
+	                    result.setUricacid(ua);
+	                }
+
+	                if (rs.getObject("hdlCholesterol") != null) {
+	                    Lipid lipid = new Lipid();
+	                    lipid.setResultId(result.getResultId());
+	                    lipid.setResultDate(result.getResultDate());
+	                    lipid.setResultComment(result.getResultComment());
+	                    lipid.setHdlCholesterol(rs.getDouble("hdlCholesterol"));
+	                    lipid.setLdlCholesterol(rs.getDouble("ldlCholesterol"));
+	                    lipid.setLipidPanelDetails(rs.getString("lipidPanelDetails"));
+	                    result.setLipid(lipid);
+	                }
+
+	                if (rs.getObject("hba1cThreshold") != null) {
+	                    HBA1C hba1c = new HBA1C();
+	                    hba1c.setResultId(result.getResultId());
+	                    hba1c.setResultDate(result.getResultDate());
+	                    hba1c.setResultComment(result.getResultComment());
+	                    hba1c.setHBa1cTreShold(rs.getDouble("hba1cThreshold"));
+	                    hba1c.setDiabetesRiskLevel(rs.getString("diabetesRiskLevel"));
+	                    result.setHba1c(hba1c);
+	                }
+	            }
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return result;
+	}
+
 }

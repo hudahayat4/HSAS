@@ -117,7 +117,7 @@ public class AppointmentDAO {
 		List<appointment> appointments = new ArrayList<>();
 		String sql = "SELECT a.*, p.packageName,c.custName FROM appointment a "
 				+ "JOIN package p ON a.packageID = p.packageID " + "JOIN customer c ON a.cusID = c.cusID "
-				+ "WHERE a.cusID = ? ORDER BY a.apptDate DESC";
+				+ "WHERE a.cusID = ? AND a.apptTime > CURRENT_TIMESTAMP ORDER BY a.apptDate DESC";
 
 		try (Connection conn = ConnectionManager.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.setInt(1, cusID);

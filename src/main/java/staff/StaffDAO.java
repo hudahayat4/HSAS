@@ -101,6 +101,7 @@ public class StaffDAO {
 						s.setPassword(rs.getString("password"));
 						s.setDOB(rs.getDate("DOB"));
 						s.setPhoneNo(rs.getString("PhoneNo"));
+						s.setRole(rs.getString("role"));
 					}
 				}
 			}catch(Exception e) {

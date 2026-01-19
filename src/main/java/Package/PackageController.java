@@ -41,10 +41,6 @@ public class PackageController extends HttpServlet {
 		String action = request.getParameter("action");
 
 		try {
-			if (action == null) {
-				listPackage(request, response);
-				return;
-			}
 
 			switch (action) {
 

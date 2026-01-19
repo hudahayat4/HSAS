@@ -49,8 +49,12 @@ public class resultController extends HttpServlet {
 	            case "list":
 	                listResult(request, response);
 	                break;
+	            case "viewMore":
+	            	viewMore(request,response);
+	            	break;
 	            default:
 	                viewForm(request, response);
+	                break;
 	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -58,29 +62,86 @@ public class resultController extends HttpServlet {
 	}
 
 
+	private void viewMore(HttpServletRequest request, HttpServletResponse response) 
+	        throws ServletException, IOException {
+
+	    String appointmentIdStr = request.getParameter("appointmentID");
+
+	    if (appointmentIdStr != null) {
+	        int appointmentID = 0;
+	        try {
+	            appointmentID = Integer.parseInt(appointmentIdStr);
+	        } catch (NumberFormatException e) {
+	            response.sendRedirect("resultController?action=list");
+	            return;
+	        }
+
+	        // Call DAO
+	        Result result = ResultDAO.getResultByAppointmentId(appointmentID);
+
+	        if (result != null) {
+	            // Set Appointment object for JSP
+	            request.setAttribute("apt", result.getApt());
+	            // Also set full Result object
+	            request.setAttribute("result", result);
+
+	            request.getRequestDispatcher("/result/viewresult.jsp").forward(request, response);
+	        } else {
+	            response.sendRedirect("resultController?action=list");
+	        }
+
+	    } else {
+	        response.sendRedirect("resultController?action=list");
+	    }
+	}
+
+
+
 	private void viewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String appoinmentIDStr = request.getParameter("appointmentID");
-		if(appoinmentIDStr != null){
-			int appointmentID = Integer.parseInt(appoinmentIDStr);
-			appointment apt = ResultDAO.getAppointment(appointmentID);
-			
-			if(apt != null) {
-				request.setAttribute("apt", apt);
-				request.getRequestDispatcher("/result/createResult.jsp").forward(request, response);
-			}
-		}
-		
+		String appointmentIdStr = request.getParameter("appointmentID");
+
+	    if (appointmentIdStr != null) {
+	        int appointmentID = 0;
+	        try {
+	            appointmentID = Integer.parseInt(appointmentIdStr);
+	        } catch (NumberFormatException e) {
+	            response.sendRedirect("${pageContext.request.contextPath}/appointment/appointmentController?action=listStaff");
+	            return;
+	        }
+
+	        // Call DAO
+	        Result result = ResultDAO.getResultByAppointmentId(appointmentID);
+
+	        if (result != null) {
+	            // Set Appointment object for JSP
+	            request.setAttribute("apt", result.getApt());
+	            // Also set full Result object
+	            request.setAttribute("result", result);
+
+	            request.getRequestDispatcher("/result/viewresultPharmacist.jsp").forward(request, response);
+	        } else {
+	            response.sendRedirect("resultController?action=list");
+	        }
+
+	    } else {
+	        response.sendRedirect("resultController?action=list");
+	    }
 	}
 
 	
 
-	private void listResult(HttpServletRequest request, HttpServletResponse response) {
+	private void listResult(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
-			//List<Result> results = ResultDAO.getAllResult();
+		Integer customerID = (Integer) request.getSession().getAttribute("cusID");
+		if(customerID != null)
+		{
+
+			List<appointment> appointments = ResultDAO.getAllResult(customerID);
 			
-			//request.setAttribute("results", results);
-			//request.getRequestDispatcher("/package/listresult.jsp").forward(request, response);
+			request.setAttribute("appointments", appointments);
+			request.getRequestDispatcher("/result/listresult.jsp").forward(request, response);
+		}
 	}
 	
 	private void viewResult(HttpServletRequest request, HttpServletResponse response) {

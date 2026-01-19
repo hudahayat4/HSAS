@@ -31,7 +31,7 @@
        		 </a>
        	</li>
        <li class="sidebar-item">
-       		 <a href="javascript:void(0)" class="sidebar-link">
+       		 <a href="package/PackageController?action=view" class="sidebar-link">
        		 	<i class="lni lni-file-multiple"></i>
        		 	<span>Package</span>
        		 </a>
@@ -43,13 +43,13 @@
        		 </a>
        	</li>
 		  	<li class="sidebar-item">
-       		 <a href="teamaccount/listTeamAccount.jsp" class="sidebar-link">
+       		 <a href="${pageContext.request.contextPath}/teamaccount/StaffController?action=list" class="sidebar-link">
        		 	<i class="lni lni-hierarchy-1"></i>
        		 	<span>Team</span>
        		 </a>
        	</li>
     <li class="sidebar-item">
-        <a href="teamaccount/StaffController?action=view" class="sidebar-link">
+        <a href="${pageContext.request.contextPath}/teamaccount/StaffController?action=view" class="sidebar-link">
             <i class="lni lni-gear-1"></i>
             <span>Settings</span>
         </a>
