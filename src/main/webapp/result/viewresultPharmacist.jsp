@@ -16,7 +16,7 @@
 
 <body>
 <div class="wrapper">
-    <%@ include file="../sideManager.jsp"%>
+    <%@ include file="../sidePharmacist.jsp"%>
 
     <div class="main-content px-3">
         

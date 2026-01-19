@@ -19,6 +19,8 @@
 	rel="stylesheet">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/viewpackageStaff.css">
+
+<link rel="stylesheet" href="../css/sideStaff.css">
 <style>
 .availability-btn {
 	width: 110px; /* Adjust width as needed to fit longest text */
@@ -61,204 +63,211 @@
 	session.removeAttribute("message");
 	}
 	%>
-	<div class="main-container">
+	<div class="wrapper">
 
-		<div class="content-wrapper">
-			<div class="content-card">
+		<%@ include file="../sideStaff.jsp"%>
+		<div class="main-container">
 
-				<h1 class="page-title">Health Screening Packages</h1>
+			<div class="content-wrapper">
+				<div class="content-card">
 
-				<input type="text" id="package-search" class="form-control mb-3"
-					placeholder="Search">
+					<h1 class="page-title">Health Screening Packages</h1>
 
-				<!-- Add Button -->
-				<div class="add-btn-wrapper">
-					<button class="btn"
-						style="background: #009FA5; color: white; margin-bottom: 20px;"
-						data-bs-toggle="modal" data-bs-target="#addModal">+ Add
-						New Package</button>
+					<input type="text" id="package-search" class="form-control mb-3"
+						placeholder="Search">
+
+					<!-- Add Button -->
+					<div class="add-btn-wrapper">
+						<button class="btn"
+							style="background: #009FA5; color: white; margin-bottom: 20px;"
+							data-bs-toggle="modal" data-bs-target="#addModal">+ Add
+							New Package</button>
+					</div>
+
+					<!-- PACKAGE LIST -->
+					<c:choose>
+						<c:when test="${empty packages}">
+							<div class="alert alert-info">No package available.</div>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="p" items="${packages}">
+								<div class="package-card">
+									<img class="me-3"
+										src="${pageContext.request.contextPath}/package/PackageController?action=image&id=${p.packageID}"
+										width="80" height="60">
+
+									<div class="package-details">
+										<strong>${p.packageName}</strong><br> RM
+										<fmt:formatNumber value="${p.packagePrice}"
+											minFractionDigits="2" />
+									</div>
+									<div class="me-2">
+										<c:choose>
+											<c:when test="${p.isExist == 'YES'}">
+												<span class="btn btn-success btn-sm availability-btn"
+													style="pointer-events: none;">Available</span>
+											</c:when>
+											<c:otherwise>
+												<span class="btn btn-danger btn-sm availability-btn"
+													style="pointer-events: none;">Not Available</span>
+											</c:otherwise>
+										</c:choose>
+									</div>
+
+									<button class="btn btn-sm btn-info ms-auto"
+										style="background: white; color: black;"
+										data-bs-toggle="modal" data-bs-target="#updateModal"
+										data-id="${p.packageID}" data-name="${p.packageName}"
+										data-price="${p.packagePrice}" data-bfr="${p.bfrReq}"
+										data-exist="${p.isExist}">Update</button>
+								</div>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+
 				</div>
+			</div>
+		</div>
 
-				<!-- PACKAGE LIST -->
-				<c:choose>
-					<c:when test="${empty packages}">
-						<div class="alert alert-info">No package available.</div>
-					</c:when>
-					<c:otherwise>
-						<c:forEach var="p" items="${packages}">
-							<div class="package-card">
-								<img class="me-3"
-									src="${pageContext.request.contextPath}/package/PackageController?action=image&id=${p.packageID}"
-									width="80" height="60">
 
-								<div class="package-details">
-									<strong>${p.packageName}</strong><br> RM
-									<fmt:formatNumber value="${p.packagePrice}"
-										minFractionDigits="2" />
-								</div>
-								<div class="me-2">
-									<c:choose>
-										<c:when test="${p.isExist == 'YES'}">
-											<span class="btn btn-success btn-sm availability-btn"
-												style="pointer-events: none;">Available</span>
-										</c:when>
-										<c:otherwise>
-											<span class="btn btn-danger btn-sm availability-btn"
-												style="pointer-events: none;">Not Available</span>
-										</c:otherwise>
-									</c:choose>
-								</div>
+		<!-- ADD MODAL -->
+		<div class="modal fade" id="addModal" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5>Add Package</h5>
+						<button class="btn-close" data-bs-dismiss="modal"></button>
+					</div>
+					<div class="modal-body">
+						<form id="addPackageForm"
+							action="${pageContext.request.contextPath}/package/PackageController"
+							method="post" enctype="multipart/form-data">
 
-								<button class="btn btn-sm btn-info ms-auto"
-									style="background: white; color: black;" data-bs-toggle="modal"
-									data-bs-target="#updateModal" data-id="${p.packageID}"
-									data-name="${p.packageName}" data-price="${p.packagePrice}"
-									data-bfr="${p.bfrReq}" data-exist="${p.isExist}">
-									Update</button>
+							<!-- Package Name -->
+							<div class="mb-3 position-relative">
+								<label for="packageName" class="col-form-label">Package
+									Name:</label> <input type="text" class="form-control" id="packageName"
+									placeholder="Health Screening Type" name="packageName">
+								<span class="error-icon"><i
+									class="bi bi-exclamation-triangle-fill"></i></span>
+								<div class="error-message">Enter a package name.</div>
 							</div>
-						</c:forEach>
-					</c:otherwise>
-				</c:choose>
 
-			</div>
-		</div>
-	</div>
+							<!-- Price -->
+							<div class="mb-3 position-relative">
+								<label for="packagePrice" class="col-form-label">Price:</label>
+								<input type="number" class="form-control" id="packagePrice"
+									placeholder="RM" name="packagePrice"> <span
+									class="error-icon"><i
+									class="bi bi-exclamation-triangle-fill"></i></span>
+								<div class="error-message">Enter a valid price.</div>
+							</div>
 
+							<!-- Picture -->
+							<div class="mb-3 position-relative">
+								<label for="packagePic" class="form-label">Package
+									Picture:</label> <input class="form-control" type="file"
+									id="packagePic" name="packagePic"> <span
+									class="error-icon"><i
+									class="bi bi-exclamation-triangle-fill"></i></span>
+								<div class="error-message">Upload a picture.</div>
+							</div>
 
-	<!-- ADD MODAL -->
-	<div class="modal fade" id="addModal" tabindex="-1">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5>Add Package</h5>
-					<button class="btn-close" data-bs-dismiss="modal"></button>
-				</div>
-				<div class="modal-body">
-					<form id="addPackageForm"
-						action="${pageContext.request.contextPath}/package/PackageController"
-						method="post" enctype="multipart/form-data">
+							<!-- Fasting -->
+							<div class="mb-3 position-relative">
+								<label class="col-form-label">Fasting:</label><br> <input
+									class="form-check-input" type="radio" name="bfrReq" id="bfrYes"
+									value="YES"> <label class="form-check-label"
+									for="bfrYes">Yes</label> <input class="form-check-input"
+									type="radio" name="bfrReq" id="bfrNo" value="NO"> <label
+									class="form-check-label" for="bfrNo">No</label> <span
+									class="error-icon"><i
+									class="bi bi-exclamation-triangle-fill"></i></span>
+								<div class="error-message">Select fasting option.</div>
+							</div>
 
-						<!-- Package Name -->
-						<div class="mb-3 position-relative">
-							<label for="packageName" class="col-form-label">Package
-								Name:</label> <input type="text" class="form-control" id="packageName"
-								placeholder="Health Screening Type" name="packageName">
-							<span class="error-icon"><i
-								class="bi bi-exclamation-triangle-fill"></i></span>
-							<div class="error-message">Enter a package name.</div>
-						</div>
+							<!-- Exist -->
+							<div class="mb-3 position-relative">
+								<label class="col-form-label">Exist:</label><br> <input
+									class="form-check-input" type="radio" name="isExist"
+									id="existYes" value="YES"> <label
+									class="form-check-label" for="existYes">Yes</label> <input
+									class="form-check-input" type="radio" name="isExist"
+									id="existNo" value="NO"> <label
+									class="form-check-label" for="existNo">No</label> <span
+									class="error-icon"><i
+									class="bi bi-exclamation-triangle-fill"></i></span>
+								<div class="error-message">Select exist option.</div>
+							</div>
 
-						<!-- Price -->
-						<div class="mb-3 position-relative">
-							<label for="packagePrice" class="col-form-label">Price:</label> <input
-								type="number" class="form-control" id="packagePrice"
-								placeholder="RM" name="packagePrice"> <span
-								class="error-icon"><i
-								class="bi bi-exclamation-triangle-fill"></i></span>
-							<div class="error-message">Enter a valid price.</div>
-						</div>
+							<!-- Submit -->
+							<div class="mb-3">
+								<button type="submit" class="btn w-100"
+									style="background: #009FA5; color: white;">Submit</button>
+							</div>
 
-						<!-- Picture -->
-						<div class="mb-3 position-relative">
-							<label for="packagePic" class="form-label">Package
-								Picture:</label> <input class="form-control" type="file" id="packagePic"
-								name="packagePic"> <span class="error-icon"><i
-								class="bi bi-exclamation-triangle-fill"></i></span>
-							<div class="error-message">Upload a picture.</div>
-						</div>
-
-						<!-- Fasting -->
-						<div class="mb-3 position-relative">
-							<label class="col-form-label">Fasting:</label><br> <input
-								class="form-check-input" type="radio" name="bfrReq" id="bfrYes"
-								value="YES"> <label class="form-check-label"
-								for="bfrYes">Yes</label> <input class="form-check-input"
-								type="radio" name="bfrReq" id="bfrNo" value="NO"> <label
-								class="form-check-label" for="bfrNo">No</label> <span
-								class="error-icon"><i
-								class="bi bi-exclamation-triangle-fill"></i></span>
-							<div class="error-message">Select fasting option.</div>
-						</div>
-
-						<!-- Exist -->
-						<div class="mb-3 position-relative">
-							<label class="col-form-label">Exist:</label><br> <input
-								class="form-check-input" type="radio" name="isExist"
-								id="existYes" value="YES"> <label
-								class="form-check-label" for="existYes">Yes</label> <input
-								class="form-check-input" type="radio" name="isExist"
-								id="existNo" value="NO"> <label class="form-check-label"
-								for="existNo">No</label> <span class="error-icon"><i
-								class="bi bi-exclamation-triangle-fill"></i></span>
-							<div class="error-message">Select exist option.</div>
-						</div>
-
-						<!-- Submit -->
-						<div class="mb-3">
-							<button type="submit" class="btn w-100"
-								style="background: #009FA5; color: white;">Submit</button>
-						</div>
-
-					</form>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
 
-	<!-- UPDATE MODAL -->
-	<div class="modal fade" id="updateModal" tabindex="-1">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
+		<!-- UPDATE MODAL -->
+		<div class="modal fade" id="updateModal" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
 
-				<div class="modal-header">
-					<h5 class="modal-title">Update Package</h5>
-					<button class="btn-close" data-bs-dismiss="modal"></button>
+					<div class="modal-header">
+						<h5 class="modal-title">Update Package</h5>
+						<button class="btn-close" data-bs-dismiss="modal"></button>
+					</div>
+
+					<div class="modal-body">
+						<form
+							action="${pageContext.request.contextPath}/package/PackageController"
+							method="post" enctype="multipart/form-data">
+
+							<input type="hidden" name="action" value="update"> <input
+								type="hidden" name="packageID" id="u_packageID">
+
+							<div class="mb-3">
+								<label class="form-label">Package Name</label> <input
+									type="text" class="form-control" name="packageName"
+									id="u_packageName">
+							</div>
+
+							<div class="mb-3">
+								<label class="form-label">Price</label> <input type="number"
+									class="form-control" name="packagePrice" id="u_packagePrice">
+							</div>
+
+							<div class="mb-3">
+								<label class="form-label">Package Image</label> <input
+									type="file" class="form-control" name="packagePic">
+							</div>
+
+							<div class="mb-3">
+								<label class="form-label">Fasting Required</label><br> <input
+									type="radio" name="bfrReq" value="YES" id="u_bfr_yes">
+								Yes <input type="radio" name="bfrReq" value="NO" id="u_bfr_no">
+								No
+							</div>
+
+							<div class="mb-3">
+								<label class="form-label">Exist</label><br> <input
+									type="radio" name="isExist" value="YES" id="u_exist_yes">
+								Yes <input type="radio" name="isExist" value="NO"
+									id="u_exist_no"> No
+							</div>
+
+							<button type="button" id="confirmUpd" class="btn w-100"
+								style="background: #009FA5; color: white;">Update</button>
+
+						</form>
+					</div>
+
 				</div>
-
-				<div class="modal-body">
-					<form
-						action="${pageContext.request.contextPath}/package/PackageController"
-						method="post" enctype="multipart/form-data">
-
-						<input type="hidden" name="action" value="update"> <input
-							type="hidden" name="packageID" id="u_packageID">
-
-						<div class="mb-3">
-							<label class="form-label">Package Name</label> <input type="text"
-								class="form-control" name="packageName" id="u_packageName">
-						</div>
-
-						<div class="mb-3">
-							<label class="form-label">Price</label> <input type="number"
-								class="form-control" name="packagePrice" id="u_packagePrice">
-						</div>
-
-						<div class="mb-3">
-							<label class="form-label">Package Image</label> <input
-								type="file" class="form-control" name="packagePic">
-						</div>
-
-						<div class="mb-3">
-							<label class="form-label">Fasting Required</label><br> <input
-								type="radio" name="bfrReq" value="YES" id="u_bfr_yes">
-							Yes <input type="radio" name="bfrReq" value="NO" id="u_bfr_no">
-							No
-						</div>
-
-						<div class="mb-3">
-							<label class="form-label">Exist</label><br> <input
-								type="radio" name="isExist" value="YES" id="u_exist_yes">
-							Yes <input type="radio" name="isExist" value="NO" id="u_exist_no">
-							No
-						</div>
-
-						<button type="button" id="confirmUpd" class="btn w-100"
-							style="background: #009FA5; color: white;">Update</button>
-
-					</form>
-				</div>
-
 			</div>
 		</div>
 	</div>
@@ -266,11 +275,11 @@
 
 
 
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-	<script>
+		<script>
 	document.addEventListener("DOMContentLoaded", function () {
 
 	    // ---------------- Package Search ----------------
@@ -426,7 +435,5 @@
 	});
 
 </script>
-
-
 </body>
 </html>

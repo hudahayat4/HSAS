@@ -175,8 +175,7 @@
 			<div class="d-flex justify-content-center gap-3 mt-5 mb-5">
 				<button type="button" class="btn btn-secondary previous"
 					onclick="prevStep()">Back</button>
-				<button type="button" class="btn nexts"
-					style="background: #17a2b8; color: white;" onclick="nextStep()">Next</button>
+				<button type="button" class="btn nexts" style="background: #17a2b8; color: white;" onclick="nextStep()">Next</button>
 			</div>
 
 		</form>
@@ -194,8 +193,8 @@
 				<div class="appointment-meta">
 					<p class="section-title-small">DETAIL APPOINTMENT</p>
 					<div class="date-time-row">
-						<span>📅 <span id="confirmDate">-</span> <span>🕒 <span
-								id="confirmDate">-</span>
+						<span id="confirmDate">📅 -</span> 
+						<span id="confirmDate">🕒 -</span>
 					</div>
 					<hr>
 				</div>
