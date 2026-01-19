@@ -58,7 +58,7 @@ public class LogInController extends HttpServlet {
             session.setAttribute("cusID", cust.getCusID());
             session.setAttribute("custUsername", cust.getCustUsername());
             session.setAttribute("custEmail", cust.getCustEmail());
-            response.sendRedirect("home.jsp");
+            response.sendRedirect("dashboard/dashboardCustomer.jsp");
         } else {
             request.setAttribute("errorMsg", "Invalid username or password.");
             request.getRequestDispatcher("log_in.jsp").forward(request, response);
@@ -83,7 +83,7 @@ public class LogInController extends HttpServlet {
             session.setAttribute("staffUsername", staff.getUsername());
             session.setAttribute("staffRole", staff.getRole());
             if ("PHARMACIST".equals(staff.getRole())) {
-                response.sendRedirect("dashboardPharmacist.jsp");
+                response.sendRedirect("dashboard/dashboardPharmacist.jsp");
             } else if ("MANAGER".equals(staff.getRole())) {
                 response.sendRedirect("dashboard/dashboardManager.jsp");
             } else {

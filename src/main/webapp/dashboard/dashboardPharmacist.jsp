@@ -18,7 +18,16 @@
     <div class="dashboard-container">
         
         <header class="welcome-section animate-card delay-1">
-            <h1>Hi, <%= (session.getAttribute("username") != null) ? session.getAttribute("username") : "Beloved Pharmacist" %>.</h1>
+            <%
+			    Integer staffID = (Integer) session.getAttribute("staffID");
+			    staff.Staff staffObj = null;
+			    if (staffID != null) {
+			        staffObj = staff.StaffDAO.getStaffById(staffID);
+			    }
+			%>
+			
+			<h1>Hi, <%= (staffObj != null ? staffObj.getName() : "Beloved Pharmacist") %>.</h1>
+
             <p id="uk-greeting">Wishing you a splendid and productive day ahead.</p>
         </header>
 
@@ -40,7 +49,7 @@
                     </div>
                     <div class="card-body">
                         <% 
-                            List<Map<String, String>> appointments = (List<Map<String, String>>) request.getAttribute("todayApps");
+                        List<appointment.appointment> appointments = (List<appointment.appointment>) request.getAttribute("appointments");
                             
                             if (appointments == null || appointments.isEmpty()) { 
                         %>
@@ -59,23 +68,20 @@
                                             <th>Customer Name</th>
                                             <th>Time</th>
                                             <th>Package</th>
-                                            <th>Fasting Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% for(Map<String, String> app : appointments) { %>
-                                        <tr>
-                                            <td><strong><%= app.get("name") %></strong></td>
-                                            <td><span class="time-badge"><%= app.get("time") %></span></td>
-                                            <td><%= app.get("package") %></td>
-                                            <td>
-                                                <span class="<%= "Yes".equalsIgnoreCase(app.get("fasting")) ? "tag-fasting" : "tag-normal" %>">
-                                                    <%= "Yes".equalsIgnoreCase(app.get("fasting")) ? "Fasting Required" : "No Fasting" %>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <% } %>
-                                    </tbody>
+									<% if (appointments != null) {
+									       for (appointment.appointment app : appointments) { %>
+									    <tr>
+									        <td><strong><%= app.getCustomerName() %></strong></td>
+									        <td><span class="time-badge"><%= app.getApptTime() %></span></td>
+									        <td><%= app.getPackageName() %></td>
+								    </tr>
+									<%   }
+									   } %>
+									</tbody>
+
                                 </table>
                             </div>
                         <% } %>
