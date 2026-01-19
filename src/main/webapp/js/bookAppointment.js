@@ -18,24 +18,27 @@ function updateUI() {
     if (currentStep === 0) {
         backBtn.style.display = "none";
         nextBtn.textContent = "Next";
-        nextBtn.type = "button"; // not submit yet
+        nextBtn.type = "button";
         nextBtn.disabled = false;
+        nextBtn.className = "btn nexts"; // reset class
     } else if (currentStep === 1) {
         backBtn.style.display = "inline-block";
-		nextBtn.className = "btn btn-info btn-submit"; // Keep your class
-        nextBtn.textContent = "Submit"; // now submits the form
-        // Disable submit until date & time are selected
+        nextBtn.textContent = "Submit";
+        nextBtn.type = "submit"; // now it will submit
         nextBtn.disabled = !(selectedDate && selectedTime);
+        nextBtn.className = "btn btn-info btn-submit"; // add btn-submit here
     } else if (currentStep === 2) {
         backBtn.style.display = "none";
-        nextBtn.style.display = "none";
+        nextBtn.style.display = "none"; // hide next button
     } else {
         backBtn.style.display = "inline-block";
         nextBtn.textContent = "Next";
         nextBtn.type = "button";
         nextBtn.disabled = false;
+        nextBtn.className = "btn nexts"; // reset class
     }
 }
+
 
 function nextStep() {
     if (currentStep < sections.length - 1) {

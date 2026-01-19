@@ -54,7 +54,7 @@
 						<%-- If customer IS logged in, show Log Out --%>
 						<c:otherwise>
 							<li class="nav-item"><a class="nav-link logout"
-								id="logoutBtn" href="javascript:void(0)"> Log Out </a></li>
+								id="logoutBtn" href="LogOutController"> Log Out </a></li>
 						</c:otherwise>
 					</c:choose>
 				</ul>

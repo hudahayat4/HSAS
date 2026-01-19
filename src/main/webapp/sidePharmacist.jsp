@@ -45,7 +45,7 @@
      </ul>
      <div class="sidebar-footer">
      
-         <a href="javascript:void(0)" class="sidebar-link">
+         <a href="LogOutController" class="sidebar-link">
             <i class="lni lni-exit"></i>
             <span>Log out</span>
         </a>

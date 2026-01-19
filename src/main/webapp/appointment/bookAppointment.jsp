@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -17,9 +18,12 @@
 <link href="https://cdn.lineicons.com/5.0/lineicons.css"
 	rel="stylesheet">
 <link rel="stylesheet" href="../css/header.css">
+
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/viewapt.css">
 <link rel="stylesheet" href="../css/footer.css">
 <style type="text/css">
-<%@ include file="../css/bookAppointment.css"%>
+<%@include file="../css/bookAppointment.css"%>
 </style>
 </head>
 
@@ -180,12 +184,49 @@
 		<!-- STEP 3 : CONFIRM -->
 		<div class="section">
 			<h5>Confirmation</h5>
-			<p>
-				<strong>Package:</strong> <span id="confirmPackage">-</span>
-			</p>
-			<p>
-				<strong>Date & Time:</strong> <span id="confirmDate">-</span>
-			</p>
+			<div class="receipt-card">
+				<div class="header-center">
+					<img src="${pageContext.request.contextPath}/image/logo.png"
+						alt="JuzCare" class="logo">
+					<h3 class="thank-you-text">Thank you for your appointment in
+						JuzCare Pharmacy</h3>
+				</div>
+				<div class="appointment-meta">
+					<p class="section-title-small">DETAIL APPOINTMENT</p>
+					<div class="date-time-row">
+						<span>📅 <span id="confirmDate">-</span> <span>🕒 <span
+								id="confirmDate">-</span>
+					</div>
+					<hr>
+				</div>
+
+				<div class="patient-info">
+					<p>
+						<strong>Name :</strong> ${apt.customerName}
+					</p>
+					<p>
+						<strong>Package :</strong><span id="confirmPackage">-</span>
+					</p>
+					<p>
+						<strong>Pharmacist :</strong> ${apt.pharmacistName}
+					</p>
+					<p>
+						<strong>Price :</strong> RM
+						<fmt:formatNumber value="${apt.packagePrice}" type="number"
+							minFractionDigits="2" maxFractionDigits="2" />
+					</p>
+				</div>
+
+				<div class="terms">
+					<p>
+						<strong>Term &amp; Condition :</strong>
+					</p>
+					<ol>
+						<li>Your appointment is confirmed once booking is made.</li>
+						<li>Cancellations must be 24 hours before.</li>
+					</ol>
+				</div>
+			</div>
 		</div>
 
 	</div>
@@ -193,8 +234,8 @@
 	<%@ include file="../footer.jsp"%>
 	<script src="../js/bookAppointment.js"></script>
 	<script>
-//Listen for clicks on the Submit button
-document.addEventListener("click", function(e) {
+	//Listen for clicks on the Submit button
+	document.addEventListener("click", function(e) {
     if (e.target && e.target.classList.contains("btn-submit")) {
         
         const pkg = document.getElementById("confirmPackage").innerText;
@@ -218,5 +259,6 @@ document.addEventListener("click", function(e) {
     }
 });
 	</script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
