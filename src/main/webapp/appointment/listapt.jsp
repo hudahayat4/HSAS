@@ -54,7 +54,7 @@
 					</div>
 
 					<div class="appointment-action">
-						<a href="AppointmentController?action=view&appointmentID=${apt.appointmentID}" class="btn-view" title="View">
+						<a href="AppointmentController?action=view&appointmentID=${apt.appointmentID}" class="btn-view" title="View" style="text-decoration:none;">
 							<i class="fas fa-eye"></i>
 						</a>
 

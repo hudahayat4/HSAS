@@ -22,8 +22,8 @@ function updateUI() {
         nextBtn.disabled = false;
     } else if (currentStep === 1) {
         backBtn.style.display = "inline-block";
-        nextBtn.textContent = "Submit";
-        nextBtn.type = "submit"; // now submits the form
+		nextBtn.className = "btn btn-info btn-submit"; // Keep your class
+        nextBtn.textContent = "Submit"; // now submits the form
         // Disable submit until date & time are selected
         nextBtn.disabled = !(selectedDate && selectedTime);
     } else if (currentStep === 2) {
