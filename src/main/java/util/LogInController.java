@@ -58,7 +58,7 @@ public class LogInController extends HttpServlet {
             session.setAttribute("cusID", cust.getCusID());
             session.setAttribute("custUsername", cust.getCustUsername());
             session.setAttribute("custEmail", cust.getCustEmail());
-            response.sendRedirect("home_customer.jsp");
+            response.sendRedirect("home.jsp");
         } else {
             request.setAttribute("errorMsg", "Invalid username or password.");
             request.getRequestDispatcher("log_in.jsp").forward(request, response);
