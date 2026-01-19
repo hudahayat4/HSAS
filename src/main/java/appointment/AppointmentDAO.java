@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import Package.Package;
 
 import util.ConnectionManager;
@@ -215,6 +218,23 @@ public class AppointmentDAO {
 			e.printStackTrace();
 		}
 		return appointments;
+	}
+
+	public static Map<String, List<String>> getAllBookedSlots() {
+	    Map<String, List<String>> map = new HashMap<>();
+	    String sql = "SELECT apptDate, DATE_FORMAT(apptTime, '%H:%i') FROM appointment";
+	    
+	    try (Connection conn = ConnectionManager.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(sql);
+	         ResultSet rs = ps.executeQuery()) {
+	        
+	        while (rs.next()) {
+	            String date = rs.getString(1); // e.g. "20/01/2026"
+	            String time = rs.getString(2); // e.g. "08:00"
+	            map.computeIfAbsent(date, k -> new ArrayList<>()).add(time);
+	        }
+	    } catch (Exception e) { e.printStackTrace(); }
+	    return map;
 	}
 
 }

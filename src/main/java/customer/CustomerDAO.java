@@ -215,5 +215,23 @@ public class CustomerDAO {
             ps.executeUpdate();
         }
     }
+
+	public static byte[] getCustomerImage(int id) throws SQLException {
+		// TODO Auto-generated method stub
+		byte[] image = null;
+
+	    String sql = "SELECT custProfilePic FROM customer WHERE cusID=?";
+	    try (Connection conn = ConnectionManager.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+	        ps.setInt(1, id);
+	        ResultSet rs = ps.executeQuery();
+
+	        if (rs.next()) {
+	            image = rs.getBytes("custProfilePic");
+	        }
+	    }
+	    return image;
+	}
     
 }

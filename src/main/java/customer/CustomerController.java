@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 
+import Package.PackageDAO;
+
 @WebServlet("/account/CustomerController")
 @MultipartConfig(maxFileSize = 10485760)
 public class CustomerController extends HttpServlet {
@@ -33,12 +35,28 @@ public class CustomerController extends HttpServlet {
 				viewaccount(request, response);
 			} else if ("edit".equals(action)) {
 				updateaccount(request, response);
+			} else if("image".equals(action)) {
+				showImage(request,response);
 			} else {
 				response.sendRedirect(request.getContextPath() + "/log_in.jsp");
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			throw new ServletException(ex);
+		}
+	}
+
+	private void showImage(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+		// TODO Auto-generated method stub
+		int id = Integer.parseInt(request.getParameter("id"));
+		byte[] img = CustomerDAO.getCustomerImage(id);
+
+		if (img != null) {
+			response.setContentType("image/jpg");
+			response.getOutputStream().write(img);
+		}else
+		{
+			
 		}
 	}
 

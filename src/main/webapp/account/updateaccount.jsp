@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,8 +23,14 @@
         <div class="profile-header">
             <div class="user-info">
                <div class="avatar-circle">
-                    <i class="fas fa-user"></i>
-               </div>
+                   <img class="me-3"
+							src="${(customer.custProfilePic == null || customer.custProfilePic == '') 
+                ? pageContext.request.contextPath.concat('/image/blank-profile-picture.png') 
+                : pageContext.request.contextPath.concat('/account/AccountController?action=image&id=').concat(customer.custProfilePic)}"
+							width="80" height="80"
+							style="border-radius: 50%; object-fit: cover;"
+							onerror="this.src='${pageContext.request.contextPath}/image/blank-profile-picture.png';">
+					</div>
                 <div class="name-meta">
                     <h1>${customer.custName}</h1>
                     <p>${customer.custEmail}</p>
@@ -49,10 +57,21 @@
                     <input type="email" name="custEmail" value="${customer.custEmail}" class="editable-field" required>
                 </div>
 
-                <div class="form-group">
-                    <label>Date of Birth</label>
-                    <input type="text" value="${customer.DOB}" readonly class="locked-field">
-                </div>
+                <jsp:useBean id="now" class="java.util.Date" />
+				<fmt:formatDate var="currentYear" value="${now}" pattern="yyyy" />
+				<fmt:parseDate var="parsedBirthDate" value="${customer.DOB}"
+					pattern="yyyy-MM-dd" />
+				<fmt:formatDate var="birthYear" value="${parsedBirthDate}"
+					pattern="yyyy" />
+				<c:set var="calculatedAge" value="${currentYear - birthYear}" />
+				<div class="form-group">
+					<label>Age</label> <input type="text" value="${not empty customer.DOB ? calculatedAge : 'N/A'}" readonly
+						class="locked-field">
+				</div>
+				<div class="form-group">
+					<label>Date of Birth</label> <input type="text"
+						value="<fmt:formatDate value="${customer.DOB}" pattern="dd/MM/yyyy" />" readonly class="locked-field">
+				</div>
             
                 <div class="form-group">
                     <label>IC Number</label>
