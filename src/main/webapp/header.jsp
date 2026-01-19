@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,13 +25,16 @@
 					<li class="nav-item"><a
 						class="nav-link ${param.action == 'package' ? 'active' : ''}"
 						href="${pageContext.request.contextPath}/appointment/AppointmentController?action=package">BOOKING</a>
+					</li>		
+					<li class="nav-item"><a
+						class="nav-link ${param.action == 'list' ? 'active' : ''}"
+						href="${pageContext.request.contextPath}/result/ResultController?action=listResult">RESULT</a>
 					</li>
 					<li class="nav-item"><a
 						class="nav-link ${param.action == 'list' ? 'active' : ''}"
 						href="${pageContext.request.contextPath}/appointment/AppointmentController?action=list">APPOINTMENT</a>
 					</li>
-					<li class="nav-item"><a
-						class="nav-link"
+					<li class="nav-item"><a class="nav-link"
 						href="${pageContext.request.contextPath}/package/PackageController?action=view">PACKAGE</a>
 					</li>
 					<li class="nav-item"><a
@@ -39,8 +43,20 @@
 					</li>
 				</ul>
 				<ul class="navbar-nav align-items-center">
-					<li class="nav-item"><a class="nav-link logout" href="#">Log
-							Out</a></li>
+					<c:choose>
+						<%-- Check if the session attribute 'cusID' is null or empty --%>
+						<c:when test="${empty sessionScope.cusID}">
+							<li class="nav-item"><a class="nav-link logout"
+								href="${pageContext.request.contextPath}/log_in.jsp"> Login
+							</a></li>
+						</c:when>
+
+						<%-- If customer IS logged in, show Log Out --%>
+						<c:otherwise>
+							<li class="nav-item"><a class="nav-link logout"
+								id="logoutBtn" href="javascript:void(0)"> Log Out </a></li>
+						</c:otherwise>
+					</c:choose>
 				</ul>
 			</div>
 		</div>

@@ -77,7 +77,6 @@ public class LogInController extends HttpServlet {
         staff.setPassword(password);
 
         staff = StaffDAO.loginStaff(staff);
-
         if (staff != null) {
             HttpSession session = request.getSession(true);
             session.setAttribute("staffID", staff.getStaffID());
