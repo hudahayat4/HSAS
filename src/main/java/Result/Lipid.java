@@ -4,18 +4,18 @@ import java.io.Serializable;
 public class Lipid extends Result implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private int hdlCholesterol;
+	private Double hdlCholesterol;
 	private String lipidPanelDetails;
-	private int ldlCholesterol;
+	private Double ldlCholesterol;
 	
 	public Lipid() {
 		super();
 	}
 	
-	public int getHdlCholesterol() {
+	public Double getHdlCholesterol() {
 		return hdlCholesterol;
 	}
-	public void setHdlCholesterol(int hdlCholesterol) {
+	public void setHdlCholesterol(Double hdlCholesterol) {
 		this.hdlCholesterol = hdlCholesterol;
 	}
 	public String getLipidPanelDetails() {
@@ -24,10 +24,10 @@ public class Lipid extends Result implements Serializable {
 	public void setLipidPanelDetails(String lipidPanelDetails) {
 		this.lipidPanelDetails = lipidPanelDetails;
 	}
-	public int getLdlCholesterol() {
+	public Double getLdlCholesterol() {
 		return ldlCholesterol;
 	}
-	public void setLdlCholesterol(int ldlCholesterol) {
+	public void setLdlCholesterol(Double ldlCholesterol) {
 		this.ldlCholesterol = ldlCholesterol;
 	}
 }

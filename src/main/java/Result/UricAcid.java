@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class UricAcid extends Result implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String riskIndicator;
-	private String UricLevelRange;
+	private Double UricLevelRange;
 	
 	public UricAcid() {
 		super();
@@ -17,11 +17,11 @@ public class UricAcid extends Result implements Serializable {
 	public void setRiskIndicator(String riskIndicator) {
 		this.riskIndicator = riskIndicator;
 	}
-	public String getUricLevelRange() {
+	public Double getUricLevelRange() {
 		return UricLevelRange;
 	}
-	public void setUricLevelRange(String uricLevelRange) {
-		UricLevelRange = uricLevelRange;
+	public void setUricLevelRange(Double UricLevelRange) {
+		this.UricLevelRange = UricLevelRange;
 	}
 	
 }

@@ -8,15 +8,15 @@
 <meta charset="UTF-8">
 <title>View Result</title>
 
+<link rel="stylesheet" href="../css/sideStaff.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-<link rel="stylesheet" href="../css/header.css">
-<link rel="stylesheet" href="../css/footer.css">
 <link rel="stylesheet" href="../css/viewresult.css">
 </head>
 
 <body>
-    <%@ include file="../header.jsp"%>
+<div class="wrapper">
+    <%@ include file="../sideManager.jsp"%>
 
     <div class="main-content px-3">
         
@@ -142,8 +142,7 @@
 
         </div>
     </div>
-
-    <%@ include file="../footer.jsp"%>
+</div>
 
 </body>
 </html>

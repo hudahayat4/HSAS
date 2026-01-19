@@ -77,13 +77,18 @@ public class LogInController extends HttpServlet {
         staff.setPassword(password);
 
         staff = StaffDAO.loginStaff(staff);
-
         if (staff != null) {
             HttpSession session = request.getSession(true);
             session.setAttribute("staffID", staff.getStaffID());
             session.setAttribute("staffUsername", staff.getUsername());
             session.setAttribute("staffRole", staff.getRole());
-            response.sendRedirect("test.jsp");
+            if ("PHARMACIST".equals(staff.getRole())) {
+                response.sendRedirect("dashboardPharmacist.jsp");
+            } else if ("MANAGER".equals(staff.getRole())) {
+                response.sendRedirect("dashboard/dashboardManager.jsp");
+            } else {
+                response.sendRedirect("dashboard/dashboardStaff.jsp");
+            }
         } else {
             request.setAttribute("errorMsg", "Invalid username or password.");
             request.getRequestDispatcher("log_in.jsp").forward(request, response);

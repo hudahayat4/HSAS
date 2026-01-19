@@ -12,7 +12,7 @@
 </head>
 <body>
 	<footer class="footer-section">
-		<div class="container py-5">
+		<div class="containe py-2 px-5">
 			<div class="text-end mb-4">
 				<ul class="footer-menu list-unstyled d-inline-flex flex-wrap justify-content-end">
 					<li><a href="#">HOME</a></li>
