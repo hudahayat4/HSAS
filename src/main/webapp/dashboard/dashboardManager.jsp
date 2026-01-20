@@ -79,8 +79,6 @@
 		<div class="dashboard-container">
 			<div class="mb-4">
 				<h1 class="fw-bold h3">Manager Dashboard</h1>
-				<p class="text-muted">Real-time overview powered by
-					ConnectionManager.</p>
 			</div>
 
 			<!-- 4 Stats Cards -->

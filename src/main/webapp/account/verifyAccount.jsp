@@ -46,8 +46,8 @@
             <!-- Resend link -->
             <div class="text-center mt-3">
               <form id="resendForm" action="CustomerController?action=requestCode" method="post" class="d-inline">
-                <span class="text-secondary">Didn't receive code? </span>
-                <a href="#" id="resendLink" class="resend-link">Resend</a>
+                <span class="text-secondary">Click here to receive code </span>
+                <a href="#" id="resendLink" class="resend-link">Send</a>
               </form>
               <div id="cooldownMsg" class="text-secondary mt-2"></div>
             </div>

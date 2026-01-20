@@ -18,9 +18,8 @@
     	</button>
 
     	<div class="sidebar-logo-text">
-    	     <img src="image/Juzcare.jpg" alt="logo" class="sidebar-logo-img">
+    	     <img src="${pageContext.request.contextPath}/image/Juzcare.jpg" alt="logo" class="sidebar-logo-img">
     	     <p>JUZCARE'S PHARMACIST</p>
-       		 <%= request.getParameter("name") %>
     	</div>
 	</div>
       <ul class="sidebar-nav">
