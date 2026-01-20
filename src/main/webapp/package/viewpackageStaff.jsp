@@ -188,7 +188,7 @@
 
 							<!-- Exist -->
 							<div class="mb-3 position-relative">
-								<label class="col-form-label">Exist:</label><br> <input
+								<label class="col-form-label">Package Availability:</label><br> <input
 									class="form-check-input" type="radio" name="isExist"
 									id="existYes" value="YES"> <label
 									class="form-check-label" for="existYes">Yes</label> <input
@@ -197,7 +197,7 @@
 									class="form-check-label" for="existNo">No</label> <span
 									class="error-icon"><i
 									class="bi bi-exclamation-triangle-fill"></i></span>
-								<div class="error-message">Select exist option.</div>
+								<div class="error-message">Select package availability option.</div>
 							</div>
 
 							<!-- Submit -->
@@ -255,7 +255,7 @@
 							</div>
 
 							<div class="mb-3">
-								<label class="form-label">Exist</label><br> <input
+								<label class="form-label">Package Availability</label><br> <input
 									type="radio" name="isExist" value="YES" id="u_exist_yes">
 								Yes <input type="radio" name="isExist" value="NO"
 									id="u_exist_no"> No
