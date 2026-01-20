@@ -226,7 +226,7 @@ public class resultController extends HttpServlet {
 	                break;
 	        }
 
-	        response.sendRedirect("resultController?action=listStaff");
+	        response.sendRedirect(request.getContextPath() + "/appointment/AppointmentController?action=listStaff");
 
 	    } catch (Exception e) {
 	        e.printStackTrace();

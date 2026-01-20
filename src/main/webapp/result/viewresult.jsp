@@ -120,7 +120,7 @@
                         <div class="col-md-6">
                             <div class="result-tile">
                                 <div class="label-text">HBA1c Threshold</div>
-                                <div class="value-text mt-1">${result.hba1c.HBa1cThreShold}</div>
+                                <div class="value-text mt-1">${result.hba1c.HBa1cTreShold}</div>
                             </div>
                         </div>
                     </c:when>
