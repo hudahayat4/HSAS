@@ -135,7 +135,7 @@
             </div>
 
             <div class="text-center mt-5">
-                <a href="appointmentList.jsp" class="btn btn-custom" style="background-color: #17a2b8; color: white;">
+                <a href="${pageContext.request.contextPath}/result/resultController?action=list" class="btn btn-custom" style="background-color: #17a2b8; color: white;">
                     <i class="bi bi-arrow-left me-2"></i>Back
                 </a>
             </div>

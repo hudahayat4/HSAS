@@ -24,7 +24,7 @@
 	</div>
       <ul class="sidebar-nav">
       <li class="sidebar-item">
-       		 <a href="${pageContext.request.contextPath}/dashboard/dashboradPharmacist.jsp" class="sidebar-link">
+       		 <a href="${pageContext.request.contextPath}/dashboard/dashboardPharmacist.jsp" class="sidebar-link">
        		 	<i class="lni lni-dashboard-square-1"></i>
        		 	<span>Dashboard</span>
        		 </a>

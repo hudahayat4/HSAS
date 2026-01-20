@@ -174,7 +174,7 @@
 				</div>
 
 				<div class="d-flex justify-content-end mt-4">
-					<a href="viewStaffAccount.jsp" class="btn btn-outline-danger"
+					<a href="${pageContext.request.contextPath}/dashboard/dashboardStaff.jsp" class="btn btn-outline-danger"
 						style="border-radius: 10px; padding: 8px 30px; font-weight: bold; text-decoration: none;">
 						Back to List </a>
 				</div>

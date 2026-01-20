@@ -53,7 +53,7 @@
         </div>
 
         <div class="button-group-action">
-            <a href="CustomerController?action=list" class="btn-cancel-custom">Back to List</a>
+            <a href="${pageContext.request.contextPath}/appointment/AppointmentController?action=list" class="btn-cancel-custom">Back to List</a>
             <button type="button" class="btn-medical-custom" onclick="window.print()">Print Receipt</button>
         </div>
     </div>

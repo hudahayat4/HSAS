@@ -113,7 +113,11 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3 bg-white d-flex justify-content-between align-items-center">
                 <h6 class="m-0 font-weight-bold text-primary">Available Packages (Live)</h6>
-                <button class="btn btn-sm btn-outline-primary">View More</button>
+               <a href="${pageContext.request.contextPath}/package/PackageController?action=list">
+   					 <button type="button" class="btn btn-sm btn-outline-primary">
+        				View More
+    				</button>
+				</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">

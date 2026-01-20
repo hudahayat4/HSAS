@@ -312,6 +312,7 @@
 	    // ---------------- Update Confirmation ----------------
 	    const confirmButton = document.getElementById("confirmUpd");
 	    const updateForm = document.querySelector("#updateModal form");
+	    const contextPath = "${pageContext.request.contextPath}";
 
 	    confirmButton.addEventListener("click", function () {
 	        Swal.fire({
@@ -327,7 +328,8 @@
 	            if (result.isConfirmed) {
 	                updateForm.submit(); 
 	            } else {
-	                updateModal.hide(); 
+	                updateModal.hide();
+	                window.location.href = contextPath + "/package/PackageController?action=list";
 	            }
 	        });
 	    });

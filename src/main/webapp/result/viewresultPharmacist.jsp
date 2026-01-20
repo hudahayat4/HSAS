@@ -120,7 +120,7 @@
                         <div class="col-md-6">
                             <div class="result-tile">
                                 <div class="label-text">HBA1c Threshold</div>
-                                <div class="value-text mt-1">${result.hba1c.HBa1cThreShold}</div>
+                                <div class="value-text mt-1">${result.hba1c.HBa1cTreShold}</div>
                             </div>
                         </div>
                     </c:when>
@@ -135,7 +135,7 @@
             </div>
 
             <div class="text-center mt-5">
-                <a href="appointmentList.jsp" class="btn btn-custom" style="background-color: #17a2b8; color: white;">
+                <a href="${pageContext.request.contextPath}/appointment/AppointmentController?action=listStaff" class="btn btn-custom" style="background-color: #17a2b8; color: white;">
                     <i class="bi bi-arrow-left me-2"></i>Back
                 </a>
             </div>

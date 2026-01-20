@@ -116,7 +116,7 @@
 					</div>
 				</div>
 				<div class="text-center mt-4">
-					<a href="appointmentList.jsp" class="btn px-4 me-3"
+					<a href="${pageContext.request.contextPath}/appointment/AppointmentController?action=listStaff" class="btn px-4 me-3"
 						style="background-color: #17a2b8; color: white;">Back</a>
 					<button type="submit" class="btn px-4"
 						style="border: 1px solid #17a2b8; color: #17a2b8; background-color: transparent;">Submit</button>
