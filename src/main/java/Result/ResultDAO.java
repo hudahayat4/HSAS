@@ -88,7 +88,7 @@ public class ResultDAO {
 	        // We take the ID we set in the controller and push it to the DB
 	        ps.setInt(1, uric.getResultId()); 
 	        
-	        ps.setDouble(2, uric.getUricLevelRange());
+	        ps.setString(2, uric.getUricLevelRange());
 	        ps.setString(3, uric.getRiskIndicator());
 	        
 	        ps.executeUpdate();
@@ -221,7 +221,7 @@ public class ResultDAO {
 	                    ua.setResultId(result.getResultId());
 	                    ua.setResultDate(result.getResultDate());
 	                    ua.setResultComment(result.getResultComment());
-	                    ua.setUricLevelRange(rs.getDouble("UricLevelRange"));
+	                    ua.setUricLevelRange(rs.getString("UricLevelRange"));
 	                    ua.setRiskIndicator(rs.getString("riskIndicator"));
 	                    result.setUricacid(ua);
 	                }

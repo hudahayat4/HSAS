@@ -44,8 +44,8 @@ public class resultController extends HttpServlet {
 
 	        switch (action) {
 	        	case "view":
-                viewResult(request, response);
-                break;
+	        		viewResult(request, response);
+	        		break;
 	            case "list":
 	                listResult(request, response);
 	                break;
@@ -105,8 +105,42 @@ public class resultController extends HttpServlet {
 	        int appointmentID = 0;
 	        try {
 	            appointmentID = Integer.parseInt(appointmentIdStr);
+	            appointment apt = ResultDAO.getAppointment(appointmentID);
+	            // Set Appointment object for JSP
+	            request.setAttribute("apt", apt);
+
+	            request.getRequestDispatcher("/result/createResult.jsp").forward(request, response);
 	        } catch (NumberFormatException e) {
 	            response.sendRedirect("${pageContext.request.contextPath}/appointment/appointmentController?action=listStaff");
+	            return;
+	        }
+	    }
+	}
+
+	
+
+	private void listResult(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+		// TODO Auto-generated method stub
+		Integer customerID = (Integer) request.getSession().getAttribute("cusID");
+		if(customerID != null)
+		{
+
+			List<appointment> appointments = ResultDAO.getAllResult(customerID);
+			
+			request.setAttribute("appointments", appointments);
+			request.getRequestDispatcher("/result/listresult.jsp").forward(request, response);
+		}
+	}
+	
+	private void viewResult(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String appointmentIdStr = request.getParameter("appointmentID");
+
+	    if (appointmentIdStr != null) {
+	        int appointmentID = 0;
+	        try {
+	            appointmentID = Integer.parseInt(appointmentIdStr);
+	        } catch (NumberFormatException e) {
+	            response.sendRedirect("resultController?action=gincu");
 	            return;
 	        }
 
@@ -127,29 +161,6 @@ public class resultController extends HttpServlet {
 	    } else {
 	        response.sendRedirect("resultController?action=list");
 	    }
-	}
-
-	
-
-	private void listResult(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-		// TODO Auto-generated method stub
-		Integer customerID = (Integer) request.getSession().getAttribute("cusID");
-		if(customerID != null)
-		{
-
-			List<appointment> appointments = ResultDAO.getAllResult(customerID);
-			
-			request.setAttribute("appointments", appointments);
-			request.getRequestDispatcher("/result/listresult.jsp").forward(request, response);
-		}
-	}
-	
-	private void viewResult(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-			//List<Result> results = ResultDAO.getAllResult();
-			
-			//request.setAttribute("results", results);
-			//request.getRequestDispatcher("/package/listresult.jsp").forward(request, response);
 	}
 	
 	
@@ -193,7 +204,7 @@ public class resultController extends HttpServlet {
 	                UricAcid uric = new UricAcid();
 	                uric.setResultId(generatedResultID);
 	                uric.setRiskIndicator(request.getParameter("riskIndicator"));
-	                uric.setUricLevelRange(Double.parseDouble(request.getParameter("uricLevelRange")));
+	                uric.setUricLevelRange(request.getParameter("uricLevelRange"));
 	                ResultDAO.addUricAcidResult(uric);
 	                break;
 
@@ -215,7 +226,7 @@ public class resultController extends HttpServlet {
 	                break;
 	        }
 
-	        response.sendRedirect("resultController?action=list");
+	        response.sendRedirect("resultController?action=listStaff");
 
 	    } catch (Exception e) {
 	        e.printStackTrace();

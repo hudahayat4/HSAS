@@ -25,13 +25,13 @@
 	</div>
       <ul class="sidebar-nav">
       <li class="sidebar-item">
-       		 <a href="javascript:void(0)" class="sidebar-link">
+       		 <a href="${pageContext.request.contextPath}/dashboard/dashboardStaff.jsp" class="sidebar-link">
        		 	<i class="lni lni-dashboard-square-1"></i>
        		 	<span>Dashboard</span>
        		 </a>
        	</li>
        <li class="sidebar-item">
-       		 <a href="package/PackageController?action=list" class="sidebar-link">
+       		 <a href="${pageContext.request.contextPath}/package/PackageController?action=list" class="sidebar-link">
        		 	<i class="lni lni-file-multiple"></i>
        		 	<span>Package</span>
        		 </a>
@@ -43,7 +43,7 @@
        		 </a>
        	</li>
     <li class="sidebar-item">
-        <a href="teamaccount/StaffController?action=view" class="sidebar-link">
+        <a href="${pageContext.request.contextPath}/teamaccount/StaffController?action=view" class="sidebar-link">
             <i class="lni lni-gear-1"></i>
             <span>Settings</span>
         </a>
@@ -51,7 +51,7 @@
      </ul>
      <div class="sidebar-footer">
      
-         <a href="LogOutController" class="sidebar-link">
+         <a href="${pageContext.request.contextPath}/LogOutController" class="sidebar-link">
             <i class="lni lni-exit"></i>
             <span>Log out</span>
         </a>

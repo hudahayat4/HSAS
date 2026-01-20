@@ -17,11 +17,12 @@
 	rel="stylesheet">
 <link href="https://cdn.lineicons.com/5.0/lineicons.css"
 	rel="stylesheet">
-<link rel="stylesheet" href="../css/header.css">
 
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/viewapt.css">
-<link rel="stylesheet" href="../css/footer.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer.css">
+
 <style type="text/css">
 <%@include file="../css/bookAppointment.css"%>
 </style>
@@ -233,30 +234,40 @@
 	<%@ include file="../footer.jsp"%>
 	<script src="../js/bookAppointment.js"></script>
 	<script>
-	//Listen for clicks on the Submit button
-	document.addEventListener("click", function(e) {
-    if (e.target && e.target.classList.contains("btn-submit")) {
-        
-        const pkg = document.getElementById("confirmPackage").innerText;
-        const date = document.getElementById("apptDate").value;
-        const time = document.getElementById("apptTime").value;
+	const nextBtn = document.querySelector(".nexts");
+	nextBtn.type = "button"; // never "submit" yet
 
-        Swal.fire({
-            title: "Confirm Appointment?",
-            html: `<b>Package:</b> ${pkg}<br><b>Date:</b> ${date}<br><b>Time:</b> ${time}`,
-            icon: "question",
-            showCancelButton: true,
-            confirmButtonColor: "#17a2b8",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, Book it!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Manually submit the form
-                e.target.closest("form").submit();
-            }
-        });
-    }
-});
+
+	nextBtn.addEventListener("click", function(e) {
+	    if (currentStep === 1) { // Step 1 = date/time step
+	        e.preventDefault(); // stop any default submission
+
+	        const pkg = document.getElementById("confirmPackage").innerText;
+	        const date = document.getElementById("apptDate").value;
+	        const time = document.getElementById("apptTime").value;
+
+	        Swal.fire({
+	            title: "Confirm Appointment?",
+	            html: `<b>Package:</b> ${pkg}<br><b>Date:</b> ${date}<br><b>Time:</b> ${time}`,
+	            icon: "question",
+	            showCancelButton: true,
+	            confirmButtonColor: "#17a2b8",
+	            cancelButtonColor: "#d33",
+	            confirmButtonText: "Yes, Book it!"
+	        }).then((result) => {
+	            if (result.isConfirmed) {
+	                // Only submit **after user clicks Yes**
+	                e.target.closest("form").submit();
+	            }
+	        });
+	    } else {
+	        // Step 0 → just go to next step
+	        currentStep++;
+	        updateUI();
+	    }
+	});
+
+
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>

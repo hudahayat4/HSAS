@@ -20,7 +20,7 @@
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav mx-auto align-items-center">
 					<li class="nav-item"><a
-						class="nav-link ${param.action == null ? 'active' : ''}" href="#">HOME</a>
+						class="nav-link ${param.action == null ? 'active' : ''}" href="${pageContext.request.contextPath}/dashboard/dashboardCustomer.jsp">HOME</a>
 					</li>
 					<li class="nav-item"><a
 						class="nav-link ${param.action == 'package' ? 'active' : ''}"
@@ -54,7 +54,7 @@
 						<%-- If customer IS logged in, show Log Out --%>
 						<c:otherwise>
 							<li class="nav-item"><a class="nav-link logout"
-								id="logoutBtn" href="LogOutController"> Log Out </a></li>
+								id="logoutBtn" href="${pageContext.request.contextPath}/LogOutController"> Log Out </a></li>
 						</c:otherwise>
 					</c:choose>
 				</ul>

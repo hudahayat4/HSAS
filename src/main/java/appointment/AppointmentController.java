@@ -169,7 +169,7 @@ public class AppointmentController extends HttpServlet {
 		String custEmail = request.getParameter("custEmail");
 
 		List<Integer> staffIDs = new ArrayList<>();
-		String sqlStaff = "SELECT staffID FROM staff";
+		String sqlStaff = "SELECT staffID FROM staff WHERE role='PHARMACIST'";
 		try (Connection conn = ConnectionManager.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sqlStaff);
 				ResultSet rs = ps.executeQuery()) {

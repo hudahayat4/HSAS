@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import customer.Customer;
 import customer.CustomerDAO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +23,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 
 @WebServlet("/teamaccount/StaffController")
+@MultipartConfig
 public class StaffController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -78,8 +81,6 @@ public class StaffController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		System.out.println(">>> ENTER doPost");
 		String action = request.getParameter("action");
 
 		// --- LOGIK 1: UPDATE PROFILE ---
@@ -103,10 +104,7 @@ public class StaffController extends HttpServlet {
 				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Update failed");
 				return;
 			}
-		}
-
-		// --- LOGIK 2: CHANGE PASSWORD (Gantikan Servlet asing tadi) ---
-		else if ("changePassword".equals(action)) {
+		}else if ("changePassword".equals(action)) {
 			try {
 				HttpSession session = request.getSession(false);
 				Integer staffID = (session != null) ? (Integer) session.getAttribute("staffID") : null;
@@ -165,12 +163,11 @@ public class StaffController extends HttpServlet {
 
 	private void createStaffAccount(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, SQLException {
-		// TODO Auto-generated method stub
 		System.out.print("Connected");
 		String name = request.getParameter("name");
 		String phoneNo = request.getParameter("PhoneNo");
 		String email = request.getParameter("email");
-		Date DOB = Date.valueOf(request.getParameter("DOB"));
+		Date dob = Date.valueOf(request.getParameter("DOB"));
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String NRIC = request.getParameter("NRIC");
@@ -181,14 +178,28 @@ public class StaffController extends HttpServlet {
 		if (filePart != null) {
 			inputStream = filePart.getInputStream();
 		}
+		
+		String hashedPassword = null;
+	    try {
+	        java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+	        md.update(password.getBytes());
+	        byte[] byteData = md.digest();
+	        StringBuilder sb = new StringBuilder();
+	        for (byte b : byteData) {
+	            sb.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+	        }
+	        hashedPassword = sb.toString();
+	    } catch (java.security.NoSuchAlgorithmException e) {
+	        e.printStackTrace();
+	    }
 
 		Staff staff = new Staff();
 		staff.setName(name);
 		staff.setPhoneNo(phoneNo);
 		staff.setEmail(email);
-		staff.setDOB(DOB);
+		staff.setDOB(dob);
 		staff.setUsername(username);
-		staff.setPassword(password);
+		staff.setPassword(hashedPassword);
 		staff.setNRIC(NRIC);
 		staff.setRole(role);
 		staff.setProfilePic(inputStream);

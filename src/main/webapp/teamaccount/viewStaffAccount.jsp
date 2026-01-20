@@ -18,7 +18,7 @@
 	rel="stylesheet">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-	
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <link rel="stylesheet" type="text/css"
@@ -97,19 +97,18 @@
 <body>
 	<div class="wrapper">
 
-		<c:choose>
-			<c:when test="${sessionScope.staff.role eq 'MANAGER'}">
-				<jsp:include page="../sideManager.jsp" />
-			</c:when>
+		<c:if test="${staff.role eq 'MANAGER'}">
+			<jsp:include page="../sideManager.jsp" />
+		</c:if>
 
-			<c:when test="${sessionScope.staff.role eq 'PHARMACIST'}">
-				<jsp:include page="../sidePharmacist.jsp" />
-			</c:when>
+		<c:if test="${staff.role eq 'PHARMACIST'}">
+			<jsp:include page="../sidePharmacist.jsp" />
+		</c:if>
 
-			<c:otherwise>
-				<jsp:include page="../sideStaff.jsp" />
-			</c:otherwise>
-		</c:choose>
+		<c:if test="${staff.role != 'MANAGER' && staff.role != 'PHARMACIST'}">
+			<jsp:include page="../sideStaff.jsp" />
+		</c:if>
+
 
 		<main class="content-wrapper">
 			<div class="profile-container">
@@ -139,10 +138,6 @@
 				</div>
 
 				<div class="form-grid">
-					<div class="form-group">
-						<label>Full Name</label> <input type="text" id="name" readonly
-							value="${ staff.role }" class="locked-field">
-					</div>
 					<div class="form-group">
 						<label>Full Name</label> <input type="text" id="name" readonly
 							value="${ staff.name }" class="locked-field">
@@ -381,5 +376,6 @@ window.onclick = function(event) {
     if (event.target === modal) toggleModal(false);
 }
 </script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

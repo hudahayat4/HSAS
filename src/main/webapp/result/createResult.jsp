@@ -73,7 +73,7 @@
 
 								<div class="mb-3">
 									<label class="form-label">Uric Level Range</label> <input
-										type="number" name="uricLevelRange"
+										type="text" name="uricLevelRange"
 										class="form-control rounded-pill">
 								</div>
 							</c:when>
