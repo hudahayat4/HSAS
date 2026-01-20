@@ -30,7 +30,7 @@
        		 </a>
        	</li>
        <li class="sidebar-item">
-       		 <a href="${pageContext.request.contextPath}/package/PackageController?action=view" class="sidebar-link">
+       		 <a href="${pageContext.request.contextPath}/package/PackageController?action=viewPackage"  class="sidebar-link">
        		 	<i class="lni lni-file-multiple"></i>
        		 	<span>Package</span>
        		 </a>

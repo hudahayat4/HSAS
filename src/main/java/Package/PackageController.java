@@ -59,7 +59,8 @@ public class PackageController extends HttpServlet {
 			case "edit":
 				showEditForm(request, response);
 				return;
-
+			case "viewPackage":
+				listPackageManager(request,response);
 			default:
 				listPackage(request, response);
 				return;
@@ -68,6 +69,19 @@ public class PackageController extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void listPackageManager(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		List<Package> packages = PackageDAO.getAvailablePackage();
+
+		// Ensure packages is never null
+		if (packages == null) {
+			packages = new ArrayList<>();
+		}
+
+		request.setAttribute("packages", packages);
+		request.getRequestDispatcher("/package/viewpackageManager.jsp").forward(request, response);
 	}
 
 	private void showImage(HttpServletRequest request, HttpServletResponse response) throws Exception {

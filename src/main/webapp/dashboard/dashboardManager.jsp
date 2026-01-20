@@ -152,7 +152,7 @@
 				<div class="d-flex flex-wrap gap-3">
 					<a href="${pageContext.request.contextPath}/teamaccount/createStaffAccount.jsp" class="btn-custom"><i
 						class="fas fa-user-plus"></i> Create Team Account</a> <a
-						href="viewStaffDetails.jsp" class="btn-outline"><i
+						href="${pageContext.request.contextPath}/teamaccount/StaffController?action=list" class="btn-outline"><i
 						class="fas fa-id-card"></i> View Staff Records</a> <a
 						href="viewpackage.jsp" class="btn-outline"><i
 						class="fas fa-layer-group"></i> Manage Packages</a>
