@@ -24,14 +24,14 @@
             </p>
 
             <!-- Register Form -->
-            <form action="CustomerController" method="post" enctype="multipart/form-data">
+            <form id="registrationForm" action="CustomerController" method="post" enctype="multipart/form-data">
               <input type="hidden" name="action" value="createAccount">
 
               <div class="row gy-3 overflow-hidden">
                 <!-- Name -->
                 <div class="col-12">
                   <label for="custName" class="form-label">Name</label>
-                  <input type="text" class="form-control" name="custName" id="custName" required>
+                  <input type="text" class="form-control" name="custName" id="custName" autocomplete="off" required>
                 </div>
 
                 <!-- Email -->
@@ -43,7 +43,7 @@
                 <!-- Phone No -->
                 <div class="col-12">
                   <label for="custPhoneNo" class="form-label">Phone No</label>
-                  <input type="text" class="form-control" name="custPhoneNo" id="custPhoneNo" required>
+                  <input type="text" class="form-control" name="custPhoneNo" id="custPhoneNo" placeholder="Example: 0123456789" required>
                 </div>
 
                 <!-- Date of Birth -->
@@ -55,7 +55,7 @@
                 <!-- IC Number -->
                 <div class="col-12">
                   <label for="cusNRIC" class="form-label">IC Number</label>
-                  <input type="text" class="form-control" name="cusNRIC" id="cusNRIC" maxlength="14" required>
+                  <input type="text" class="form-control" name="cusNRIC" id="cusNRIC" maxlength="12" placeholder="e.g. 990101105050" required>
                 </div>
 
                 <!-- Username -->
@@ -71,7 +71,7 @@
                     <input type="password" class="form-control" name="custPassword" id="custPassword" 
                     		pattern=".{8,}" title="Minimum 8 characters" required>
                     <span class="input-group-text" id="togglePassword" style="cursor: pointer;">
-                      <i class="bi bi-eye-fill" id="eyeIcon"></i>
+                      <i class="bi bi-eye-slash-fill" id="eyeIcon"></i>
                     </span>
                   </div>
                 </div>
