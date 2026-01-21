@@ -172,23 +172,45 @@ public class CustomerController extends HttpServlet {
 	} // PENUTUP METHOD DOPOST
 
 	private void createAccount(HttpServletRequest request, HttpServletResponse response) 
-            throws IOException, ServletException {
+	        throws IOException, ServletException {
 
+	    // 1. Ambil Parameter
 	    String cusNRIC = request.getParameter("cusNRIC");
 	    String custName = request.getParameter("custName");
 	    String custEmail = request.getParameter("custEmail");
-	    java.sql.Date dob = java.sql.Date.valueOf(request.getParameter("DOB"));
+	    String dobStr = request.getParameter("DOB");
 	    String custPhoneNo = request.getParameter("custPhoneNo");
 	    String custUsername = request.getParameter("custUsername");
 	    String custPassword = request.getParameter("custPassword");
-	
+
+	    // 2. SERVER-SIDE VALIDATION
+	    // Memastikan IC hanya nombor dan tepat 12 digit jika JS dipintas
+	    if (cusNRIC == null || !cusNRIC.matches("\\d{12}")) {
+	        sendError(request, response, "Invalid IC Number. Must be 12 digits.");
+	        return;
+	    }
+	    
+	    // Memastikan Nama tidak mengandungi nombor
+	    if (custName == null || !custName.matches("[a-zA-Z\\s]+")) {
+	        sendError(request, response, "Invalid Name. Letters only.");
+	        return;
+	    }
+
+	    java.sql.Date dob = java.sql.Date.valueOf(dobStr);
+
+	    // 3. PROSES IMEJ
 	    Part filePart = request.getPart("custProfilePic");
 	    InputStream inputStream = null;
-	    if (filePart != null) {
+	    if (filePart != null && filePart.getSize() > 0) {
+	        // Semak saiz fail di server (10MB)
+	        if (filePart.getSize() > 10 * 1024 * 1024) {
+	            sendError(request, response, "File size too large. Maximum 10MB.");
+	            return;
+	        }
 	        inputStream = filePart.getInputStream();
 	    }
-	
-	    //Hash Password
+
+	    // 4. HASH PASSWORD (MD5)
 	    String hashedPassword = null;
 	    try {
 	        java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
@@ -202,7 +224,8 @@ public class CustomerController extends HttpServlet {
 	    } catch (java.security.NoSuchAlgorithmException e) {
 	        e.printStackTrace();
 	    }
-	
+
+	    // 5. SET DATA PADA OBJECT
 	    Customer cust = new Customer();
 	    cust.setCusNRIC(cusNRIC);
 	    cust.setCustName(custName);
@@ -212,21 +235,28 @@ public class CustomerController extends HttpServlet {
 	    cust.setCustUsername(custUsername);
 	    cust.setCustPassword(hashedPassword);
 	    cust.setCustProfilePic(inputStream);
-	
-	    //Simpan terus ke db dengan custVerified = 'NO'
+
+	    // 6. SIMPAN KE DATABASE
 	    try {
 	        CustomerDAO.createAccount(cust);
-	        System.out.println("createAccount → Account created in DB with email: " + cust.getCustEmail());
+	        System.out.println("createAccount → Account created in DB: " + cust.getCustEmail());
+	        
+	        // Simpan dalam session untuk kegunaan verifyAccount.jsp
+	        request.getSession().setAttribute("tempCustomer", cust);
+	        response.sendRedirect(request.getContextPath() + "/account/verifyAccount.jsp");
+	        
 	    } catch (Exception e) {
 	        e.printStackTrace();
-	        request.setAttribute("alertMessage", "Failed to create account. Please try again.");
-	        request.setAttribute("alertType", "danger");
-	        request.getRequestDispatcher("register.jsp").forward(request, response);
-	        return;
+	        sendError(request, response, "Database error: Failed to create account.");
 	    }
-	    
-	    request.getSession().setAttribute("tempCustomer", cust);
-	    response.sendRedirect(request.getContextPath() + "/account/verifyAccount.jsp");
+	}
+
+	// Method helper untuk hantar error balik ke JSP
+	private void sendError(HttpServletRequest request, HttpServletResponse response, String message) 
+	        throws ServletException, IOException {
+	    request.setAttribute("alertMessage", message);
+	    request.setAttribute("alertType", "danger");
+	    request.getRequestDispatcher("create_account.jsp").forward(request, response);
 	}
 	
 //BAHAGIAN BAWAH NI SEMUA BERKAITAN DENGAN VERIFY ACCOUNT
