@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 
-import Package.PackageDAO;
-
 @WebServlet("/account/CustomerController")
 @MultipartConfig(maxFileSize = 10485760)
 public class CustomerController extends HttpServlet {
