@@ -20,8 +20,8 @@ public class UricAcid extends Result implements Serializable {
 	public String getUricLevelRange() {
 		return UricLevelRange;
 	}
-	public void setUricLevelRange(String uricLevelRange) {
-		UricLevelRange = uricLevelRange;
+	public void setUricLevelRange(String UricLevelRange) {
+		this.UricLevelRange = UricLevelRange;
 	}
 	
 }

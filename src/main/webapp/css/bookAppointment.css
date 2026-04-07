@@ -295,23 +295,77 @@
 }
 /* Time slots */
 .time-slots {
-	list-style: none;
-	padding: 0;
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: 5px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    /* SCROLL SETTINGS */
+    max-height: 350px; 
+    overflow-y: auto;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    padding-right: 8px; /* Space for the scrollbar */
+
+    /* GRID SETTINGS: 3 Columns */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 10px; /* Space between the slots */
+}
+
+/* Ensure list items don't have bottom margins that mess up the grid gap */
+.time-slots li {
+    padding: 10px 5px;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Scrollbar styling */
+.time-slots::-webkit-scrollbar {
+    width: 6px;
+}
+.time-slots::-webkit-scrollbar-thumb {
+    background-color: #ced4da;
+    border-radius: 10px;
+}
+
+/* Hover and Selected States */
+.time-slots li:hover {
+    background-color: #e0f2f2; /* brand-teal-light */
+    border-color: #008080;     /* brand-teal */
+    color: #008080;
+}
+
+.time-slots li.selected {
+    background-color: #008080 !important;
+    color: white !important;
+    border-color: #008080 !important;
 }
 
 .time-slots li {
-	background: #f8f8f8;
-	border-radius: 6px;
-	text-align: center;
-	padding: 5px 0;
-	cursor: pointer;
-	transition: 0.2s;
+    padding: 10px;
+    margin-bottom: 8px;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .time-slots li:hover, .time-slots li.selected {
 	background: #17a2b8;
 	color: #fff;
+}
+
+.time-slots li.disabled {
+    background-color: #f8f9fa;
+    color: #ced4da;
+    cursor: not-allowed;
+    text-decoration: line-through;
+    pointer-events: none; /* Prevents clicking */
 }

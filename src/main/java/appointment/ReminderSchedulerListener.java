@@ -7,12 +7,12 @@ import jakarta.servlet.annotation.WebListener;
 @WebListener
 public class ReminderSchedulerListener implements ServletContextListener {
 
-    private ReminderScheduler scheduler;
+    private ReminderSchedulerListener scheduler;
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         // Bila Tomcat start projek, scheduler akan hidup
-        scheduler = new ReminderScheduler();
+        scheduler = new ReminderSchedulerListener();
         System.out.println("ReminderScheduler started...");
     }
 

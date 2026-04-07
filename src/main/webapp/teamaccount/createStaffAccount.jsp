@@ -61,16 +61,14 @@ body {
 						name="DOB">
 				</div>
 				<div class="col-md-6">
-					<label for="exampleFormControlInput1" class="form-label">IC
-						number</label> <input type="text" class="form-control" id="nric"
-						name="NRIC">
+					<label for="exampleFormControlInput1" class="form-label">IC number</label>
+					<input type="text" class="form-control" id="NRIC" name="NRIC">
 				</div>
 				<br>
 				<div class="row">
 					<div class="col-md-3">
 						<select class="form-select" name="role">
 							<option selected disabled>Position</option>
-							<option value="MANAGER">Manager</option>
 							<option value="STAFF">Staff</option>
 							<option value="PHARMACIST">Pharmacist</option>
 						</select>
@@ -148,7 +146,7 @@ body {
 	    var modal = document.getElementById('exampleModalToggle');
 
 	    modal.addEventListener('show.bs.modal', function () {
-	        var nric = document.getElementById('nric').value;
+	        var nric = document.getElementById('NRIC').value;
 	        if(nric.length >= 8){
 	            // Take last 8 digits of IC as password
 	            document.getElementById('password').value = nric.slice(-8);

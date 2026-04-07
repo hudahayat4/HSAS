@@ -12,7 +12,7 @@ public class ReminderScheduler {
         timer = new Timer(true); // run as daemon thread
         // Schedule task setiap 1 jam (3600000 ms)
         timer.scheduleAtFixedRate(new ReminderTask(), 0, 3600000);
-        System.out.println("ReminderScheduler started..."); // log bila scheduler hidup
+        System.out.println("ReminderScheduler started...");
     }
 
     class ReminderTask extends TimerTask {

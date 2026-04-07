@@ -76,7 +76,7 @@
                         <button type="submit" class="btn btn-dark btn-lg">Log in</button>
                       </div>
                       <p class="text-center mb-2">
-                        <a href="#!" class="link-primary text-decoration-none">Forgot password?</a>
+                        <a href="forgotPassword.jsp" class="link-primary text-decoration-none">Forgot password?</a>
                       </p>
                       <p class="text-center mb-0">
                         <a href="account/register.jsp" class="link-primary text-decoration-none">Create New Account</a>
@@ -104,11 +104,11 @@
                       <div class="d-grid mb-3">
                         <button type="submit" class="btn btn-dark btn-lg">Log in</button>
                       </div>
-                      
+                      </form>
                       <p class="text-center mb-0">
-                        <a href="#!" class="link-primary text-decoration-none">Forgot password?</a>
+                        <a href="forgotPassword/forgotPassword.jsp" class="link-primary text-decoration-none">Forgot password?</a>
                       </p>
-                    </form>
+                    
                   </div>
                 </div>
               </div>

@@ -8,7 +8,6 @@
     <title>View Appointment | JuzCare</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/viewapt.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer.css">
@@ -54,7 +53,7 @@
         </div>
 
         <div class="button-group-action">
-            <a href="CustomerController?action=list" class="btn-cancel-custom">Back to List</a>
+            <a href="${pageContext.request.contextPath}/appointment/AppointmentController?action=list" class="btn-cancel-custom">Back to List</a>
             <button type="button" class="btn-medical-custom" onclick="window.print()">Print Receipt</button>
         </div>
     </div>
