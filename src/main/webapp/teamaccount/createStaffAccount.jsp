@@ -69,7 +69,6 @@ body {
 					<div class="col-md-3">
 						<select class="form-select" name="role">
 							<option selected disabled>Position</option>
-							<option value="MANAGER">Manager</option>
 							<option value="STAFF">Staff</option>
 							<option value="PHARMACIST">Pharmacist</option>
 						</select>
