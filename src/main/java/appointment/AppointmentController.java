@@ -194,8 +194,8 @@ public class AppointmentController extends HttpServlet {
 		AppointmentDAO.bookAppointment(appt);
 
 		// UNTUK TESTING SEND NOTIFICATION
-		// SendNotificationService service = new SendNotificationService();
-		// service.sendTwoDaysReminder("aqillghaz@gmail.com", "2026-01-19", "19:10");
+		SendNotificationService service = new SendNotificationService();
+		service.sendTwoDaysReminder("aqillghaz@gmail.com", "2026-01-19", "19:10");
 
 		response.sendRedirect("AppointmentController?action=list");
 	}
