@@ -1,4 +1,4 @@
-/*package appointment;
+package appointment;
 
 import java.util.List;
 import java.util.Timer;
@@ -72,4 +72,4 @@ public class ReminderScheduler {
             }
         }
     }
-}*/
+}

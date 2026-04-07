@@ -64,29 +64,32 @@ public class SendNotificationService {
     }
 
     // Reminder 2 days before
-    public void sendTwoDaysReminder(String email, String apptDate, String apptTime) {
+    public boolean sendTwoDaysReminder(String email, String apptDate, String apptTime) {
         sendStyledEmail(email, 
             "📅 Peringatan Temu Janji JuzCare (2 Hari Lagi)", 
             "Peringatan Temu Janji",
             "Ini adalah peringatan mesra bahawa anda mempunyai temu janji pemeriksaan kesihatan dalam masa <b>2 hari</b> lagi.",
             apptDate, apptTime);
+		return false;
     }
 
     // Reminder 1 day before
-    public void sendOneDayReminder(String email, String apptDate, String apptTime) {
+    public boolean sendOneDayReminder(String email, String apptDate, String apptTime) {
         sendStyledEmail(email, 
             "🔔 Temu Janji JuzCare Anda Esok", 
             "Peringatan Temu Janji",
             "Kami tidak sabar untuk berjumpa anda <b>esok</b> bagi pemeriksaan kesihatan yang telah dijadualkan.",
             apptDate, apptTime);
+		return false;
     }
 
     // Reminder 2 hours before
-    public void sendTwoHoursReminder(String email, String apptDate, String apptTime) {
+    public boolean sendTwoHoursReminder(String email, String apptDate, String apptTime) {
         sendStyledEmail(email, 
             "⚡ Peringatan Terakhir: 2 Jam Lagi", 
             "Peringatan Terakhir",
             "Temu janji anda akan bermula dalam masa <b>2 jam</b> sahaja lagi. Sila pastikan anda dalam perjalanan.",
             apptDate, apptTime);
+		return false;
     }
 }
