@@ -173,6 +173,28 @@ public class StaffDAO {
         return staffList;
     }
     
-    
+    public static boolean checkEmailExists(String email) {
+        boolean exists = false;
+        String sql = "SELECT 1 FROM staff WHERE email = ?";
+        try (Connection conn = ConnectionManager.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            exists = rs.next();
+        } catch (SQLException e) { e.printStackTrace(); }
+        return exists;
+    }
+
+    public static boolean checkNameExists(String name) {
+        boolean exists = false;
+        String sql = "SELECT 1 FROM staff WHERE name = ?";
+        try (Connection conn = ConnectionManager.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            exists = rs.next();
+        } catch (SQLException e) { e.printStackTrace(); }
+        return exists;
+    }
    }
 

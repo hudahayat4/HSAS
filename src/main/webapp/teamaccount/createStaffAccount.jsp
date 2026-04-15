@@ -29,48 +29,57 @@ body {
 </head>
 <body>
 	<div class="wrapper">
-		
-			<%@ include file="../sideManager.jsp"%>
-		
+
+		<%@ include file="../sideManager.jsp"%>
+
 		<div class="main">
 			<h2>Team Member's Personal</h2>
 			<h2>Information</h2>
 			<form action="StaffController" method="post"
 				enctype="multipart/form-data">
-				<input type="hidden" class="form-control"
-       id="staffID" name="staffID"
-       value="<%= session.getAttribute("staffID") %>"
-       readonly>
+				<input type="hidden" class="form-control" id="staffID"
+					name="staffID" value="<%=session.getAttribute("staffID")%>"
+					readonly>
 
 				<div class="col-md-6">
-					<label for="exampleFormControlInput1" class="form-label">Full
-						name</label> <input type="text" class="form-control" id="name" name="name">
+					<label for="name" class="form-label">Full name</label> <input
+						type="text" class="form-control" id="name" name="name"
+						value="${param.name}">
+					<c:if test="${not empty nameError}">
+						<span class="text-danger" style="font-size: 0.8rem;">${nameError}</span>
+					</c:if>
 				</div>
 				<div class="col-md-6">
-					<label for="exampleFormControlInput1" class="form-label">Phone</label>
-					<input type="text" class="form-control" id="PhoneNo" name="PhoneNo">
+					<label for="PhoneNo" class="form-label">Phone</label> <input
+						type="text" class="form-control" id="PhoneNo" name="PhoneNo"
+						placeholder="e.g. 0123456789"
+						oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+					<div class="invalid-feedback">Please enter numbers only.</div>
 				</div>
 				<div class="col-md-6">
-					<label for="exampleFormControlInput1" class="form-label">Email
-						address</label> <input type="email" class="form-control" id="email"
-						name="email">
+					<label for="email" class="form-label">Email address</label> <input
+						type="email" class="form-control" id="email" name="email"
+						value="${param.email}">
+					<c:if test="${not empty emailError}">
+						<span class="text-danger" style="font-size: 0.8rem;">${emailError}</span>
+					</c:if>
 				</div>
+
 				<div class="col-md-6">
-					<label for="exampleFormControlInput1" class="form-label">Date
-						of birth</label> <input type="date" class="form-control" id="DOB"
-						name="DOB">
+					<label for="DOB" class="form-label">Date of birth</label> <input
+						type="date" class="form-control" id="DOB" name="DOB" required>
 				</div>
+
 				<div class="col-md-6">
-					<label for="exampleFormControlInput1" class="form-label">IC
-						number</label> <input type="text" class="form-control" id="nric"
-						name="NRIC">
+					<label for="nric" class="form-label">IC number</label> <input
+						type="text" class="form-control" id="nric" name="NRIC"
+						maxlength="12" placeholder="YYMMDDXXXXXX" required>
 				</div>
 				<br>
 				<div class="row">
 					<div class="col-md-3">
 						<select class="form-select" name="role">
 							<option selected disabled>Position</option>
-							<option value="MANAGER">Manager</option>
 							<option value="STAFF">Staff</option>
 							<option value="PHARMACIST">Pharmacist</option>
 						</select>
@@ -156,6 +165,33 @@ body {
 	            document.getElementById('password').value = nric; // fallback
 	        }
 	    });
-	    </script>
+	    
+	    <script>
+	    // 1. Phone: Block Alphabets immediately
+	    document.getElementById('PhoneNo').addEventListener('input', function(e) {
+	        this.value = this.value.replace(/[^0-9]/g, '');
+	    });
+
+	    // 2. IC: Auto-type YYMMDD from DOB
+	    document.getElementById('DOB').addEventListener('change', function() {
+	        const dateValue = this.value; // YYYY-MM-DD
+	        if (dateValue) {
+	            const parts = dateValue.split('-');
+	            const year = parts[0].substring(2);
+	            const month = parts[1];
+	            const day = parts[2];
+	            document.getElementById('nric').value = year + month + day;
+	        }
+	    });
+
+	    // 3. Password Generation for Modal
+	    var modal = document.getElementById('exampleModalToggle');
+	    modal.addEventListener('show.bs.modal', function () {
+	        var nric = document.getElementById('nric').value;
+	        // Sets password to last 8 digits of IC
+	        document.getElementById('password').value = nric.length >= 8 ? nric.slice(-8) : nric;
+	    });
+	</script>
+</script>
 
 </html>
